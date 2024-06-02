@@ -1,7 +1,7 @@
 const db = require("./index")
 
 const Instituicoes = db.sequelize.define("Instituicoes", {
-    idInstituicao :{
+    idInstituicoes :{
         type: db.Sequelize.INTEGER,
         primaryKey: true
     },

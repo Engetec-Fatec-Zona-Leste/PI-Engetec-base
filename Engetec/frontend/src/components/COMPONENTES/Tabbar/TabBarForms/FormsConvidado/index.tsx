@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Select from 'react-select';
 
@@ -9,6 +9,7 @@ import DefaultButton from '@/components/COMPONENTES/DefaultButton';
 import NormalInput from '@/components/COMPONENTES/NormalInput';
 import Title from '@/components/COMPONENTES/Title';
 import mockedOptionTurnos from '@/mocks/OptionsTurnos';
+import axios from 'axios';
 
 const customStyles = {
 	control: (provided: any) => ({
@@ -22,7 +23,22 @@ const customStyles = {
 	}),
 };
 
-export default function CadastroConvidado() {
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	e.preventDefault();
+	
+};
+
+export default async function CadastroConvidado() {
+
+	useEffect(() => {
+		fetch("http://localhost:3001/cadastroConvidado").then(
+			response => response.json()
+		).then(
+			data => {
+				console.log(data)
+			}
+		)
+	})
 	const checkboxNames = ['Organizador', 'Chair', 'Avaliador', 'Admin'];
 
 	const [name, setName] = useState('');
@@ -40,7 +56,7 @@ export default function CadastroConvidado() {
 					colorHex="#4B00E0"
 				/>
 
-				<form className="form bg-white shadow-md">
+				<form className="form bg-white shadow-md" onSubmit={handleSubmit}>
 					<NormalInput
 						id="fullName"
 						label="Nome completo"

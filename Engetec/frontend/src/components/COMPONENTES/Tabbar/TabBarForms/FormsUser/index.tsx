@@ -7,6 +7,7 @@ import CheckInput from '@/components/COMPONENTES/CheckInput';
 import DefaultButton from '@/components/COMPONENTES/DefaultButton';
 import NormalInput from '@/components/COMPONENTES/NormalInput';
 import Title from '@/components/COMPONENTES/Title';
+import axios from 'axios';
 
 export default function CadastroUser() {
 	const [name, setName] = useState('');
@@ -46,38 +47,23 @@ export default function CadastroUser() {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
-		// const data: Aluno = {
-		// 	name: name,
-		// 	cpf: cpf,
-		// 	email: email,
-		// 	autor: false,
-		// 	curso: curso,
-		// 	periodo: periodo,
-		// 	apresentador: false,
-		// 	presenca: false,
-		// 	instituicao: instituicao,
-		// 	// certificado: '',
-		// };
-		// console.log(data);
-		// try {
-		// 	const response = await axios.post('http://localhost:5002/aluno', data);
-		// 	console.log(response.data);
-		// 	if (response.data.alunoCreated) {
-		// 		setShowCard(true);
-		// 		setTimeout(() => {
-		// 			setShowCard(false);
-		// 		}, 3000);
-		// 		setName('');
-		// 		setCpf('');
-		// 		setEmail('');
-		// 		setInst('');
-		// 		setCurso('');
-		// 		setPeriodo('');
-		// 	}
-		// } catch (error) {
-		// 	console.log(error);
-		// }
+		try {
+			const response = await axios.post('http://localhost:3001/userProfile');
+			console.log(response.data);
+			// if (response.data.alunoCreated) {
+			// 	setShowCard(true);
+			// 	setTimeout(() => {
+			// 		setShowCard(false);
+			// 	}, 3000);
+			// 	setName('');
+			// 	setCpf('');
+			// 	setEmail('');
+			// 	setInst('');
+			// 	setCurso('');
+			// }
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
@@ -183,7 +169,7 @@ export default function CadastroUser() {
 					</div>
 					<div className="my-6">
 						<p className="text-center text-xs font-normal text-slate-400">
-							Já tem uma conta？
+							Já tem uma conta?
 							<a
 								className="cursor-pointer font-bold text-[#4B00E0] underline"
 								href="/login"
