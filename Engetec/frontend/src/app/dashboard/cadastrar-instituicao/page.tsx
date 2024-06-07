@@ -14,9 +14,15 @@ export default function RegisterInstitutionPage() {
 		cnpj: ''
 	});
 
+	const handleChange = (e: { target: { name: any; value: any; }; }) => {
+		const { name, value } = e.target;
+		setInfo((prevInfo) => ({
+			...prevInfo,
+			[name]: value
+		}));
+	};
 
-
-	const handleSubmit = async (e) => {
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
 		e.preventDefault();
 		try {
 			const response = await axios.post('http://localhost:3001/instituicao', {

@@ -7,6 +7,7 @@ import { FaRegTrashCan } from 'react-icons/fa6';
 
 import OutlineButton from '@/components/COMPONENTES/OutlineButton';
 import { Activity } from '@/lib/repository/activity/index.repository';
+import axios from 'axios';
 
 type CriarEventoProps = {
 	handleNextClick: () => void;
@@ -27,58 +28,7 @@ export default function CriarAtividade({ handleNextClick }: CriarEventoProps) {
 		handleNextClick();
 	};
 
-	// useEffect(() => {
-	// 	const getInfos = async () => {
-	// 		try {
-	// 			const id = localStorage.getItem('eventId');
-	// 			const result = await axios.get(
-	// 				`http://localhost:5002/area-event/${id}`
-	// 			);
-	// 			const response = await axios.get(
-	// 				'http://localhost:5002/comissao?adm=true'
-	// 			);
-	// 			if (result.data.areas && response.data.comissao) {
-	// 				setAreas(result.data.areas);
-	// 				setAdmins(response.data.comissao);
-	// 			}
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 		}
-	// 	};
-	// 	getInfos();
-	// }, []);
 
-	// const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-	// 	e.preventDefault();
-	// 	localStorage.clear();
-	// 	const eventId = localStorage.getItem('eventId');
-	// 	if (eventId) {
-	// 		let activityCreated: Activity[] = [];
-	// 		try {
-	// 			activities.forEach(async (activity) => {
-	// 				const activityObjt: Activity = {
-	// 					activityTitle: activity.activityTitle,
-	// 					activityDescription: activity.activityDescription,
-	// 					activityDate: activity.activityDate,
-	// 					activityType: activity.activityType,
-	// 					activityGuestName: activity.activityGuestName,
-	// 					activityGuestEmail: activity.activityGuestEmail,
-	// 					activityTime: activity.activityTime,
-	// 					eventId,
-	// 				};
-	// 				// const result = await axios.post(
-	// 				// 	'http://localhost:5002/sala',
-	// 				// 	salaObjt
-	// 				// );
-	// 				// console.log(result);
-	// 			});
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 		}
-	// 	}
-	//     // handleAddOnTable(e)
-	// 	handleNextClick();
-	// };
 
 	const handleAddOnTable = () => {
 		setActivities((prev) => [
@@ -110,6 +60,22 @@ export default function CriarAtividade({ handleNextClick }: CriarEventoProps) {
 		});
 	};
 
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post('http://localhost:3001/atividade', {
+				titulo: title,
+				descricao: descricao,
+				dia: dia,
+				horario: timeActivity,
+			});
+			console.log(response.data);
+			handleAddOnTable();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<div className="container mb-6 mt-52 flex justify-center">
 			<div className="w-8/12">
@@ -122,7 +88,7 @@ export default function CriarAtividade({ handleNextClick }: CriarEventoProps) {
 				<h2 className="text-center" style={{ color: '#000000' }}>
 					Atividades presentes durante o evento
 				</h2>
-				<form className="mt-8 w-full" onSubmit={handleAddOnTable}>
+				<form className="mt-8 w-full">
 					<div className="flex justify-center gap-5">
 						<div className="w-full">
 							<div className="mb-5 flex flex-col">
@@ -281,7 +247,8 @@ export default function CriarAtividade({ handleNextClick }: CriarEventoProps) {
 							className="mb-6 w-3/12 rounded-xl border-none p-2 text-center text-base font-medium text-white"
 							style={{ backgroundColor: '#0391C9' }}
 							type="button"
-							onClick={handleAddOnTable}
+							onClick={handleSubmit}
+							
 						>
 							Cadastrar Atividade
 						</button>

@@ -144,26 +144,40 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 		setShowModal(false);
 	};
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		localStorage.clear();
-		const event: Event = {
-			// comissaoId: adm,
-			comissaoId: 'd885dda4-86e7-457d-9f8b-8e7a975e42e9',
-			anais: checkboxesGerar[0],
-			certificados: checkboxesGerar[1],
-			assuntoPrincipal: assuntoPrincipal,
-			periodo: 'Integral', // mockado
-			descricao: descricao,
-			emailEvento: email,
-			nomeEvento: nome,
-			privado: checkboxes[1],
-			tipo,
-			logo: file ? file.name : null,
-		};
-		localStorage.setItem('event', JSON.stringify(event));
-		handleNextClick();
-	};
+	// const handleSubmit = async (e: { preventDefault: () => void; }) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const response = await axios.post('http://localhost:3001/atividade', {
+	// 			nome: nome,
+	// 			descricao:descricao,
+	// 			assuntoPrincipal: assuntoPrincipal,
+	// 			emailEventos: email,
+	// 			datainicio: ,
+	// 			dataFinal :,
+	// 			horarioInicio :,
+	// 			horarioFinal :,
+	// 			manha:,
+	// 			tarde:,
+	// 			noite:,
+	// 			status :,
+	// 			publico :,
+	// 			formato :,
+	// 			proceedings :,
+	// 			certificados :,
+	// 			logo :,
+	// 			idEditorChefe:,
+	// 			inicioSubmissao:,
+	// 			finalSubmissao:,
+	// 			limiteArquivosAutores:,
+	// 			limiteAutores:,
+	// 			limiteAvaliadores:,
+	// 			modeloApresentacao:
+	// 		});
+	// 		console.log(response.data);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	return (
 		<div className="container mb-6 mt-52 flex justify-center">

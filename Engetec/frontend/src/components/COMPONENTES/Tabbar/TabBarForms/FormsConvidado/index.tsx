@@ -23,22 +23,38 @@ const customStyles = {
 	}),
 };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (e: { preventDefault: () => void; }) => {
 	e.preventDefault();
-	
+	try {
+		const response = await axios.post('http://localhost:3001/cadastroConvidado', {
+			nome: info.name,
+			email: info.email,
+			senha: info.password,
+			turno: info.turno
+			
+		});
+		console.log(response.data);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+const [info, setInfo] = useState({
+	name: '',
+	email: '',
+	password: '',
+	turno: '',
+});
+
+const handleChange = (e: { target: { name: any; value: any; }; }) => {
+	const { name, value } = e.target;
+	setInfo((prevInfo) => ({
+		...prevInfo,
+		[name]: value
+	}));
 };
 
 export default async function CadastroConvidado() {
-
-	useEffect(() => {
-		fetch("http://localhost:3001/cadastroConvidado").then(
-			response => response.json()
-		).then(
-			data => {
-				console.log(data)
-			}
-		)
-	})
 	const checkboxNames = ['Organizador', 'Chair', 'Avaliador', 'Admin'];
 
 	const [name, setName] = useState('');
@@ -62,26 +78,29 @@ export default async function CadastroConvidado() {
 						label="Nome completo"
 						placeholder="Nome do convidado"
 						required
-						value={name}
+						value={info.name}
 						onChange={(e) => setName(e.target.value)}
+						
+						
 					/>
 					<NormalInput
 						id="email"
 						label="E-mail"
 						placeholder="emailuser@email.com"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
 						type="email"
 						required
+						value={info.email}
+						onChange={handleChange}
 					/>
 					<NormalInput
 						id="password"
 						label="Senha"
 						placeholder="Senha do convidado"
-						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						type="password"		
 						required
+						value={info.password}
+						onChange={handleChange}
+
 					/>
 					<NormalInput
 						id="confirmPassword"
@@ -91,6 +110,7 @@ export default async function CadastroConvidado() {
 						value={confirmpassword}
 						onChange={(e) => setConfirmpassword(e.target.value)}
 						required
+						
 					/>
 
 					<div className="mb-5 w-[45%]">
@@ -121,6 +141,7 @@ export default async function CadastroConvidado() {
 								classNamePrefix="select"
 								styles={customStyles}
 								onChange={(choice) => setTurno(choice?.label)}
+								value={info.turno}
 							/>
 						</div>
 					</div>

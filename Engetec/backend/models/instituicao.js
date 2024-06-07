@@ -8,7 +8,7 @@ const Instituicoes = db.sequelize.define("Instituicoes", {
     nome:{
         type: db.Sequelize.STRING
     },
-    CNPJID:{
+    cnpj:{
         type: db.Sequelize.STRING
     }
 })

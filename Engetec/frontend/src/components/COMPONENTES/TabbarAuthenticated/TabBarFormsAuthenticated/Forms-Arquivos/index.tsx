@@ -85,84 +85,22 @@ export default function Arquivos({ handleNextClick }: CriarEventoProps) {
 		setCheckApresentation(!checkApresentation);
 	};
 
-	const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-		localStorage.clear();
-		localStorage.setItem('areas', JSON.stringify(areas));
-		localStorage.setItem('autores', JSON.stringify(autores));
-
-		const eventId = localStorage.getItem('eventId');
-
-		if (eventId) {
-			let ArquivoCreated: Arquivo[] = [];
-			let FileConfig: ArquivoConfig[] = [];
-			try {
-				arquivos.forEach(async (arquivo) => {
-					const arquivoObjt: Arquivo = {
-						category: arquivo.category,
-						normasPub: arquivo.normasPub,
-						needAvaliation: arquivo.needAvaliation,
-						needApresentation: arquivo.needApresentation,
-					};
-					const result = await axios.post(
-						'http://localhost:5002/arquivos',
-						arquivoObjt
-					);
-					console.log(result);
-					if (result.data.arquivo) {
-						ArquivoCreated.push(result.data.arquivo);
-						// setShowCard(true);
-						// setTimeout(() => {
-						// 	setShowCard(false);
-						// 	handleNextButtonClick();
-						// }, 3000);
-						setTipo('');
-						setAutores(['']);
-						setAreas(['']);
-					}
-				});
-				arquivosConfig.forEach(async (config) => {
-					const arquivoConfigObj: ArquivoConfig = {
-						dataInicioSubmissao: config.dataInicioSubmissao,
-						dataFimSubmissao: config.dataFimSubmissao,
-						limiteAutoresPorArquivo: config.limiteAutoresPorArquivo,
-						limiteAvaliadoresPorArquivo: config.limiteAvaliadoresPorArquivo,
-						dataInicioAvaliacao: config.dataInicioAvaliacao,
-						dataFimAvaliacao: config.dataFimAvaliacao,
-						limiteArquivosPorAutor: config.limiteArquivosPorAutor,
-						modeloApresentacao: config.modeloApresentacao,
-						modeloArquivo: config.modeloArquivo,
-					};
-					const resultado = await axios.post(
-						'http://localhost:5002/arquivos',
-						arquivoConfigObj
-					);
-					console.log(resultado);
-					if (resultado.data.config) {
-						FileConfig.push(resultado.data.config);
-						setShowCard(true);
-						setTimeout(() => {
-							setShowCard(false);
-							handleNextButtonClick();
-						}, 3000);
-						setDataInicioSubmissao('');
-						setDataFinalAvaliacao('');
-						setLimiteAutores('');
-						setLimiteAvaliadores('');
-						setDataInicioAvaliacao('');
-						setDataFinalAvaliacao('');
-						setLimiteArquivos('');
-						setFile(null);
-						setFileApresent(null);
-					}
-				});
-			} catch (error) {
-				console.log(error);
-			}
-		}
-
-		//handleNextClick();
-	};
+	// const handleSubmit = async (e: { preventDefault: () => void; }) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const response = await axios.post('http://localhost:3001/cadastroConvidado', {
+	// 			normasPublicacao :,
+	// 			 modeloArquivos:,
+	// 			modeloApresentacao:,
+	// 			apresentacao:,
+	// 			avaliacao:
+				
+	// 		});
+	// 		console.log(response.data);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	const handleAddOnTable = () => {
 		setFiles((prev) => [
