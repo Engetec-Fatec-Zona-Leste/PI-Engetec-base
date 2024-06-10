@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import RemoveLogo from '@/imgs/remove-x.png';
 import { KnowledgeBigArea } from '@/lib/repository/knowledge-big-area/index.repository';
+import axios from 'axios';
 
 type CriarEventoProps = {
 	handleOptionClick: (option: string) => void;
@@ -38,6 +39,20 @@ export default function CriarGrandeAreaConhecimento({
 			updatedArray.splice(i, 1);
 			return updatedArray;
 		});
+	};
+
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post('http://localhost:3001/grandesAreas', {
+				nome: name,
+				descricao: descricao,
+			});
+			console.log(response.data);
+			
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (

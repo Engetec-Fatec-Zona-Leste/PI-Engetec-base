@@ -26,6 +26,29 @@ export default function SubmeterArquivoPage() {
 	const [turno, setTurno] = useState(checkboxPeriodo);
 	const [autores, setAutores] = useState<ReactElement[]>([]);
 
+	// const handleSubmit = async (e: { preventDefault: () => void; }) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const response = await axios.post('http://localhost:3001/submeterArquivo', {
+
+	// 			titulo : titulo,
+	// 			resumo: resumo,
+	// 			abstract: abstract,
+	// 			palavrasChaves: palavras ,
+	// 			keyWords: words,
+	// 			arquivoCompleto: ,
+	// 			arquivoSemAutoria: ,
+	// 			status:
+			
+				
+	// 		});
+	// 		console.log(response.data);
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
+
+	
 	const handleAddAutores = () => {
 		const index = autores.length;
 		const novoFormulario = (

@@ -23,38 +23,12 @@ const customStyles = {
 	}),
 };
 
-const handleSubmit = async (e: { preventDefault: () => void; }) => {
-	e.preventDefault();
-	try {
-		const response = await axios.post('http://localhost:3001/cadastroConvidado', {
-			nome: info.name,
-			email: info.email,
-			senha: info.password,
-			turno: info.turno
-			
-		});
-		console.log(response.data);
-	} catch (error) {
-		console.log(error);
-	}
-};
 
-const [info, setInfo] = useState({
-	name: '',
-	email: '',
-	password: '',
-	turno: '',
-});
 
-const handleChange = (e: { target: { name: any; value: any; }; }) => {
-	const { name, value } = e.target;
-	setInfo((prevInfo) => ({
-		...prevInfo,
-		[name]: value
-	}));
-};
 
-export default async function CadastroConvidado() {
+
+
+export default function CadastroConvidado() {
 	const checkboxNames = ['Organizador', 'Chair', 'Avaliador', 'Admin'];
 
 	const [name, setName] = useState('');
@@ -62,6 +36,23 @@ export default async function CadastroConvidado() {
 	const [password, setPassword] = useState('');
 	const [confirmpassword, setConfirmpassword] = useState('');
 	const [turno, setTurno] = useState<string | undefined>('');
+
+	// const handleSubmit = async (e: { preventDefault: () => void; }) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const response = await axios.post('http://localhost:3001/convidado', {
+	// 			nome: name,
+	// 			descricao: descricao,
+	// 			funcao: funcao,
+	// 			tempoNecessario: tempo,
+	// 			periodo: turno,
+	// 		});
+	// 		console.log(response.data);
+			
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	return (
 		<div className="container-submenu">
@@ -72,13 +63,13 @@ export default async function CadastroConvidado() {
 					colorHex="#4B00E0"
 				/>
 
-				<form className="form bg-white shadow-md" onSubmit={handleSubmit}>
+				<form className="form bg-white shadow-md" >
 					<NormalInput
 						id="fullName"
 						label="Nome completo"
 						placeholder="Nome do convidado"
 						required
-						value={info.name}
+						value={name}
 						onChange={(e) => setName(e.target.value)}
 						
 						
@@ -89,8 +80,8 @@ export default async function CadastroConvidado() {
 						placeholder="emailuser@email.com"
 						type="email"
 						required
-						value={info.email}
-						onChange={handleChange}
+						value={email}
+					
 					/>
 					<NormalInput
 						id="password"
@@ -98,8 +89,8 @@ export default async function CadastroConvidado() {
 						placeholder="Senha do convidado"
 						type="password"		
 						required
-						value={info.password}
-						onChange={handleChange}
+						value={password}
+					
 
 					/>
 					<NormalInput
@@ -125,6 +116,7 @@ export default async function CadastroConvidado() {
 									label={name}
 									disabled={false}
 									selected={false}
+									
 								/>
 							))}
 						</div>
@@ -141,7 +133,7 @@ export default async function CadastroConvidado() {
 								classNamePrefix="select"
 								styles={customStyles}
 								onChange={(choice) => setTurno(choice?.label)}
-								value={info.turno}
+								value={turno}
 							/>
 						</div>
 					</div>

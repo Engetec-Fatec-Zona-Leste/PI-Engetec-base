@@ -53,61 +53,18 @@ export default function SessaoForm() {
 			},
 		]);
 	};
-	const handleSubmmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		// console.log(dataInicio)
-		// console.log(horarioInicio)
-		// console.log(dataFinal)
-		// console.log(horarioFinal)
-		// const newDate = moment()
-
-		// const inicialMoment = dataInicio+ ' ' + horarioInicio;
-		// console.log(inicialMoment)
-
-		// // parse string to moment objt
-		// const momentDateHour = moment(inicialMoment);
-		// console.log(momentDateHour)
-		// // parse moment objt to string
-		// const stringDateHour = momentDateHour.format('DD-MM-YYYY HH:mm').toString();
-		// console.log(stringDateHour)
-
-		// console.log(
-		// 	'HOUR: ', newDate.hour(),
-		// 	'HOURS: ', newDate.hours(),
-		// 	'MINUTE: ', newDate.minute(),
-		// 	'MINUTES: ', newDate.minutes()
-		// )
-		// console.log('hours - min: ',  newDate.hour() - newDate.minute())
-		// console.log(
-		// 	'NEW DATE NOT FORMATED: ', newDate,
-		// 	'NEW DATE NOT FORMATED STRING: ', newDate.toString(),
-		// 	'NEW DATE FORMATET: ', newDate.format('DD-MM-YYYY HH:mm').toString()
-		// )
-		const salaId = localStorage.getItem('salaId');
-		if (salaId) {
-			sessoes.forEach(async (sessao) => {
-				const data: Sessao = {
-					tempoSessao: sessao.tempoSessao,
-					tempoApresentacao: sessao.tempoApresentacao,
-					horario: sessao.horario,
-					salaId: salaId,
-					comissaoId: sessao.comissaoId,
-				};
-				try {
-					const response = await axios.post(
-						'http://localhost:5002/sessao',
-						data
-					);
-					if (response.data.sessaoCreated) {
-						console.log(response.data.sessaoCreated);
-					}
-				} catch (error) {
-					console.log(error);
-				}
-			});
-		}
-	};
+	// const handleSubmit = async (e: { preventDefault: () => void; }) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const response = await axios.post('http://localhost:3001/sessao', {
+	// 			tempoSessao: toNumber(tempoSessao),
+	// 		});
+	// 		console.log(response.data);
+			
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();

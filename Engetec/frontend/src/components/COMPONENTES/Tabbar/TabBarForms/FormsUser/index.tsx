@@ -12,6 +12,8 @@ import axios from 'axios';
 export default function CadastroUser() {
 	const [name, setName] = useState('');
 	const [cpf, setCpf] = useState('');
+	const [password, setPassword] = useState('');
+	const [cargo, setCargo] = useState('');
 	const [email, setEmail] = useState('');
 	const [instituicao, setInst] = useState('');
 	const [curso, setCurso] = useState('');
@@ -45,26 +47,21 @@ export default function CadastroUser() {
 		}),
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		try {
-			const response = await axios.post('http://localhost:3001/userProfile');
-			console.log(response.data);
-			// if (response.data.alunoCreated) {
-			// 	setShowCard(true);
-			// 	setTimeout(() => {
-			// 		setShowCard(false);
-			// 	}, 3000);
-			// 	setName('');
-			// 	setCpf('');
-			// 	setEmail('');
-			// 	setInst('');
-			// 	setCurso('');
-			// }
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	// const handleSubmit = async (e: { preventDefault: () => void; }) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const response = await axios.post('http://localhost:3001/userProfile', {
+	// 			nome: name,
+	// 			email: email,
+	// 			senha: password,
+	// 			cargo: cargo,
+	// 		});
+	// 		console.log(response.data);
+			
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 
 	return (
 		<div className="container-submenu">
@@ -77,7 +74,7 @@ export default function CadastroUser() {
 					colorHex="#4B00E0"
 				/>
 
-				<form className="card mt-8 w-full" onSubmit={handleSubmit}>
+				<form className="card mt-8 w-full" onSubmit={(e) => e.preventDefault()}>
 					<div className="flex flex-wrap items-center justify-center gap-5">
 						<NormalInput
 							id="fullName"
@@ -101,6 +98,7 @@ export default function CadastroUser() {
 							placeholder="Senha do Usuário"
 							type="password"
 							required
+							value={password}
 						/>
 						<NormalInput
 							id="confirmPassword"

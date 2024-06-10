@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import RemoveLogo from '@/imgs/remove-x.png';
 import { KnowledgeSubArea } from '@/lib/repository/knowledge-sub-area/index.repository';
+import axios from 'axios';
 
 type CriarEventoProps = {
 	handleOptionClick: (option: string) => void;
@@ -45,7 +46,19 @@ export default function CriarSubAreaConhecimento({
 			return updatedArray;
 		});
 	};
-
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post('http://localhost:3001/subareas', {
+				nome: name,
+				descricao: descricao,
+			});
+			console.log(response.data);
+			
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<div className="container">
 			<div className="w-8/12">

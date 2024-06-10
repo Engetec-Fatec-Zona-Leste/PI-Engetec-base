@@ -144,40 +144,40 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 		setShowModal(false);
 	};
 
-	// const handleSubmit = async (e: { preventDefault: () => void; }) => {
-	// 	e.preventDefault();
-	// 	try {
-	// 		const response = await axios.post('http://localhost:3001/atividade', {
-	// 			nome: nome,
-	// 			descricao:descricao,
-	// 			assuntoPrincipal: assuntoPrincipal,
-	// 			emailEventos: email,
-	// 			datainicio: ,
-	// 			dataFinal :,
-	// 			horarioInicio :,
-	// 			horarioFinal :,
-	// 			manha:,
-	// 			tarde:,
-	// 			noite:,
-	// 			status :,
-	// 			publico :,
-	// 			formato :,
-	// 			proceedings :,
-	// 			certificados :,
-	// 			logo :,
-	// 			idEditorChefe:,
-	// 			inicioSubmissao:,
-	// 			finalSubmissao:,
-	// 			limiteArquivosAutores:,
-	// 			limiteAutores:,
-	// 			limiteAvaliadores:,
-	// 			modeloApresentacao:
-	// 		});
-	// 		console.log(response.data);
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// };
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post('http://localhost:3001/atividade', {
+				nome: nome,
+				descricao:descricao,
+				assuntoPrincipal: assuntoPrincipal,
+				emailEventos: email,
+				// datainicio: ,
+				// dataFinal :,
+				// horarioInicio :,
+				// horarioFinal :,
+				// manha:,
+				// tarde:,
+				// noite:,
+				// status :,
+				// publico :,
+				// formato :,
+				// proceedings :,
+				// certificados :,
+				// logo :,
+				// idEditorChefe:,
+				// inicioSubmissao:,
+				// finalSubmissao:,
+				// limiteArquivosAutores:,
+				// limiteAutores:,
+				// limiteAvaliadores:,
+				// modeloApresentacao:
+			});
+			console.log(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<div className="container mb-6 mt-52 flex justify-center">

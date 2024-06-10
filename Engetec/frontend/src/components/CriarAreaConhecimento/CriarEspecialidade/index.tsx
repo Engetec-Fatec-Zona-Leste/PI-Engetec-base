@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 import RemoveLogo from '@/imgs/remove-x.png';
 import { KnowledgeSpecialtyArea } from '@/lib/repository/knowledge-specialty-area/index.repository';
+import axios from 'axios';
 
 type CriarEventoProps = {
 	handleOptionClick: (option: string) => void;
@@ -47,6 +48,20 @@ export default function CriarEspecialide({
 			updatedArray.splice(i, 1);
 			return updatedArray;
 		});
+	};
+
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post('http://localhost:3001/especialidade', {
+				nome: name,
+				descricao: descricao,
+			});
+			console.log(response.data);
+			
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	return (
