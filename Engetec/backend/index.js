@@ -16,8 +16,8 @@ app.use("/uploads", express.static('uploads'));
 const arquivos = require('./routes/arquivos')
 app.use("/arquivos", arquivos)
 
-//const tipoArquivo = require('./routes/tipoArquivo')
-//app.use("/tipoArquivo", tipoArquivo)
+const tipoArquivo = require('./routes/tipoArquivo')
+app.use("/tipoArquivo", tipoArquivo)
 
 const atividades = require('./routes/atividade')
 app.use("/atividade", atividades)
@@ -37,19 +37,19 @@ const comissao = require('./routes/comissao')
 app.use("/comissao", comissao)
 app.use("/comissao/:idComissao", comissao)
 
-//const CorpoEditorial = require('./routes/CorpoEditorial')
-//app.use("/CorpoEditorial", CorpoEditorial)
-//app.use("/CorpoEditorial/:idCorpoEditorial", CorpoEditorial)
+const CorpoEditorial = require('./routes/CorpoEditorial')
+app.use("/CorpoEditorial", CorpoEditorial)
+app.use("/CorpoEditorial/:idCorpoEditorial", CorpoEditorial)
 
-//const CorpoEditorialEventos = require('./routes/corpoEditorialEventos')
-//app.use("/CorpoEditorialEventos", CorpoEditorialEventos)
-//app.use("/CorpoEditorialEventos/:id", CorpoEditorialEventos)
+const CorpoEditorialEventos = require('./routes/corpoEditorialEventos')
+app.use("/CorpoEditorialEventos", CorpoEditorialEventos)
+app.use("/CorpoEditorialEventos/:id", CorpoEditorialEventos)
 
 const editorChefe = require('./routes/editorChefe')
 app.use("/editorChefe", editorChefe)
 app.use("/editorChefe/:idEditorChefe", editorChefe)
 
-const convidado = require('./routes/cadastroConvidado')
+const convidado = require('./routes/convidado')
 app.use("/convidado", convidado)
 app.use("/convidado/:idConvidado", convidado)
 
