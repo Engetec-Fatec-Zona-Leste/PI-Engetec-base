@@ -1,6 +1,11 @@
 const db = require('./index');
 
 const Comissoes = db.sequelize.define("Comissoes", {
+    idComissoes: {
+        type: db.Sequelize.INTEGER,
+        primaryKey: true
+    },
+    
     linkLattes: {
         type: db.Sequelize.STRING
     },

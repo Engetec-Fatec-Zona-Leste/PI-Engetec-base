@@ -112,60 +112,19 @@ export default function CadastroComissao() {
 		getAreas();
 	}, []);
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
 		e.preventDefault();
-
 		try {
-			const organizador = checkboxes.filter((item) =>
-				item === checkboxes[0] ? true : false
-			)[0];
-			const adm = checkboxes.filter((item) =>
-				item == checkboxes[3] ? true : false
-			)[0];
-			const chair = checkboxes.filter((item) =>
-				item == checkboxes[1] ? true : false
-			)[0];
-			const avaliador = checkboxes.filter((item) =>
-				item == checkboxes[2] ? true : false
-			)[0];
-			console.log(realAreas?.map((area) => area));
-			const data: Comissao = {
-				name,
-				email,
-				senha: password,
-				cpf,
-				instituicao,
-				turno,
-				lattes,
-				// adm: checkboxes[3],
-				// organizador: checkboxes[0],
-				// chair: checkboxes[1],
-				// avaliador: checkboxes[2],
-				adm,
-				organizador,
-				chair,
-				avaliador,
-				// certificado: '',
-				areaConhecimento: realAreas?.map((area) => area),
-			};
-			const result = await axios.post('http://localhost:5002/comissao', data);
-			console.log(result);
-			if (result.data.comissaoCreated) {
-				// habilitar card de 3seg indicando cadastro realizado
-				console.log(result);
-				setShowCard(true);
-				setTimeout(() => {
-					setShowCard(false);
-				}, 3000);
-				setName('');
-				setCpf('');
-				setEmail('');
-				setInst('');
-				setPassword('');
-				setConfirmpassword('');
-				setLattes('');
-				setCheckboxes(checkboxNames.map(() => false));
-			}
+			const response = await axios.post('http://localhost:3001/comissao', {
+				linkLattes: lattes,
+				periodo: turno,
+				//status: funcao,
+				//organizador: tempo,
+				chair: turno,
+				
+			});
+			console.log(response.data);
+			
 		} catch (error) {
 			console.log(error);
 		}

@@ -33,6 +33,23 @@ export default function CreateArquivePage() {
 			return updatedArray;
 		});
 	};
+
+	// 	const handleSubmit = async (e: { preventDefault: () => void; }) => {
+	// 	e.preventDefault();
+	// 	try {
+	// 		const response = await axios.post('http://localhost:3001/arquivo', {
+	// 			nome: name,
+	// 			descricao: descricao,
+	// 			funcao: funcao,
+	// 			tempoNecessario: tempo,
+	// 			periodo: turno,
+	// 		});
+	// 		console.log(response.data);
+			
+	// 	} catch (error) {
+	// 		console.log(error);
+	// 	}
+	// };
 	return (
 		<div>
 			<NavbarAuthenticated />

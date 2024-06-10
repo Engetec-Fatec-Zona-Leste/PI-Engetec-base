@@ -47,21 +47,22 @@ export default function CadastroUser() {
 		}),
 	};
 
-	// const handleSubmit = async (e: { preventDefault: () => void; }) => {
-	// 	e.preventDefault();
-	// 	try {
-	// 		const response = await axios.post('http://localhost:3001/userProfile', {
-	// 			nome: name,
-	// 			email: email,
-	// 			senha: password,
-	// 			cargo: cargo,
-	// 		});
-	// 		console.log(response.data);
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post('http://localhost:3001/userProfile', {
+				nome: name,
+				email: email,
+				senha: password,
+				cpf: cpf,
+				cargo: cargo,
+			});
+			console.log(response.data);
 			
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 	}
-	// };
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<div className="container-submenu">
@@ -74,7 +75,7 @@ export default function CadastroUser() {
 					colorHex="#4B00E0"
 				/>
 
-				<form className="card mt-8 w-full" onSubmit={(e) => e.preventDefault()}>
+				<form className="card mt-8 w-full" onSubmit={handleSubmit}>
 					<div className="flex flex-wrap items-center justify-center gap-5">
 						<NormalInput
 							id="fullName"

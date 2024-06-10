@@ -14,7 +14,7 @@ const Arquivos = db.sequelize.define("Arquivos",{
     normasPublicacao :{
         type: db.Sequelize.STRING
     },
-     modeloArquivos:{
+    modeloArquivos:{
         type: db.Sequelize.STRING
     },
     modeloApresentacao:{

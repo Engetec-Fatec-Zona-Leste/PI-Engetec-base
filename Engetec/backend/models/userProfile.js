@@ -1,7 +1,7 @@
 const db = require("./index")
 
-const UserProfiles = db.sequelize.define("UserProfiles", {
-    idUserProfile:{
+const UserProfiles = db.sequelize.define("userprofiles", {
+    idUserProfiles:{
         type: db.Sequelize.INTEGER,
         primaryKey: true
     },
@@ -9,6 +9,9 @@ const UserProfiles = db.sequelize.define("UserProfiles", {
         type: db.Sequelize.STRING
     },
     email:{
+        type: db.Sequelize.STRING
+    },
+    cpf:{
         type: db.Sequelize.STRING
     },
     senha:{
