@@ -11,6 +11,7 @@ app.use("/uploads", express.static('uploads'));
 
 // http://localhost:3001/public/dall-e-2.webp
 
+const port = process.env.PORT || 3001;
 
 //Rotas
 const arquivos = require('./routes/arquivos')
