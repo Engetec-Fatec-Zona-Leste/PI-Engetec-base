@@ -1,0 +1,205 @@
+[
+    
+    {
+       "tipoArquivo":{
+        "idTipoArquivo": 1,
+        "Nome": "teste1",
+        "Descricao" : "testandi como escreve"
+       }
+    },
+    
+    {
+        "Arquivo":{
+          "idArquivo": 1,
+          "idEvento": 1,
+          "idTipoArquivo": 1,
+          "InicioSubmissao": "2024-04-25",
+          "FinalSubmissao": "2024-04-25",
+          "InicioAvaliacao": null,
+          "FinalAvaliacao": null,
+          "NormasPublicacao": "Normas de Publicação do Arquivo 1",
+          "ModeloArquivo": "/temp/bing/guilhermelindo.pdf",
+          "ModeloApresentacao": "/temp/bing/guilhermelindo.ppt",
+          "Apresentacao": false
+        }
+    },
+    {
+        "EditoresChefes":{
+              "idEditorChefe": 1,
+              "idInstituicao": 1,
+              "idUserProfile": 1,
+              "idEvento": 1,
+              "LinkLattes": "https://www.lattes.cnpq.br/pt-br/pesquisador/123456789",
+              "Status": "ativo"
+            }
+    },
+    {
+        "Eventos": {
+              "idEvento": 1,
+              "EditorChefe": 1,
+              "Nome": "Evento de Teste 1",
+              "Descricao": "Descrição do Evento de Teste 1",
+              "AssuntoPrincipal": "Assunto Principal do Evento de Teste 1",
+              "EmailEvento": "evento1@exemplo.com",
+              "DataInicio": "2024-04-25",
+              "DataFinal": "2024-04-26",
+              "HorarioInicio": "08:00:00",
+              "HorarioFinal": "17:00:00",
+              "Manha": true,
+              "Tarde": true,
+              "Noite": false,
+              "Status": "Em andamento",
+              "Publico": true,
+              "Formato": "Presencial",
+              "Proceedings": true,
+              "Certificados": true,
+              "Logo": "etc/tpc/guilherme.png"
+             
+        }
+    },
+    {
+        "Online":{
+            "idOnline": 1,
+            "idEvento": 1,
+            "Link": "https://testeBolado.com"
+        }
+    },
+    {
+        "Presencial":{
+            "idPresencial": 1,
+            "idEvento": 1,
+            "Cep": "01972-096",
+            "Estado": "São paulo",
+            "Local": "Fatec papai",
+            "Cidade": "São Paulo"
+        }
+    },
+    {
+        "CorpoEditorial":{
+              "idCorpoEditorial": 1,
+              "Nome": "testando"
+            }
+    },
+    {
+        "CorpoEditorialEvento":{
+            "idCorpoEditorialEvento": 1,
+            "idEvento": 1,
+            "idCorpoEditorial" : 1
+          }
+    },
+    {
+        "Apoiadores":{
+            "idApoiador": 1,
+            "Nome": "bumbum"
+        }
+    },
+    {
+        "EventApoiador":{
+            "idEventApoiador":1,
+            "idEvento":1,
+            "idApoiador": 1
+        }
+    },
+    
+    {
+        "Atividade":{
+            "idAtividade": 1,
+            "idEvento": 1,
+            "idConvidado": 1,
+            "idTipo": 1,
+            "Titulo": "testando",
+            "Descricao": "descrito",
+            "Dia": "2024-04-26",
+            "Horario": "08:00:00"
+        }
+    },
+    {
+        "Comissao":{
+            "idComissao": 1,
+            "idInstituicao": 1,
+            "idUserProfile": 1,
+            "idEvento": 1,
+            "LinlLattes": "https://www.lattes.cnpq.br/pt-br/pesquisador/123456789",
+            "Periodo": "Manha",
+            "Status": "Em espera",
+            "Organizador": false,
+            "Chair": true
+        }
+    },
+    {
+        "TipoAtividade":{
+            "idTipoAtividade": 1,
+            "Nome": "relaxar o pops",
+            "Descricao": "so aproveita e relaxa"
+        }
+    },
+    {
+        "Convidado":{
+            "idConvidado": 1,
+            "idUserProfile": 1,
+            "Funcao": "sentador",
+            "TempoNecessario": "o suficiente????",
+            "Periodo": "Tarde"
+        }
+    },
+    {
+        "UserProfile":{
+            "idUserProfile": 1,
+            "Nome": "GuizinhodoVrau",
+            "Email": "suaCadelinha@gmail.com",
+            "Senha": "8417f14ac3e38011405ee4db087bafd99d22074f51bd127a6abbb1b37d13d095",
+            "Cargo": "Avaliador"
+        }
+    },
+    {
+        "Ouvinte":{
+            "idOuvinte": 1,
+            "idUserProfile": 1,
+            "idInstituicao": 1,
+            "Curso": "compuratia",
+            "Periodo":"Manha",
+            "Presenca":false
+        }
+    },
+    {
+        "Avaliador":{
+            "idAvaliador": 1,
+            "idUserProfile": 1,
+            "idInstituicao": 1,
+            "idAreaConhecimento": 1,
+            "LinkLattes": "https://www.lattes.cnpq.br/pt-br/pesquisador/123456789",
+            "Status": "Ativo"
+        }
+    },
+    {
+        "AreasConhecimento":{
+            "idAreaConhecimento": 1,
+            "Nome": "Computaria",
+            "Descricao": "so programa"
+        }
+    },
+    {
+        "SubAreas":{
+            "idSubAreas": 1,
+            "idAreas": 1,
+            "idAvaliador": 1 
+        }
+    },
+    {
+        "Instituicao":{
+            "idInstituicao": 1,
+            "Nome": "Valinhos",
+            "CNPJ": "05.881.698/0001-15"
+        }
+    },
+    {
+        "Autor":{
+            "idAutor": 1,
+            "idUserProfile": 1,
+            "idInstituicao": 1,
+            "Periodo": "Manha",
+            "Apresentador": true,
+            "Presenca": true
+        }
+    }
+    ]

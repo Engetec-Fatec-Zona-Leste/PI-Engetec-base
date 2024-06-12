@@ -1,0 +1,16 @@
+[
+	{
+		"titulo_evento": "Tech Talks: Descobrindo as Fronteiras da Tecnologia",
+		"arquivos": [
+			{ "arquivo": "Artigo Científico", "prazo_de_entrega": "10/12/2023" },
+			{ "arquivo": "Relatorio", "prazo_de_entrega": "10/12/2023" }
+		]
+	},
+	{
+		"titulo_evento": "Digital Transformation Symposium",
+		"arquivos": [
+			{ "arquivo": "Artigo", "prazo_de_entrega": "10/12/2023" },
+			{ "arquivo": "Declaração", "prazo_de_entrega": "10/12/2023" }
+		]
+	}
+]

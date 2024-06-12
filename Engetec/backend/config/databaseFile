@@ -1,0 +1,325 @@
+create database Eventec;
+use Eventec;
+
+create table IF NOT EXISTS CategoriaArquivos (
+    idCategoriaArquivos INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (idCategoriaArquivos)
+);
+
+create table IF NOT EXISTS UserProfiles (
+    idUserProfiles INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
+    cargo VARCHAR(255) NOT NULL,
+    cpf VARCHAR(14) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (idUserProfiles)
+);
+
+create table IF NOT EXISTS Instituicoes (
+    idInstituicoes INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    cnpj VARCHAR(18) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (idInstituicoes)
+);
+-- new tables
+create table IF NOT EXISTS GrandeAreas (
+    idGrandeAreas INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (idGrandeAreas) 
+);
+
+create table IF NOT EXISTS Areas (
+    idAreas INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    idGrandeAreas INT NOT NULL,
+    PRIMARY KEY (idAreas),
+    FOREIGN KEY (idGrandeAreas) REFERENCES GrandeAreas(idGrandeAreas) 
+);
+
+create table IF NOT EXISTS SubAreas (
+    idSubAreas INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    idAreas INT NOT NULL,
+    PRIMARY KEY (idSubAreas),
+    FOREIGN KEY (idAreas) REFERENCES Areas(idAreas) 
+);
+
+create table IF NOT EXISTS Especialidades (
+    idEspecialidades INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    idSubAreas INT NOT NULL,
+    PRIMARY KEY (idEspecialidades),
+    FOREIGN KEY (idSubAreas) REFERENCES SubAreas(idSubAreas) 
+);
+-- end new tables
+
+-- create table TipoAtividade (
+--    idTipoAtividade INT NOT NULL AUTO_INCREMENT,
+--    Nome VARCHAR(255) NOT NULL,
+--    Descricao VARCHAR(255) NOT NULL,
+--    PRIMARY KEY (idTipoAtividade)
+-- );
+
+create table IF NOT EXISTS Apoiadores (
+    idApoiadores INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (idApoiadores)
+);
+
+create table IF NOT EXISTS CorpoEditoriais (
+    idCorpoEditoriais INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (idCorpoEditoriais)
+);
+
+create table IF NOT EXISTS Convidados (
+    idConvidado INT NOT NULL AUTO_INCREMENT,
+    funcao VARCHAR(255) NOT NULL,
+    tempoNecessario VARCHAR(255) NOT NULL,
+    periodo VARCHAR(10) NOT NULL,
+    idUserProfiles INT NOT NULL,
+    PRIMARY KEY (idConvidado),
+    FOREIGN KEY (idUserProfiles) REFERENCES UserProfiles(idUserProfiles) 
+);
+
+create table IF NOT EXISTS EditorChefes (
+    idEditorChefes INT NOT NULL AUTO_INCREMENT,
+    linkLattes VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    idInstituicoes INT NOT NULL,
+    idUserProfiles INT NOT NULL,
+    PRIMARY KEY (idEditorChefes),
+    FOREIGN KEY (idInstituicoes) REFERENCES Instituicoes(idInstituicoes),
+    FOREIGN KEY (idUserProfiles) REFERENCES UserProfiles(idUserProfiles)
+);
+
+create table IF NOT EXISTS Eventos (
+    idEvento INT NOT NULL AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    assuntoPrincipal VARCHAR(255) NOT NULL,
+    emailEvento VARCHAR(255) NOT NULL,
+    datainicio DATE NOT NULL,
+    dataFinal DATE NOT NULL,
+    horarioInicio TIME NOT NULL,
+    horarioFinal TIME NOT NULL,
+    manha BOOLEAN NOT NULL,
+    tarde BOOLEAN NOT NULL,
+    noite BOOLEAN NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    publico BOOLEAN NOT NULL,
+    formato VARCHAR(255) NOT NULL,
+    proceedings BOOLEAN NOT NULL,
+    certificados BOOLEAN NOT NULL,
+    logo VARCHAR(255) NOT NULL,
+    inicioSubmissao DATE NOT NULL,
+    finalSubmissao DATE NOT NULL,
+    inicioAvaliacao DATE NOT NULL,
+    FinalAvaliacao DATE NOT NULL,
+    limiteArquivosAutores INT NOT NULL,
+    limiteAutores INT NOT NULL,
+    limiteAvaliadores INT NOT NULL,
+    modeloApresentacao VARCHAR(255) NOT NULL,
+    idEditorChefes INT NOT NULL,
+    PRIMARY KEY (idEvento),
+    FOREIGN KEY (idEditorChefes) REFERENCES EditorChefes(idEditorChefes)
+);
+
+create table IF NOT EXISTS Autores (
+    idAutor INT NOT NULL AUTO_INCREMENT,
+    periodo VARCHAR(10) NOT NULL,
+    curso VARCHAR(255) NOT NULL,
+    apresentador BOOLEAN NOT NULL,
+    presenca BOOLEAN NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    idUserProfiles INT NOT NULL,
+    idInstituicao INT NOT NULL,
+    PRIMARY KEY (idAutor),
+    FOREIGN KEY (idUserProfiles) REFERENCES UserProfiles(idUserProfiles),
+    FOREIGN KEY (idInstituicao) REFERENCES Instituicoes(idInstituicoes) 
+); 
+
+create table IF NOT EXISTS ArquivoSubmetidos (
+    idArquivoSubmetidos INT NOT NULL AUTO_INCREMENT,
+    titulo VARCHAR(200) NOT NULL,
+    resumo TEXT NOT NULL,
+    abstract TEXT NOT NULL,
+    palavrasChave VARCHAR(100) NOT NULL,
+    keyWords VARCHAR(100) NOT NULL,
+    status VARCHAR(25) NOT NULL,
+    arquivoCompleto VARCHAR(100) NOT NULL,
+    arquivoSemAutoria VARCHAR(100) NOT NULL,
+    createdAt timestamp NOT NULL DEFAULT current_timestamp(),
+    updatedAt timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    idCategoriaArquivos INT NOT NULL,
+    idEvento INT NOT NULL,
+    PRIMARY KEY (idArquivoSubmetidos),
+    FOREIGN KEY (idCategoriaArquivos) REFERENCES CategoriaArquivos(idCategoriaArquivos),
+    FOREIGN KEY (idEvento) REFERENCES Eventos(idEvento) 
+);
+
+create table IF NOT EXISTS Arquivos (
+    idArquivos INT NOT NULL AUTO_INCREMENT,
+    normasPublicacao VARCHAR(255) NOT NULL,
+    modeloArquivo VARCHAR(255) NOT NULL,
+    apresentacao BOOLEAN NOT NULL,
+    avaliacao BOOLEAN NOT NULL,
+    idEventos INT NOT NULL,
+    idCategoriaArquivos INT NOT NULL,
+    PRIMARY KEY (idArquivos),
+    FOREIGN KEY (idEventos) REFERENCES Eventos(idEvento),
+    FOREIGN KEY (idCategoriaArquivos) REFERENCES CategoriaArquivos(idCategoriaArquivos)
+);
+
+create table IF NOT EXISTS Onlines (
+    idOnlines INT NOT NULL AUTO_INCREMENT,
+    link VARCHAR(255) NOT NULL,
+    idEventos INT NOT NULL,
+    PRIMARY KEY (idOnlines),
+    FOREIGN KEY (idEventos) REFERENCES Eventos(idEvento)
+);
+
+create table IF NOT EXISTS Presenciais (
+    idPresenciais INT NOT NULL AUTO_INCREMENT,
+    cep VARCHAR(255) NOT NULL,
+    estado VARCHAR(255) NOT NULL,
+    local VARCHAR(255) NOT NULL,
+    cidade VARCHAR(255) NOT NULL,
+    idEventos INT NOT NULL,
+    PRIMARY KEY (idPresenciais),
+    FOREIGN KEY (idEventos) REFERENCES Eventos(idEvento)
+);
+
+create table IF NOT EXISTS Comissoes (
+    idComissoes INT NOT NULL AUTO_INCREMENT,
+    linkLattes VARCHAR(255) NOT NULL,
+    periodo VARCHAR(10) NOT NULL,
+    status VARCHAR(9) NOT NULL,
+    organizador BOOLEAN NOT NULL, 
+    chair BOOLEAN NOT NULL,
+    idInstituicoes INT NOT NULL,
+    idUserProfiles INT NOT NULL,
+    idEventos INT NOT NULL,
+    PRIMARY KEY (idComissoes),
+    FOREIGN KEY (idInstituicoes) REFERENCES Instituicoes(idInstituicoes),
+    FOREIGN KEY (idUserProfiles) REFERENCES UserProfiles(idUserProfiles),
+    FOREIGN KEY (idEventos) REFERENCES Eventos(idEvento)
+);
+
+create table IF NOT EXISTS Ouvintes (
+    idOuvintes INT NOT NULL AUTO_INCREMENT,
+    curso VARCHAR(255) NOT NULL,
+    periodo VARCHAR(10) NOT NULL,
+    presenca BOOLEAN NOT NULL,
+    idUserProfiles INT NOT NULL,
+    idInstituicoes INT NOT NULL,
+    PRIMARY KEY (idOuvintes),
+    FOREIGN KEY (idUserProfiles) REFERENCES UserProfiles(idUserProfiles),
+    FOREIGN KEY (idInstituicoes) REFERENCES Instituicoes(idInstituicoes)
+);
+
+create table IF NOT EXISTS Avaliadores (
+    idAvaliadores INT NOT NULL AUTO_INCREMENT,
+    linkLattes VARCHAR(255) NOT NULL,
+    status VARCHAR(9) NOT NULL,
+    idUserProfiles INT NOT NULL,
+    idInstituicoes INT NOT NULL,
+    idSubAreas INT NOT NULL,
+    PRIMARY KEY (idAvaliadores),
+    FOREIGN KEY (idUserProfiles) REFERENCES UserProfiles(idUserProfiles),
+    FOREIGN KEY (idInstituicoes) REFERENCES Instituicoes(idInstituicoes),
+    FOREIGN KEY (idSubAreas) REFERENCES SubAreas(idSubAreas)
+);
+
+
+create table IF NOT EXISTS CorpoEditorialEventos (
+    idCorpoEditorialEventos INT NOT NULL AUTO_INCREMENT,
+    idEventos INT NOT NULL,
+    idCorpoEditoriais INT NOT NULL,
+    PRIMARY KEY (idCorpoEditorialEventos),
+    FOREIGN KEY (idEventos) REFERENCES Eventos(idEvento),
+    FOREIGN KEY (idCorpoEditoriais) REFERENCES CorpoEditoriais(idCorpoEditoriais)
+);
+
+create table IF NOT EXISTS EventApoiadores (
+    idEventApoiadores INT NOT NULL AUTO_INCREMENT,
+    idEventos INT NOT NULL,
+    idApoiadores INT NOT NULL,
+    PRIMARY KEY (idEventApoiadores),
+    FOREIGN KEY (idEventos) REFERENCES Eventos(idEvento),
+    FOREIGN KEY (idApoiadores) REFERENCES Apoiadores(idApoiadores)
+);
+
+create table IF NOT EXISTS AvaliadorSubareas(
+    idAvaliadorSubareas INT NOT NULL AUTO_INCREMENT,
+    idAvaliadores INT NOT NULL,
+    idSubAreas INT NOT NULL,
+    PRIMARY KEY (idAvaliadorSubareas),
+    FOREIGN KEY (idAvaliadores) REFERENCES Avaliadores(idAvaliadores),
+    FOREIGN KEY (idSubAreas) REFERENCES SubAreas(idSubAreas)
+);
+
+create table IF NOT EXISTS CertificadosAutores (
+    idCertificadoAutores INT NOT NULL AUTO_INCREMENT,
+    certificado VARCHAR(255) NOT NULL,
+    dataEmissao DATE NOT NULL,
+    hash VARCHAR(255) NOT NULL,
+    idArquivoSubmetidos INT NOT NULL,
+    idAutor INT NOT NULL,
+    PRIMARY KEY (idCertificadoAutores),
+    FOREIGN KEY (idArquivoSubmetidos) REFERENCES ArquivoSubmetidos(idArquivoSubmetidos),
+    FOREIGN KEY (idAutor) REFERENCES Autores(idAutor)
+);
+
+create table IF NOT EXISTS ArquivoEspecilidades (
+    idArquivoEspecilidades INT NOT NULL AUTO_INCREMENT,
+    idArquivo INT NOT NULL,
+    idEspecialidades INT NOT NULL,
+    PRIMARY KEY (idArquivoEspecilidades),
+    FOREIGN KEY (idArquivo) REFERENCES ArquivoSubmetidos(idArquivoSubmetidos),
+    FOREIGN KEY (idEspecialidades) REFERENCES Especialidades(idEspecialidades)
+);
+
+create table IF NOT EXISTS AutorArquivos (
+    idAutorArquivo INT NOT NULL AUTO_INCREMENT,
+    idAutor INT NOT NULL,
+    idArquivo INT NOT NULL,
+    PRIMARY KEY (idAutorArquivo),
+    FOREIGN KEY (idAutor) REFERENCES Autores(idAutor),
+    FOREIGN KEY (idArquivo) REFERENCES ArquivoSubmetidos(idArquivoSubmetidos)
+);
+
+delimiter | 
+create trigger enventApoiadores after insert on 
+    BEGIN
+        INSERT INTO test2 SET a2 = NEW.a1;
+        DELETE FROM test3 WHERE a3 = NEW.a1;
+        UPDATE test4 SET b4 = b4 + 1 WHERE a4 = NEW.a1;
+    END;
+| delimiter;
