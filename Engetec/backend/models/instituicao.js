@@ -1,17 +1,17 @@
 const db = require("./index")
 
 const Instituicoes = db.sequelize.define("Instituicoes", {
-    idInstituicao :{
+    idInstituicoes :{
         type: db.Sequelize.INTEGER,
         primaryKey: true
     },
     nome:{
         type: db.Sequelize.STRING
     },
-    CNPJID:{
+    cnpj:{
         type: db.Sequelize.STRING
     }
 })
 
 
-module.exports = Instituicoes
+module.exports = Instituicoes
