@@ -12,6 +12,7 @@
     "@babel/core": "^7.24.3",
     "@types/lodash": "^4.14.199",
     "axios": "^1.6.8",
+    "cors": "^2.8.5",
     "follow-redirects": "^1.15.6",
     "lodash": "^4.17.21",
     "next": "^14.1.4",

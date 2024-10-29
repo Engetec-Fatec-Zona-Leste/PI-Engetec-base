@@ -12,7 +12,7 @@ type CriarEventoProps = {
 	handleOptionClick: (option: string) => void;
 };
 
-export default function CriarEspecialide({
+export default function CriarEspecialidade({
 	handleOptionClick,
 }: CriarEventoProps) {
 	const [name, setName] = useState('');

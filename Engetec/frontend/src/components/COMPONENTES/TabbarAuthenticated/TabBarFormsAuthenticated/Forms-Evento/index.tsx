@@ -6,6 +6,7 @@ import { FaTimes } from 'react-icons/fa';
 import { FiUpload } from 'react-icons/fi';
 import TagsInput from 'react-tagsinput';
 import 'react-tagsinput/react-tagsinput.css';
+import axios from 'axios';
 
 import { Comissao } from '@/lib/repository/comission/index.repository';
 import { Event } from '@/lib/repository/event/index.repository';
@@ -149,29 +150,29 @@ export default function CriarEvento({ handleNextClick }: CriarEventoProps) {
 		try {
 			const response = await axios.post('http://localhost:3001/atividade', {
 				nome: nome,
-				descricao:descricao,
+				descricao: descricao,
 				assuntoPrincipal: assuntoPrincipal,
 				emailEventos: email,
-				// datainicio: ,
-				// dataFinal :,
-				// horarioInicio :,
-				// horarioFinal :,
-				// manha:,
-				// tarde:,
-				// noite:,
-				// status :,
-				// publico :,
-				// formato :,
-				// proceedings :,
-				// certificados :,
-				// logo :,
-				// idEditorChefe:,
-				// inicioSubmissao:,
-				// finalSubmissao:,
-				// limiteArquivosAutores:,
-				// limiteAutores:,
-				// limiteAvaliadores:,
-				// modeloApresentacao:
+				datainicio: dataInicio,
+				dataFinal: dataFinal,
+				horarioInicio: horarioInicio,
+				horarioFinal: horarioFinal,
+				manha: checkboxes[0],
+				tarde: checkboxes[1],
+				noite: checkboxes[2],
+				status: status,
+				publico: checkboxes[0],
+				formato: formato,
+				proceedings: checkboxesGerar[0],
+				certificados: checkboxesGerar[1],
+				logo: file,
+				idEditorChefe: idEditorChefe,
+				inicioSubmissao: inicioSubmissao,
+				finalSubmissao: finalSubmissao,
+				limiteArquivosAutores: limiteArquivosAutores,
+				limiteAutores: limiteAutores,
+				limiteAvaliadores: limiteAvaliadores,
+				modeloApresentacao: modeloApresentacao,
 			});
 			console.log(response.data);
 		} catch (error) {

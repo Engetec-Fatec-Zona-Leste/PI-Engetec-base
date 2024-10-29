@@ -8,6 +8,7 @@ import Title from '@/components/COMPONENTES/Title';
 import axios from 'axios';
 import { useState } from 'react';
 
+
 export default function RegisterInstitutionPage() {
 	const [info, setInfo] = useState({
 		name: '',
@@ -22,18 +23,35 @@ export default function RegisterInstitutionPage() {
 		}));
 	};
 
+	
+
+	// Rota POST para criar uma nova instituição
 	const handleSubmit = async (e: { preventDefault: () => void; }) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost:3001/instituicao', {
-				nome: info.name,
-				cnpj: info.cnpj
-			});
+			const response = await axios.post(
+				'http://localhost:3031/cadastrar/instituicao',
+				{
+					nome: info.name, 
+					cnpj: info.cnpj
+				},
+				{
+					headers: {
+						Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiY2FyZ28iOlsiQXV0b3IiXSwiaWF0IjoxNzMwMTU4NjQwLCJleHAiOjE3MzAxNzY2NDB9.Ll-eqv43IfqEKqaiCXCBJpli4dwUFUuiwUuCaVaRfV0`
+					}
+					// headers: {
+					// 	Authorization: `Bearer ${token}`
+					// }
+				}
+			);
 			console.log(response.data);
+			// Aqui voc  pode adicionar l gica para mostrar uma mensagem de sucesso ou redirecionar o usu rio
 		} catch (error) {
-			console.log(error);
+			console.error('Erro ao enviar dados:', error);
+			// Aqui voc  pode adicionar l gica para mostrar uma mensagem de erro
 		}
 	};
+	
 
 	return (
 		<div>

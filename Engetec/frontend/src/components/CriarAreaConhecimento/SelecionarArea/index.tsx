@@ -2,7 +2,7 @@
 
 import * as S from './styles';
 import CriarAreaConhecimento from '../index';
-import CriarEspecialide from '../CriarEspecialidade';
+import CriarEspecialidade from '../CriarEspecialidade';
 import CriarGrandeAreaConhecimento from '../CriarGrandeArea';
 import CriarSubAreaConhecimento from '../CriarSubArea';
 import SearchComponent from './ComponentePesquisar';
@@ -28,7 +28,7 @@ export default function SelectArea({
 				);
 			case 'criar-especialidade':
 				return (
-					<CriarEspecialide handleOptionClick={() => handleOptionClick('criar-especialidade')} />
+					<CriarEspecialidade handleOptionClick={() => handleOptionClick('criar-especialidade')} />
 				);
 			case 'criar-grande-area':
 				return (
