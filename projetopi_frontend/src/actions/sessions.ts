@@ -1,25 +1,7 @@
 import 'server-only'
 import { SignJWT, jwtVerify } from 'jose'
-import NextAuth from "next-auth"
-import Credentials from "next-auth/providers/credentials"
-import baseURL from "./src/actions/configUrl"
 import { cookies } from 'next/headers'
-import axios from 'axios'
 import { redirect } from 'next/navigation'
-
-
-type ReturnedUser = {
-    email: string,
-    name: string,
-    password: string
-}
-
-const useUserDTO = (user: ReturnedUser) => {
-    return {
-        name: user.name,
-        email: user.email
-    }
-}
 
 type SessionPayload = {
     userId: string,
@@ -111,56 +93,5 @@ export async function deleteSession() {
 
 export async function logout() {
     deleteSession()
-    redirect('/login')
-}
-
-export const { handlers, signIn, signOut, auth } = NextAuth({
-    providers: [
-        Credentials({
-            // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-            // e.g. domain, username, password, 2FA token, etc.
-            credentials: {
-                email: {},
-                password: {},
-                role: {},
-            },
-            authorize: async (credentials) => {
-
-                const pwHash = await encryptPassword(credentials?.password as string)
-
-                let res = await baseURL.post('/auth/login', {
-                    email: credentials.email,
-                    senha: pwHash
-                })
-
-                if (!res.data) {
-                    // No user found, so this is their first attempt to login
-                    // Optionally, this is also the place you could do a user registration
-                    throw new Error("Invalid credentials.")
-                }
-
-                await createSession(res.data.id, res.data.role);
-
-                // return user object with their profile data
-                return useUserDTO(res.data as ReturnedUser)
-            },
-        }),
-    ],
-})
-
-
-
-export async function signup(formData: FormData) {
-    await axios.post('/auth/register/user', {
-        email: formData.get('email'),
-        nome: formData.get('nome'),
-        senha: formData.get('senha'),
-        cpf: formData.get('cpf'),
-        periodo: formData.get('periodo'),
-        apresentador: formData.get('apresentador'),
-        curso: formData.get('curso'),
-        instituicao: formData.get('instituicao')
-    })
-
     redirect('/login')
 }
