@@ -1,74 +1,84 @@
 'use client';
 
-import { useState } from 'react';
-
-import { BsStar } from 'react-icons/bs';
-
 import DefaultButton from '@/components/COMPONENTES/DefaultButton';
 import Footer from '@/components/COMPONENTES/Footer';
 import Navbar from '@/components/COMPONENTES/Navbar';
 import NormalInput from '@/components/COMPONENTES/NormalInput';
-import OutlineButton from '@/components/COMPONENTES/OutlineButton';
-import { BiHeart } from 'react-icons/bi';
+import Title from '@/components/COMPONENTES/Title';
+import axios from 'axios';
+import { useState } from 'react';
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
-	const handleSubmit = () => {};
+	const handleChangeEmail = (e: { target: { value: any; }; }) => {
+		setEmail(e.target.value);
+	};
+
+	const handleChangePassword = (e: { target: { value: any; }; }) => {
+		setPassword(e.target.value);
+	};
+
+	const handleSubmit = async (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    try {
+        const response = await axios.post(
+            'http://localhost:3031/auth/login',
+            {
+                email,
+                senha: password
+            }
+        );
+
+        const { token } = response.data;
+        console.log('Token:', token);
+
+        // Additional logic using token can be added here
+
+		console.log(result.response.data);
+	} catch (error) {
+		console.log(error.response.data);
+	}
+};
 
 	return (
-		<div className="flex h-screen flex-col justify-items-center ">
+		<div>
 			<Navbar />
 			<div className="container">
-				<div className="w-[60vw]">
-					<form
-						className="form flex flex-col items-center bg-white px-5 shadow-md"
-						onSubmit={handleSubmit}
-					>
-						<h1
-							className="text-center text-2xl font-bold text-black"
-							style={{ color: '#5321BF' }}
-						>
-							Login
-						</h1>
-						<NormalInput
-							id="email"
-							label="E-mail"
-							placeholder="E-mail de Usuário"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-						/>
-						<NormalInput
-							id="password"
-							label="Senha"
-							type="password"
-							placeholder="Senha de Usuário"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-						/>
-						<div className="mb-6">
-							<p className="text-center text-xs font-normal text-slate-400">
-								Não possui cadastro？
-								<a
-									className="cursor-pointer font-bold text-[#4B00E0] underline"
-									href="/cadastrarUsuarios"
-								>
-									Cadastrar aqui
-								</a>
-							</p>
-						</div>
+				<form className="card rounded-lg px-36 py-20 shadow-lg" onSubmit={handleSubmit}>
+					<Title
+						title="Login"
+						colorHex="#4B00E0"
+						subtitle="Entre com seu email e senha para acessar o painel de controle"
+					/>
 
-						<DefaultButton
-							label="Avançar"
-							backgroundColorHex="#5321BF"
-							icon={<BsStar />}
-							type="submit"
+					<div className="mb-4 flex flex-col items-center gap-5">
+						<NormalInput
+							label="E-mail:"
+							type="email"
+							id="email"
+							name="email"
+							customWidth="100%"
+							value={email}
+							onChange={handleChangeEmail}
 						/>
-					</form>
-				</div>
+						<NormalInput
+							label="Senha:"
+							type="password"
+							id="password"
+							name="password"
+							customWidth="100%"
+							value={password}
+							onChange={handleChangePassword}
+						/>
+
+						<DefaultButton label="Entrar" backgroundColorHex="#4B00E0" type="submit" />
+					</div>
+				</form>
 			</div>
 			<Footer />
 		</div>
 	);
 }
+

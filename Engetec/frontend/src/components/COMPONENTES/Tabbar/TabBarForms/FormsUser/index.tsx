@@ -50,17 +50,19 @@ export default function CadastroUser() {
 	const handleSubmit = async (e: { preventDefault: () => void; }) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post('http://localhost:3001/userProfile', {
+			const response = await axios.post('http://localhost:3031/auth/register/user', {
 				nome: name,
 				email: email,
 				senha: password,
 				cpf: cpf,
-				cargo: cargo,
+				periodo: 'Matutino', // Placeholder, replace with actual value
+				apresentador: false, // Placeholder, replace with actual value
+				curso: curso,
+				instituicao: instituicao,
 			});
-			console.log(response.data);
-			
+			console.log(result.response.data);
 		} catch (error) {
-			console.log(error);
+			console.log(error.response.data);
 		}
 	};
 
