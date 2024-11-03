@@ -1,18 +1,28 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('app_db', 'app_user', 'app_password', {
-  host: '0.0.0.0', // Como a aplicação está fora do Docker, use "localhost"
+
+// LOCAL MYSQL WITH XAMPP
+const sequelize = new Sequelize('egentec', 'root', '', {
+  host: 'localhost',
   dialect: 'mysql',
-  port: 3306, // Porta mapeada no docker-compose.yml
 });
 
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Conexão estabelecida com sucesso.');
-  })
-  .catch((err) => {
-    console.error('Não foi possível conectar ao banco de dados:', err);
-  });
+// =================== MYSQL RUNNING IN CONTAINER ========================
+// const sequelize = new Sequelize('egentec', 'app_user', 'app_password', {
+//   host: '0.0.0.0', // Como a aplicação está fora do Docker, use "localhost"
+//   dialect: 'mysql',
+//   port: 3306, // Porta mapeada no docker-compose.yml
+// });
+
+// sequelize
+//   .authenticate()
+//   .then(() => {
+//     console.log('Conexão estabelecida com sucesso.');
+//   })
+//   .catch((err) => {
+//     console.error('Não foi possível conectar ao banco de dados:', err);
+//   });
+
+// =================== MYSQL RUNNING IN CONTAINER ========================
 
 const Instituicoes = sequelize.define('Instituicoes', {
   nome: { type: DataTypes.STRING, allowNull: false },
