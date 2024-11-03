@@ -1,0 +1,9 @@
+{
+	"extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
+	"plugins": ["prettier"],
+	"rules": {
+		"indent": [2, "tap"],
+		"prettier/prettier": "warn"
+		// "prettier/prettier": [2, { "useTabs": true }]
+	}
+}

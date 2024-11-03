@@ -1,8 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = new Sequelize('egentec', 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql'
+const sequelize = new Sequelize('app_db', 'app_user', 'app_password', {
+  host: '0.0.0.0', // Como a aplicação está fora do Docker, use "localhost"
+  dialect: 'mysql',
+  port: 3306, // Porta mapeada no docker-compose.yml
 });
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Conexão estabelecida com sucesso.');
+  })
+  .catch((err) => {
+    console.error('Não foi possível conectar ao banco de dados:', err);
+  });
 
 const Instituicoes = sequelize.define('Instituicoes', {
   nome: { type: DataTypes.STRING, allowNull: false },
@@ -10,105 +20,116 @@ const Instituicoes = sequelize.define('Instituicoes', {
   status: { type: DataTypes.STRING, allowNull: false },
 });
 
-const UserProfile = sequelize.define('UserProfile', {
-  email: { type: DataTypes.STRING, allowNull: false, unique: true },
-  senha: { type: DataTypes.STRING, allowNull: false },
-  nome: { type: DataTypes.STRING, allowNull: false },
-  cpf: { type: DataTypes.STRING, allowNull: true },
-  validado: { type: DataTypes.BOOLEAN, allowNull: false }
-}, {
-  timestamps: false
-});
-
-const Cargo = sequelize.define('Cargo', {
-  cargo: {
-    type: DataTypes.STRING, 
-    allowNull: false,
-    unique: true
+const UserProfile = sequelize.define(
+  'UserProfile',
+  {
+    email: { type: DataTypes.STRING, allowNull: false, unique: true },
+    senha: { type: DataTypes.STRING, allowNull: false },
+    nome: { type: DataTypes.STRING, allowNull: false },
+    cpf: { type: DataTypes.STRING, allowNull: true },
+    validado: { type: DataTypes.BOOLEAN, allowNull: false },
+  },
+  {
+    timestamps: false,
   }
-}, {
-  timestamps: false
-});
+);
 
-
-const UserCargo = sequelize.define('UserCargo', {
-  idUserProfiles: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: UserProfile,
-      key: 'id'
-    }
-  }, //oia, aqui você tá fazendo as relaçoes por FK; se fala qual o id q tá relacionando e e depois suas propriedades, além do model q você tá chamando
-  idCargo: {
-    type: DataTypes.INTEGER,
-    references: {
-      model: Cargo,
-      key: 'id'
-    }
+const Cargo = sequelize.define(
+  'Cargo',
+  {
+    cargo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
+  },
+  {
+    timestamps: false,
   }
-}, {
-  timestamps: false
-});
+);
 
+const UserCargo = sequelize.define(
+  'UserCargo',
+  {
+    idUserProfiles: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: UserProfile,
+        key: 'id',
+      },
+    }, //oia, aqui você tá fazendo as relaçoes por FK; se fala qual o id q tá relacionando e e depois suas propriedades, além do model q você tá chamando
+    idCargo: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Cargo,
+        key: 'id',
+      },
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
 
-const Token = sequelize.define('Token', {
-  token: { type: DataTypes.STRING, allowNull: false },
-  idUserProfiles: { type: DataTypes.INTEGER, allowNull: false },
-  expiresAt: { type: DataTypes.DATE, allowNull: false }
-}, {
-  timestamps: false
-});
-
+const Token = sequelize.define(
+  'Token',
+  {
+    token: { type: DataTypes.STRING, allowNull: false },
+    idUserProfiles: { type: DataTypes.INTEGER, allowNull: false },
+    expiresAt: { type: DataTypes.DATE, allowNull: false },
+  },
+  {
+    timestamps: false,
+  }
+);
 
 const EditorChefes = sequelize.define('EditorChefes', {
   idInstituicao: {
     type: DataTypes.INTEGER,
     references: {
       model: Instituicoes,
-      key: 'id'
-    }
-  },
-    idUserProfiles: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: UserProfile,
-        key: 'id',
-      },
-      unique: true
+      key: 'id',
     },
-    linkLattes: { type: DataTypes.STRING, allowNull: false },
-    status: { type: DataTypes.STRING, allowNull: false }
+  },
+  idUserProfiles: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: UserProfile,
+      key: 'id',
+    },
+    unique: true,
+  },
+  linkLattes: { type: DataTypes.STRING, allowNull: false },
+  status: { type: DataTypes.STRING, allowNull: false },
 });
-
 
 const Admin = sequelize.define('Admin', {
   idInstituicao: {
     type: DataTypes.INTEGER,
     references: {
       model: Instituicoes,
-      key: 'id'
-    }
-  },
-    idUserProfiles: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: UserProfile,
-        key: 'id',
-      },
-      unique: true
+      key: 'id',
     },
-    linkLattes: { type: DataTypes.STRING, allowNull: false },
-    status: { type: DataTypes.STRING, allowNull: false }
+  },
+  idUserProfiles: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: UserProfile,
+      key: 'id',
+    },
+    unique: true,
+  },
+  linkLattes: { type: DataTypes.STRING, allowNull: false },
+  status: { type: DataTypes.STRING, allowNull: false },
 });
-
 
 const Eventos = sequelize.define('Eventos', {
   idAdmin: {
     type: DataTypes.INTEGER,
     references: {
       model: Admin,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   nome: { type: DataTypes.STRING, allowNull: false },
   nomeURL: { type: DataTypes.STRING, allowNull: false },
@@ -135,28 +156,27 @@ const Eventos = sequelize.define('Eventos', {
   limiteArquivosAutores: { type: DataTypes.INTEGER, allowNull: true },
   limiteAutores: { type: DataTypes.INTEGER, allowNull: true },
   limiteAvaliadores: { type: DataTypes.INTEGER, allowNull: true },
-  modeloApresentacao: { type: DataTypes.STRING, allowNull: true}
+  modeloApresentacao: { type: DataTypes.STRING, allowNull: true },
 });
-
 
 const Ouvintes = sequelize.define('Ouvintes', {
   idUserProfiles: {
     type: DataTypes.INTEGER,
     references: {
       model: UserProfile,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idInstituicao: {
     type: DataTypes.INTEGER,
     references: {
       model: Instituicoes,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   curso: { type: DataTypes.STRING, allowNull: false },
   periodo: { type: DataTypes.STRING, allowNull: false },
-  presenca: { type: DataTypes.BOOLEAN, allowNull: false }
+  presenca: { type: DataTypes.BOOLEAN, allowNull: false },
 });
 
 const Convidados = sequelize.define('Convidados', {
@@ -164,12 +184,12 @@ const Convidados = sequelize.define('Convidados', {
     type: DataTypes.INTEGER,
     references: {
       model: UserProfile,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   funcao: { type: DataTypes.STRING, allowNull: false },
   tempoNecessario: { type: DataTypes.STRING, allowNull: false },
-  periodo: { type: DataTypes.STRING, allowNull: false }
+  periodo: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Autores = sequelize.define('Autores', {
@@ -177,19 +197,19 @@ const Autores = sequelize.define('Autores', {
     type: DataTypes.INTEGER,
     references: {
       model: UserProfile,
-      key: 'id'
-    }
-  },
-    idInstituicao: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Instituicoes,
-        key: 'id'
-      }
+      key: 'id',
     },
-    periodo: { type: DataTypes.STRING, allowNull: false },
-    apresentador: { type: DataTypes.BOOLEAN, allowNull: false },
-    curso: { type: DataTypes.STRING, allowNull: false }
+  },
+  idInstituicao: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: Instituicoes,
+      key: 'id',
+    },
+  },
+  periodo: { type: DataTypes.STRING, allowNull: false },
+  apresentador: { type: DataTypes.BOOLEAN, allowNull: false },
+  curso: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Avaliadores = sequelize.define('Avaliadores', {
@@ -197,45 +217,45 @@ const Avaliadores = sequelize.define('Avaliadores', {
     type: DataTypes.INTEGER,
     references: {
       model: UserProfile,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idInstituicao: {
     type: DataTypes.INTEGER,
     references: {
       model: Instituicoes,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   linkLattes: { type: DataTypes.STRING, allowNull: false },
-  status: { type: DataTypes.STRING, allowNull: false }
+  status: { type: DataTypes.STRING, allowNull: false },
 });
 
-const Organizadores  = sequelize.define('Organizadores ', {
+const Organizadores = sequelize.define('Organizadores ', {
   idInstituicao: {
     type: DataTypes.INTEGER,
     references: {
       model: Instituicoes,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idUserProfiles: {
     type: DataTypes.INTEGER,
     references: {
       model: UserProfile,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idEventos: {
     type: DataTypes.INTEGER,
     references: {
       model: Eventos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   linkLattes: { type: DataTypes.STRING, allowNull: false },
   periodo: { type: DataTypes.STRING, allowNull: false },
-  status: { type: DataTypes.STRING, allowNull: false }
+  status: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Chairs = sequelize.define('Chairs', {
@@ -243,24 +263,24 @@ const Chairs = sequelize.define('Chairs', {
     type: DataTypes.INTEGER,
     references: {
       model: Instituicoes,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idUserProfiles: {
     type: DataTypes.INTEGER,
     references: {
       model: UserProfile,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   linkLattes: { type: DataTypes.STRING, allowNull: false },
   periodo: { type: DataTypes.STRING, allowNull: false },
-  status: { type: DataTypes.STRING, allowNull: false }
+  status: { type: DataTypes.STRING, allowNull: false },
 });
 
 const GrandeAreas = sequelize.define('GrandeAreas', {
   nome: { type: DataTypes.STRING, allowNull: true },
-  descricao: { type: DataTypes.STRING, allowNull: true }
+  descricao: { type: DataTypes.STRING, allowNull: true },
 });
 
 const Areas = sequelize.define('Areas', {
@@ -268,11 +288,11 @@ const Areas = sequelize.define('Areas', {
     type: DataTypes.INTEGER,
     references: {
       model: GrandeAreas,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   nome: { type: DataTypes.STRING, allowNull: true },
-  descricao: { type: DataTypes.STRING, allowNull: true }
+  descricao: { type: DataTypes.STRING, allowNull: true },
 });
 
 const SubAreas = sequelize.define('SubAreas', {
@@ -280,11 +300,11 @@ const SubAreas = sequelize.define('SubAreas', {
     type: DataTypes.INTEGER,
     references: {
       model: Areas,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   nome: { type: DataTypes.STRING, allowNull: true },
-  descricao: { type: DataTypes.STRING, allowNull: true }
+  descricao: { type: DataTypes.STRING, allowNull: true },
 });
 
 const AvaliadorSubAreas = sequelize.define('AvaliadorSubAreas', {
@@ -292,16 +312,16 @@ const AvaliadorSubAreas = sequelize.define('AvaliadorSubAreas', {
     type: DataTypes.INTEGER,
     references: {
       model: Avaliadores,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idSubAreas: {
     type: DataTypes.INTEGER,
     references: {
       model: SubAreas,
-      key: 'id'
-    }
-  }
+      key: 'id',
+    },
+  },
 });
 
 const Especialidades = sequelize.define('Especialidades', {
@@ -309,16 +329,15 @@ const Especialidades = sequelize.define('Especialidades', {
     type: DataTypes.INTEGER,
     references: {
       model: SubAreas,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   nome: { type: DataTypes.STRING, allowNull: false },
-  descricao: { type: DataTypes.STRING, allowNull: false }
+  descricao: { type: DataTypes.STRING, allowNull: false },
 });
 
-
 const CorpoEditoriais = sequelize.define('CorpoEditoriais', {
-  nome : { type: DataTypes.STRING, allowNull: false }
+  nome: { type: DataTypes.STRING, allowNull: false },
 });
 
 const CorpoEditorialEventos = sequelize.define('CorpoEditorialEventos', {
@@ -326,16 +345,16 @@ const CorpoEditorialEventos = sequelize.define('CorpoEditorialEventos', {
     type: DataTypes.INTEGER,
     references: {
       model: Eventos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idCorpoEditoriais: {
     type: DataTypes.INTEGER,
     references: {
       model: CorpoEditoriais,
-      key: 'id'
-    }
-  }
+      key: 'id',
+    },
+  },
 });
 
 const Apoiadores = sequelize.define('Apoiadores', {
@@ -347,16 +366,16 @@ const EventApoiadores = sequelize.define('EventApoiadores', {
     type: DataTypes.INTEGER,
     references: {
       model: Eventos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idApoiadores: {
     type: DataTypes.INTEGER,
     references: {
       model: Apoiadores,
-      key: 'id'
-    }
-  }
+      key: 'id',
+    },
+  },
 });
 
 const Onlines = sequelize.define('Onlines', {
@@ -364,10 +383,10 @@ const Onlines = sequelize.define('Onlines', {
     type: DataTypes.INTEGER,
     references: {
       model: Eventos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
-  link: { type: DataTypes.STRING, allowNull: false }
+  link: { type: DataTypes.STRING, allowNull: false },
 });
 
 const Presenciais = sequelize.define('Presenciais', {
@@ -375,19 +394,18 @@ const Presenciais = sequelize.define('Presenciais', {
     type: DataTypes.INTEGER,
     references: {
       model: Eventos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
-  cep : { type: DataTypes.STRING, allowNull: true },
-  estado : { type: DataTypes.STRING, allowNull: true },
-  local : { type: DataTypes.STRING, allowNull: true },
-  cidade : { type: DataTypes.STRING, allowNull: true }
+  cep: { type: DataTypes.STRING, allowNull: true },
+  estado: { type: DataTypes.STRING, allowNull: true },
+  local: { type: DataTypes.STRING, allowNull: true },
+  cidade: { type: DataTypes.STRING, allowNull: true },
 });
-
 
 const CategoriaArquivos = sequelize.define('CategoriasArquivos', {
   nome: { type: DataTypes.STRING, allowNull: true },
-  descricao: { type: DataTypes.STRING, allowNull: true }
+  descricao: { type: DataTypes.STRING, allowNull: true },
 });
 
 const Arquivos = sequelize.define('Arquivos', {
@@ -395,21 +413,21 @@ const Arquivos = sequelize.define('Arquivos', {
     type: DataTypes.INTEGER,
     references: {
       model: Eventos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idCategoriaArquivos: {
     type: DataTypes.INTEGER,
     references: {
       model: CategoriaArquivos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   normasPublicacaos: { type: DataTypes.STRING, allowNull: true },
   modeloArquivo: { type: DataTypes.STRING, allowNull: true },
-  apresentacao : { type: DataTypes.BOOLEAN, allowNull: true },
+  apresentacao: { type: DataTypes.BOOLEAN, allowNull: true },
   avalicao: { type: DataTypes.BOOLEAN, allowNull: true },
-  reenvio: { type: DataTypes.BOOLEAN, allowNull: true }
+  reenvio: { type: DataTypes.BOOLEAN, allowNull: true },
 });
 
 const ArquivoSubmetidos = sequelize.define('ArquivoSubmetidos', {
@@ -417,26 +435,25 @@ const ArquivoSubmetidos = sequelize.define('ArquivoSubmetidos', {
     type: DataTypes.INTEGER,
     references: {
       model: CategoriaArquivos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idEventos: {
     type: DataTypes.INTEGER,
     references: {
       model: Eventos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
 
-  titulo:  { type: DataTypes.STRING, allowNull: false },
-  resumo:  { type: DataTypes.STRING, allowNull: true },
-  bastract:  { type: DataTypes.STRING, allowNull: true },
-  palavrasChaves:  { type: DataTypes.STRING, allowNull: true },
-  keyWords:  { type: DataTypes.STRING, allowNull: true },
-  arquivoCompleto:  { type: DataTypes.STRING, allowNull: true },
-  arquivoSemAutoria:  { type: DataTypes.STRING, allowNull: true },
-  status:  { type: DataTypes.BOOLEAN, allowNull: true },
-
+  titulo: { type: DataTypes.STRING, allowNull: false },
+  resumo: { type: DataTypes.STRING, allowNull: true },
+  bastract: { type: DataTypes.STRING, allowNull: true },
+  palavrasChaves: { type: DataTypes.STRING, allowNull: true },
+  keyWords: { type: DataTypes.STRING, allowNull: true },
+  arquivoCompleto: { type: DataTypes.STRING, allowNull: true },
+  arquivoSemAutoria: { type: DataTypes.STRING, allowNull: true },
+  status: { type: DataTypes.BOOLEAN, allowNull: true },
 });
 
 const Avaliacoes = sequelize.define('Avaliacoes', {
@@ -444,15 +461,15 @@ const Avaliacoes = sequelize.define('Avaliacoes', {
     type: DataTypes.INTEGER,
     references: {
       model: ArquivoSubmetidos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idAvaliadores: {
     type: DataTypes.INTEGER,
     references: {
       model: Avaliadores,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
 
   comentarioOrg: { type: DataTypes.TEXT, allowNull: false },
@@ -468,9 +485,7 @@ const Avaliacoes = sequelize.define('Avaliacoes', {
   notaAnaliseResultados: { type: DataTypes.INTEGER, allowNull: false },
   notaConclusoes: { type: DataTypes.INTEGER, allowNull: false },
   notaContribuicaoCientifica: { type: DataTypes.INTEGER, allowNull: false },
-  notaRedacaoOrganizacao: { type: DataTypes.INTEGER, allowNull: false }
-
-
+  notaRedacaoOrganizacao: { type: DataTypes.INTEGER, allowNull: false },
 });
 
 const AutorArquivos = sequelize.define('AutorArquivos', {
@@ -478,15 +493,15 @@ const AutorArquivos = sequelize.define('AutorArquivos', {
     type: DataTypes.INTEGER,
     references: {
       model: Autores,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idArquivo: {
     type: DataTypes.INTEGER,
     references: {
       model: ArquivoSubmetidos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
 });
 
@@ -495,16 +510,16 @@ const ArquivoEspecialidades = sequelize.define('ArquivoEspecialidades', {
     type: DataTypes.INTEGER,
     references: {
       model: ArquivoSubmetidos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
 
   idEspecialidades: {
     type: DataTypes.INTEGER,
     references: {
       model: Especialidades,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
 });
 
@@ -513,18 +528,18 @@ const RespostasAvaliacoes = sequelize.define('RespostasAvaliacoes', {
     type: DataTypes.INTEGER,
     references: {
       model: Avaliadores,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
   idArquivosSubmetidos: {
     type: DataTypes.INTEGER,
     references: {
       model: ArquivoSubmetidos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
 
-  respostas: { type: DataTypes.STRING, allowNull: false }
+  respostas: { type: DataTypes.STRING, allowNull: false },
 });
 
 const EventoAvaliadores = sequelize.define('EventoAvaliadores', {
@@ -532,96 +547,98 @@ const EventoAvaliadores = sequelize.define('EventoAvaliadores', {
     type: DataTypes.INTEGER,
     references: {
       model: Eventos,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
 
   idAvaliadores: {
     type: DataTypes.INTEGER,
     references: {
       model: Avaliadores,
-      key: 'id'
-    }
+      key: 'id',
+    },
   },
-
 });
 
-const CertificadosAvaliadores = sequelize.define("CertificadosAvaliadores", {
+const CertificadosAvaliadores = sequelize.define('CertificadosAvaliadores', {
   idArquivosSubmetidos: {
     type: DataTypes.INTEGER,
     references: {
       model: ArquivoSubmetidos,
-      key: "id",
+      key: 'id',
     },
   },
   idAvaliadores: {
     type: DataTypes.INTEGER,
     references: {
       model: Avaliadores,
-      key: "id",
+      key: 'id',
     },
   },
 
   certificado: { type: DataTypes.STRING, allowNull: false },
   dataEmissao: { type: DataTypes.DATE, allowNull: false },
-  hash: { type: DataTypes.STRING, allowNull: false }
+  hash: { type: DataTypes.STRING, allowNull: false },
 });
 
+const UserEvento = sequelize.define(
+  'UserEvento',
+  {
+    idUserProfile: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: UserProfile,
+        key: 'id',
+      },
+      allowNull: false,
+    },
+    idEvento: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Eventos,
+        key: 'id',
+      },
+      allowNull: false,
+    },
+    cargos: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-const UserEvento = sequelize.define('UserEvento', {
+const TokenEventos = sequelize.define('TokenEventos', {
+  token: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   idUserProfile: {
     type: DataTypes.INTEGER,
     references: {
       model: UserProfile,
-      key: 'id'
+      key: 'id',
     },
-    allowNull: false
   },
-  idEvento: {
+  idUserEvento: {
     type: DataTypes.INTEGER,
     references: {
-      model: Eventos,
-      key: 'id'
+      model: UserEvento,
+      key: 'id',
     },
-    allowNull: false
   },
-  cargos: {
-    type: DataTypes.STRING,
-    allowNull: false
-  }
-}, {
-  timestamps: true
+  expiresAt: {
+    type: DataTypes.DATE,
+    allowNull: false,
+  },
 });
 
-  const TokenEventos = sequelize.define('TokenEventos', {
-    token: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    idUserProfile: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: UserProfile,
-          key: 'id'
-        }
-      },
-    idUserEvento: {
-        type: DataTypes.INTEGER,
-        references: {
-          model: UserEvento,
-          key: 'id'
-        }
-      },
-    expiresAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-    },
+UserProfile.belongsToMany(Cargo, {
+  through: UserCargo,
+  foreignKey: 'idUserProfiles',
 });
-
-
-
-
-UserProfile.belongsToMany(Cargo, { through: UserCargo, foreignKey: 'idUserProfiles' });
 Cargo.belongsToMany(UserProfile, { through: UserCargo, foreignKey: 'idCargo' });
 
 Eventos.hasMany(UserEvento, { foreignKey: 'idEvento' });
@@ -630,20 +647,58 @@ UserEvento.belongsTo(Eventos, { foreignKey: 'idEvento' });
 UserEvento.belongsTo(Cargo, { foreignKey: 'cargos', targetKey: 'cargo' });
 Cargo.hasMany(UserEvento, { foreignKey: 'cargos' });
 
-Admin.belongsTo(UserProfile, { foreignKey: 'idUserProfiles' });  // Admin pertence a um UserProfile
-UserProfile.hasOne(Admin, { foreignKey: 'idUserProfiles' });  // Um UserProfile tem um Admin
+Admin.belongsTo(UserProfile, { foreignKey: 'idUserProfiles' }); // Admin pertence a um UserProfile
+UserProfile.hasOne(Admin, { foreignKey: 'idUserProfiles' }); // Um UserProfile tem um Admin
 
 Admin.hasMany(Eventos, {
   foreignKey: 'idAdmin', // Chave estrangeira que faz referência ao Admin
-  sourceKey: 'id' // Chave primária no modelo Admin
+  sourceKey: 'id', // Chave primária no modelo Admin
 });
 
 Eventos.belongsTo(Admin, {
   foreignKey: 'idAdmin', // Chave estrangeira que faz referência ao Admin
-  targetKey: 'id' // Chave primária no modelo Admin
+  targetKey: 'id', // Chave primária no modelo Admin
 });
 
 sequelize.sync();
 
 // Não esqueçam
-module.exports = {Admin, CertificadosAvaliadores,UserEvento, TokenEventos,  EventoAvaliadores, RespostasAvaliacoes, ArquivoEspecialidades, AutorArquivos, ArquivoSubmetidos, Avaliacoes, UserProfile, Cargo, Token, UserCargo, Instituicoes, EditorChefes, Eventos, Ouvintes, Areas, SubAreas, GrandeAreas, AvaliadorSubAreas, Especialidades, CorpoEditoriais, CorpoEditorialEventos, Apoiadores, EventApoiadores, Onlines, Presenciais, CategoriaArquivos, Arquivos, Convidados, Autores, Organizadores, Chairs , Avaliadores, sequelize };
+module.exports = {
+  Admin,
+  CertificadosAvaliadores,
+  UserEvento,
+  TokenEventos,
+  EventoAvaliadores,
+  RespostasAvaliacoes,
+  ArquivoEspecialidades,
+  AutorArquivos,
+  ArquivoSubmetidos,
+  Avaliacoes,
+  UserProfile,
+  Cargo,
+  Token,
+  UserCargo,
+  Instituicoes,
+  EditorChefes,
+  Eventos,
+  Ouvintes,
+  Areas,
+  SubAreas,
+  GrandeAreas,
+  AvaliadorSubAreas,
+  Especialidades,
+  CorpoEditoriais,
+  CorpoEditorialEventos,
+  Apoiadores,
+  EventApoiadores,
+  Onlines,
+  Presenciais,
+  CategoriaArquivos,
+  Arquivos,
+  Convidados,
+  Autores,
+  Organizadores,
+  Chairs,
+  Avaliadores,
+  sequelize,
+};

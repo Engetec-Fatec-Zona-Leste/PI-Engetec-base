@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  mysql_db:
+    image: mysql:8.0
+    ports:
+      - '3306:3306'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    volumes:
+      - database:/var/lib/mysql
+    networks:
+      - database_network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - '8989:80'
+    environment:
+      PMA_HOST: mysql_db
+      PMA_PORT: 3306
+    depends_on:
+      - mysql_db
+
+networks:
+  database_network:
+    driver: bridge
+volumes:
+  database:
+    driver: local
