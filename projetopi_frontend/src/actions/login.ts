@@ -2,12 +2,11 @@
 import baseURL from "./configUrl"
 
 export const login = async (formData: FormData) => {
-    const res = await baseURL.post(`/login`, {
+    const res = await baseURL.post(`/auth/login`, {
         email: formData.get('email'),
-        senha: formData.get('password'),
+        senha: formData.get('senha'),
     })
 
     const token = res.data
-
 
 }
