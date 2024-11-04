@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { decrypt } from '@/_actions/sessions'
 import { cookies } from 'next/headers'
+// import { redirect } from 'next/navigation'
 
 const protectedRoutes = ['/dashboard']
 const publicRoutes = ['/', '/cadastros-publicos', '/criar-evento', '/eventos', '/login']
@@ -13,8 +14,17 @@ export default async function middleware(req: NextRequest) {
     // const isPublicRoute = publicRoutes.includes(path)
 
     // 3. Decrypt the session from the cookie
-    const cookie = (await cookies()).get('session')?.value
+    // const cookie = cookies().get('session')?.value
+    const cookie = req.cookies.get('session')?.value
+    console.log(cookie)
     const session = await decrypt(cookie)
+
+    // if (session?.userId && session?.role == 'Admin') {
+    //     redirect('/dashboard/meus-eventos-criados')
+    // }
+    // if (session?.userId && session?.role == 'Avaliador') {
+    //     redirect('/dashboard/avaliar-artigo')
+    // }
 
     // 4. Redirect to /login if the user is not authenticated
     if (isProtectedRoute && !session?.userId) {

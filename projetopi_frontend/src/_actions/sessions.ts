@@ -20,24 +20,7 @@ export async function encrypt(payload: SessionPayload) {
         .setExpirationTime('7d')
         .sign(encodedKey)
 }
-export async function encryptPassword(password: string) {
-    return new SignJWT({ password })
-        .setProtectedHeader({ alg: 'HS256' })
-        .setIssuedAt()
-        .setExpirationTime('7d')
-        .sign(encodedKey)
-}
 
-export async function decryptPassword(hashpassword: string) {
-    try {
-        const { payload } = await jwtVerify(hashpassword, encodedKey, {
-            algorithms: ['HS256'],
-        })
-        return payload
-    } catch (error) {
-        console.log('Failed to verify session')
-    }
-}
 export async function decrypt(session: string | undefined = '') {
     try {
         const { payload } = await jwtVerify(session, encodedKey, {
@@ -45,7 +28,7 @@ export async function decrypt(session: string | undefined = '') {
         })
         return payload
     } catch (error) {
-        console.log('Failed to verify session')
+        console.log('Failed to verify session, ', error)
     }
 }
 
@@ -58,7 +41,7 @@ export async function createSession(userId: string, role: string) {
         session,
         {
             httpOnly: true,
-            secure: true,
+            secure: false,
             expires: expiresAt,
             sameSite: 'lax',
             path: '/',

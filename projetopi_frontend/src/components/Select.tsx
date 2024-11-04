@@ -43,7 +43,7 @@ const Select: React.FC<CustomSelectInputProps> = ({
 				{options.map((area, index) => {
 					return (
 						<option
-							value={area.label}
+							value={area.value}
 							key={index}
 							selected={preSelect == index}
 						>

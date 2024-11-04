@@ -5,14 +5,19 @@ import { redirect } from "next/navigation"
 
 export const login = async (formData: FormData) => {
     baseURL.post(`/auth/login`, {
-        email: formData.get('email'),
-        senha: formData.get('senha'),
+        email: formData.get('email'), // name do campo no form
+        senha: formData.get('senha'), // name do campo no form
     }).then(res => {
         const { token, role } = res.data
         // const roles = ['Admin', 'Editor', 'Avaliador', 'Autor']
-        createSession(token, role)
+        console.log(token, role)
+        createSession(token, role ? role : ['Autor'])
+        if (role == 'Admin') {
+            redirect('/dashboard/meus-eventos-criados')
+        }
+        if (role == 'Avaliador') {
+            redirect('/dashboard/avaliar-artigo')
+        }
         redirect('/eventos') // nao sei pra qual rota vai dps
     })
-
-
 }

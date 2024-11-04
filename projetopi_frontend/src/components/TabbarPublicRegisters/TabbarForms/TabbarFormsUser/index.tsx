@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
+// import baseURL from '@/_actions/configUrl';
 import { registerUser } from '@/_actions/registerUser';
 import DefaultButton from '@/components/DefaultButton';
 import NormalInput from '@/components/NormalInput';
@@ -18,6 +19,8 @@ export default function CadastroUser({ eventId }: CadastroUserProps) {
 
 	const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
 	const [periodo, setPeriodo] = useState('');
+
+	// baseURL.get('')
 
 	return (
 		<div className="container-submenu">
@@ -125,7 +128,11 @@ export default function CadastroUser({ eventId }: CadastroUserProps) {
 						</p>
 					</div>
 					<div className="flex items-center justify-center gap-5">
-						<DefaultButton backgroundColorHex="#8A8A8A" label="Voltar" />
+						<DefaultButton
+							backgroundColorHex="#8A8A8A"
+							label="Voltar"
+							onClick={() => router.back()}
+						/>
 						<DefaultButton
 							backgroundColorHex="#4B00E0"
 							label="Cadastrar"

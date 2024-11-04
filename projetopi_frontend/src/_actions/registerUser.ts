@@ -4,27 +4,17 @@ import baseURL from "./configUrl"
 
 export const registerUser = async (formData: FormData) => {
     baseURL.post(`/auth/register/user`, {
-        email: formData.get('email'),
-        nome: formData.get('nome'),
-        senha: formData.get('senha'),
-        cpf: formData.get('cpf'),
-        periodo: formData.get('periodo'),
-        apresentador: formData.get('apresentador'),
-        curso: formData.get('curso'),
-        instituicao: formData.get('instituicao'),
+        email: formData.get('email'), // name do campo no form
+        nome: formData.get('nome'), // name do campo no form
+        senha: formData.get('senha'), // name do campo no form
+        cpf: formData.get('cpf'), // name do campo no form
+        periodo: formData.get('periodo'), // name do campo no form
+        apresentador: false, // name do campo no form
+        curso: formData.get('curso'), // name do campo no form
+        instituicao: formData.get('instituicao'), // name do campo no form
+    }).then(res => {
+        console.log('cadastro feito: ', res.data)
     })
-
-    redirect('/login')
-    // console.log({
-    //     email: formData.get('email'),
-    //     nome: formData.get('nome'),
-    //     senha: formData.get('senha'),
-    //     cpf: formData.get('cpf'),
-    //     periodo: formData.get('periodo'),
-    //     apresentador: formData.get('apresentador'),
-    //     curso: formData.get('curso'),
-    //     instituicao: formData.get('instituicao'),
-    // })
-
+    // redirect('/login')
 }
 
