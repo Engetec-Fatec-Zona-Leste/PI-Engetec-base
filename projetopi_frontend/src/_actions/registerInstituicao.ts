@@ -1,12 +1,19 @@
-'use server' // just use for user actions that are called for do POST, UPDATE and DELETE forms fields
-import baseURL from "./configUrl"
+// src/_actions/registerInstituicao.ts
+'use server';
+
+import baseURL from './configUrl';
 
 export const registerInstituicao = async (formData: FormData) => {
-    baseURL.post(`/cadastrar/instituicao`, {
-        nome: formData.get('nome'), // name do campo no form
-        cnpj: formData.get('cnpj'), // name do campo no form
-    }).then(res => {
-        console.log('instituicao cadastrada', res.data)
-    })
-}
+    try {
+        const response = await baseURL.post(`/cadastrar/instituicao`, {
+            nome: formData.get('nome'),
+            cnpj: formData.get('cnpj'),
+        });
 
+        console.log('Instituição cadastrada', response.data);
+        return { success: true, message: 'Instituição cadastrada com sucesso!' };
+    } catch (error) {
+        console.error('Erro ao cadastrar instituição:', error);
+        return { success: false, message: 'Erro ao cadastrar a instituição.' };
+    }
+};

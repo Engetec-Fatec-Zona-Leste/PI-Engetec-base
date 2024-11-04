@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import axios from 'axios';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
 import DefaultButton from '@/components/DefaultButton';
@@ -16,9 +17,8 @@ import { cardsData } from '@/mocks/EventCards';
 import { eventThemeMocks } from '@/mocks/EventThemes';
 
 export default function Eventos() {
-	const [authenticated, setAuthenticated] = useState(true);
+	const [authenticated, setAuthenticated] = useState(false);
 	const router = useRouter();
-
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const nextSlide = () => {
@@ -35,6 +35,15 @@ export default function Eventos() {
 
 	const previousIndex =
 		currentIndex === 0 ? cardsData.length - 1 : currentIndex - 1;
+
+	useEffect(() => {
+		const verifySession = async () => {
+			const isAuthenticated = localStorage.getItem('authenticated') === 'true';
+			setAuthenticated(isAuthenticated);
+		};
+
+		verifySession();
+	}, []);
 
 	return (
 		<div>
@@ -56,7 +65,6 @@ export default function Eventos() {
 							Eventos, remotos, presenciais e até híbridos.
 						</h2>
 						<p className="mb-10">
-							{' '}
 							Nosso site oferece todo o suporte para você dono do evento e para
 							todos que desejam participar deles. O site disponibiliza
 							certificados, metodos de avaliação e submissão de artigos para
@@ -133,7 +141,7 @@ export default function Eventos() {
 					</div>
 					<div className="flex justify-around">
 						{eventThemeMocks.map((theme) => (
-							<div className="relative w-[20vw] bg-white p-8">
+							<div key={theme.title} className="relative w-[20vw] bg-white p-8">
 								<div className="absolute left-[-5px] top-[-5px] h-[21vw] w-[21vw]">
 									<Image
 										alt={`Image for ${theme.title}`}

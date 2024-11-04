@@ -6,20 +6,34 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/NavbarAuthenticated';
 import NormalInput from '@/components/NormalInput';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
 
 export default function RegisterInstitutionPage({
 	params,
 }: {
 	params: { idEvento: string };
 }) {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
+
+		// Chame a função do servidor e exiba o toast com base na resposta
+		const result = await registerInstituicao(formData);
+
+		if (result.success) {
+			showToast('success', result.message);
+		} else {
+			showToast('error', result.message);
+		}
+	};
+
 	return (
 		<div>
 			<Navbar />
 			<div className="container">
 				<form
 					className="card rounded-lg px-36 py-20 shadow-lg"
-					action={registerInstituicao}
-					method="POST"
+					onSubmit={handleSubmit}
 				>
 					<Title
 						title={`Cadastrar Instituição no evento ${params.idEvento}`}

@@ -41,10 +41,10 @@ export async function createSession(userId: string, role: string) {
         session,
         {
             httpOnly: true,
-            secure: false,
+            secure: false,  // Use true apenas em produção e com HTTPS
             expires: expiresAt,
-            sameSite: 'lax',
-            path: '/',
+            sameSite: 'lax', // Melhor compatibilidade
+            path: '/',       // Torna o cookie acessível em toda a aplicação
         }
     )
 }

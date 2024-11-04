@@ -1,7 +1,9 @@
 import type { Metadata } from 'next';
 import { Quicksand } from 'next/font/google';
 
+import Favicon from '@/assets/logo.svg';
 import ScreenProvider from '@/contexts/ScreenProvider';
+import ToastProvider from '@/contexts/ToastProvider';
 
 import StyledComponentsRegistry from '../lib/registry';
 import './globals.css';
@@ -14,6 +16,7 @@ const quicksand = Quicksand({
 export const metadata: Metadata = {
 	title: 'Engetec',
 	description: 'Plataforma de eventos',
+	icons: [{ rel: 'icon', url: Favicon.src }],
 };
 
 export default function RootLayout({
@@ -25,7 +28,9 @@ export default function RootLayout({
 		<html lang="pt-br">
 			<body className={quicksand.className + ' bg-[#F4F4F4]'}>
 				<StyledComponentsRegistry>
-					<ScreenProvider>{children}</ScreenProvider>
+					<ScreenProvider>
+						<ToastProvider>{children}</ToastProvider>
+					</ScreenProvider>
 				</StyledComponentsRegistry>
 			</body>
 		</html>
