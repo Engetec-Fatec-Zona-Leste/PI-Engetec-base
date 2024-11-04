@@ -1,3 +1,5 @@
+'use client';
+
 import Footer from '@/components/Footer';
 import NavbarAuthenticated from '@/components/NavbarAuthenticated';
 import Tabbar from '@/components/TabbarPublicRegisters';

@@ -1,6 +1,8 @@
+'use client';
+
 import { BsStar } from 'react-icons/bs';
 
-import { login } from '@/actions/login';
+import { login } from '@/_actions/login';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
@@ -15,6 +17,7 @@ export default function LoginPage() {
 					<form
 						className="form flex flex-col items-center bg-white px-5 shadow-md"
 						action={login}
+						method="POST"
 					>
 						<h1
 							className="text-center text-2xl font-bold text-black"

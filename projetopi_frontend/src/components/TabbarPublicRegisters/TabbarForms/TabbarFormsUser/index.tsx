@@ -2,12 +2,7 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import {
-	LoginLink,
-	RegisterLink,
-} from '@kinde-oss/kinde-auth-nextjs/components';
-
-import AlertCard from '@/components/AlertCard';
+import { registerUser } from '@/_actions/registerUser';
 import DefaultButton from '@/components/DefaultButton';
 import NormalInput from '@/components/NormalInput';
 import DefaultSelect from '@/components/Select';
@@ -24,24 +19,16 @@ export default function CadastroUser({ eventId }: CadastroUserProps) {
 	const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
 	const [periodo, setPeriodo] = useState('');
 
-	const [showCard, setShowCard] = useState(false);
-
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-	};
-
 	return (
 		<div className="container-submenu">
 			<div className="w-[60vw]">
-				<AlertCard message="Aluno cadastrado com sucesso" show={showCard} />
-
 				<Title
 					title="Cadastro como usuário"
 					subtitle="Cadastro como usuário - Aluno"
 					colorHex="#4B00E0"
 				/>
 
-				<form className="card mt-8 w-full" onSubmit={handleSubmit}>
+				<form className="card mt-8 w-full" action={registerUser} method="POST">
 					<div className="flex flex-wrap items-center justify-center gap-5">
 						<NormalInput
 							id="fullName"
@@ -84,10 +71,8 @@ export default function CadastroUser({ eventId }: CadastroUserProps) {
 						<DefaultSelect
 							label="Instituição Referente"
 							id="institution"
-							name="instituticao"
+							name="instituicao"
 							options={instituicoesMock}
-							// selected={instituicao}
-							// onChange={(e) => setInst(e.target.value)}
 							preSelect={0}
 						/>
 
@@ -96,8 +81,6 @@ export default function CadastroUser({ eventId }: CadastroUserProps) {
 							label="Curso"
 							placeholder="Análise e Desenvolvimento de Sistemas"
 							name="curso"
-							// value={curso}
-							// onChange={(e) => setCurso(e.target.value)}
 							required
 						/>
 

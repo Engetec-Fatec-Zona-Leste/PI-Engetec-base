@@ -4,7 +4,6 @@ import { Quicksand } from 'next/font/google';
 import ScreenProvider from '@/contexts/ScreenProvider';
 
 import StyledComponentsRegistry from '../lib/registry';
-import { AuthProvider } from './AuthProvider';
 import './globals.css';
 
 const quicksand = Quicksand({
@@ -23,14 +22,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<AuthProvider>
-			<html lang="pt-br">
-				<body className={quicksand.className + ' bg-[#F4F4F4]'}>
-					<StyledComponentsRegistry>
-						<ScreenProvider>{children}</ScreenProvider>
-					</StyledComponentsRegistry>
-				</body>
-			</html>
-		</AuthProvider>
+		<html lang="pt-br">
+			<body className={quicksand.className + ' bg-[#F4F4F4]'}>
+				<StyledComponentsRegistry>
+					<ScreenProvider>{children}</ScreenProvider>
+				</StyledComponentsRegistry>
+			</body>
+		</html>
 	);
 }
