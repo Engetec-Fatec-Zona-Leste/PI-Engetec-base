@@ -12,20 +12,7 @@ import DefaultSelect from '@/components/Select';
 import Title from '@/components/Title';
 import { instituicoesMock } from '@/mocks/Instituicoes';
 
-type CadastroEditorChefeProps = {
-	eventId: string;
-};
-
-export default function CadastroEditorChefe({
-	eventId,
-}: CadastroEditorChefeProps) {
-	const [password, setPassword] = useState('');
-	const [confirmpassword, setConfirmpassword] = useState('');
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [cpf, setCpf] = useState('');
-	const [instituicao, setInst] = useState('');
-	const [lattes, setLattes] = useState('');
+export default function CadastroEditorChefe() {
 	const router = useRouter();
 	return (
 		<div className="container-submenu">
@@ -43,15 +30,13 @@ export default function CadastroEditorChefe({
 						label="Nome completo"
 						placeholder="Nome do aluno"
 						required
-						value={name}
-						onChange={(e) => setName(e.target.value)}
+						name="nome"
 					/>
 					<NormalInput
 						id="email"
 						label="E-mail"
 						placeholder="emailuser@email.com"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
+						name="email"
 						type="email"
 						required
 					/>
@@ -60,8 +45,7 @@ export default function CadastroEditorChefe({
 						label="Senha"
 						placeholder="Senha do Usuário"
 						type="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						name="Senha"
 						required
 					/>
 					<NormalInput
@@ -69,8 +53,7 @@ export default function CadastroEditorChefe({
 						label="Confirmar Senha"
 						placeholder="Senha do Usuário"
 						type="password"
-						value={confirmpassword}
-						onChange={(e) => setConfirmpassword(e.target.value)}
+						name="confirmarSenha"
 						required
 					/>
 					<NormalInput
@@ -78,26 +61,22 @@ export default function CadastroEditorChefe({
 						label="CPF"
 						placeholder="CPF do Usuário"
 						type="text"
-						value={cpf}
-						onChange={(e) => setCpf(e.target.value)}
+						name="CPF"
 						required
 					/>
 
 					<DefaultSelect
 						label="Instituição Referente"
 						id="institution"
-						name="institution"
 						options={instituicoesMock}
-						selected={instituicao}
-						onChange={(e) => setInst(e.target.value)}
+						name="institution"
 						preSelect={0}
 					/>
 					<NormalInput
 						id="link"
 						label="Link Lattes"
 						placeholder="https://link.lattes.da.comissão.com"
-						value={lattes}
-						onChange={(e) => setLattes(e.target.value)}
+						name="link"
 						required
 						type="url"
 					/>
@@ -111,7 +90,7 @@ export default function CadastroEditorChefe({
 							className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-red-500"
 							type="button"
 							onClick={() =>
-								router.push(`/criar-evento/${eventId}/cadastrar-instituicao`)
+								router.push(`/criar-evento/12345/cadastrar-instituicao`)
 							}
 						>
 							<TfiPlus height="40px" color="white" />

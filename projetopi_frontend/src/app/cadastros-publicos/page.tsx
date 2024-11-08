@@ -1,20 +1,14 @@
 'use client';
 
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import Tabbar from '@/components/TabbarPublicRegisters';
 
-export default function CadastroPublicUsers({
-	params,
-}: {
-	params: {
-		eventId: string;
-	};
-}) {
+export default function CadastroPublicUsers() {
 	return (
 		<div>
-			<NavbarAuthenticated />
-			<Tabbar/>
+			<Navbar />
+			<Tabbar />
 			<Footer />
 		</div>
 	);

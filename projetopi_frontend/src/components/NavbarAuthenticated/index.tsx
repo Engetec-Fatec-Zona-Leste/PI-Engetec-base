@@ -5,12 +5,15 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+import axios from 'axios';
 import { FaRegUser } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { GoHome, GoSearch } from 'react-icons/go';
 import { IoIosClose } from 'react-icons/io';
 
+import { logout } from '@/_actions/sessions';
 import logo from '@/assets/logo.svg';
+import { showToast } from '@/contexts/ToastProvider';
 
 import { navigationAuthenticatedRoutes } from './routes';
 import * as S from './styles';
@@ -18,7 +21,6 @@ import * as S from './styles';
 export default function NavbarAuthenticated() {
 	const router = useRouter();
 	const [currentOption, setCurrentOption] = useState('/evento/criar-evento');
-	const [query, setQuery] = useState('');
 	const [openMenu, setOpenMenu] = useState(false);
 
 	useEffect(() => {
@@ -99,6 +101,26 @@ export default function NavbarAuthenticated() {
 							))}
 						</div>
 					))}
+					<div>
+						<S.OptionMenu
+							key={15}
+							onClick={async () => {
+								try {
+									localStorage.removeItem('authenticated');
+									const res = await axios.get('/api/logout');
+									showToast('success', res.data.message);
+									router.push('/login');
+								} catch (error) {
+									showToast('error', error?.message);
+								}
+								setOpenMenu(false);
+							}}
+							className="cursor-pointer text-base"
+							selected={currentOption === '/logout'}
+						>
+							Logout
+						</S.OptionMenu>
+					</div>
 				</div>
 			</div>
 		</div>

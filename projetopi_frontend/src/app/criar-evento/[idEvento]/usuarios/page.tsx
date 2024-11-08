@@ -13,6 +13,7 @@ import Footer from '@/components/Footer';
 import NavbarAuthenticated from '@/components/NavbarAuthenticated';
 import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
 import { UsersFunction } from '@/mocks/UserFunctions';
 
 export default function CadastrarUsuario({
@@ -23,7 +24,11 @@ export default function CadastrarUsuario({
 	const router = useRouter();
 	const handleNextButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		// handleNextClick();
+		// await action()
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 		router.push('/dashboard/meus-eventos-criados');
 	};
 
@@ -31,10 +36,19 @@ export default function CadastrarUsuario({
 		setPendentes(true);
 		setAccepted(false);
 		setDeclines(false);
+		setTodos(false);
+	};
+
+	const handleTodos = () => {
+		setTodos(true);
+		setPendentes(false);
+		setAccepted(false);
+		setDeclines(false);
 	};
 
 	const handleAceitos = () => {
 		setPendentes(false);
+		setTodos(false);
 		setAccepted(true);
 		setDeclines(false);
 	};
@@ -42,6 +56,7 @@ export default function CadastrarUsuario({
 	const handleRecusados = () => {
 		setPendentes(false);
 		setAccepted(false);
+		setTodos(false);
 		setDeclines(true);
 	};
 
@@ -68,6 +83,7 @@ export default function CadastrarUsuario({
 		setUsers(updatedUsers);
 	};
 
+	const [todos, setTodos] = useState(false);
 	const [pendentes, setPendentes] = useState(true);
 	const [accepted, setAccepted] = useState(false);
 	const [declined, setDeclines] = useState(false);
@@ -169,60 +185,100 @@ export default function CadastrarUsuario({
 				</div>
 
 				<div className="mt-4 flex w-3/4 justify-between">
-					<div className="flex items-center justify-center gap-3 rounded-lg border-none p-3 shadow-xl">
-						<div>
-							{pendentes ? (
-								<button className="flex flex-row items-center ">
-									<BsHourglassSplit className="text-[2rem]" />
-									<p>Pendentes</p>
-								</button>
-							) : (
-								<button
-									onClick={handlePendente}
-									className="flex items-center gap-2 rounded-xl border-0 border-none p-2 text-white"
-									style={{ backgroundColor: '#DD4467' }}
-								>
-									<BsHourglassSplit className="text-[2rem] text-white" />
+					{organizador ? (
+						<div className="flex items-center justify-center gap-3 rounded-lg border-none p-3 shadow-xl">
+							<div>
+								{pendentes ? (
+									<button className="flex flex-row items-center ">
+										<BsHourglassSplit className="text-[2rem]" />
+										<p>Pendentes</p>
+									</button>
+								) : (
+									<button
+										onClick={handlePendente}
+										className="flex items-center gap-2 rounded-xl border-0 border-none p-2 text-white"
+										style={{ backgroundColor: '#DD4467' }}
+									>
+										<BsHourglassSplit className="text-[2rem] text-white" />
 
-									<p className="">Pendentes</p>
-								</button>
-							)}
+										<p className="">Pendentes</p>
+									</button>
+								)}
+							</div>
+							<div>
+								{accepted ? (
+									<button className="flex flex-row items-center gap-2">
+										<CiCircleCheck className="text-[1.8rem]" />
+										<p>Aceitos</p>
+									</button>
+								) : (
+									<button
+										onClick={handleAceitos}
+										className="flex items-center gap-2 rounded-xl border-0 border-none p-2 text-white"
+										style={{ backgroundColor: '#DD4467' }}
+									>
+										<CiCircleCheck className="text-[1.8rem] text-white" />
+										<p className="">Aceitos</p>
+									</button>
+								)}
+							</div>
+							<div>
+								{declined ? (
+									<button className="flex flex-row items-center gap-2">
+										<CiCircleRemove className="text-[2rem]" />
+										<p>Recusados</p>
+									</button>
+								) : (
+									<button
+										onClick={handleRecusados}
+										className="flex items-center gap-2 rounded-xl border-0 border-none p-2 text-white"
+										style={{ backgroundColor: '#DD4467' }}
+									>
+										<CiCircleRemove className="text-[2rem] text-white" />
+										<p className="">Recusados</p>
+									</button>
+								)}
+							</div>
 						</div>
-						<div>
-							{accepted ? (
-								<button className="flex flex-row items-center gap-2">
-									<CiCircleCheck className="text-[1.8rem]" />
-									<p>Aceitos</p>
-								</button>
-							) : (
-								<button
-									onClick={handleAceitos}
-									className="flex items-center gap-2 rounded-xl border-0 border-none p-2 text-white"
-									style={{ backgroundColor: '#DD4467' }}
-								>
-									<CiCircleCheck className="text-[1.8rem] text-white" />
-									<p className="">Aceitos</p>
-								</button>
-							)}
+					) : (
+						<div className="flex items-center justify-center gap-3 rounded-lg border-none p-3 shadow-xl">
+							<div>
+								{todos ? (
+									<button className="flex flex-row items-center gap-2">
+										<CiCircleCheck className="text-[1.8rem]" />
+										<p>Todos</p>
+									</button>
+								) : (
+									<button
+										onClick={handleTodos}
+										className="flex items-center gap-2 rounded-xl border-0 border-none p-2 text-white"
+										style={{ backgroundColor: '#DD4467' }}
+									>
+										<CiCircleCheck className="text-[1.8rem] text-white" />
+										<p className="">Todos</p>
+									</button>
+								)}
+							</div>
+							<div>
+								{accepted ? (
+									<button className="flex flex-row items-center gap-2">
+										<CiCircleCheck className="text-[1.8rem]" />
+										<p>Aceitos</p>
+									</button>
+								) : (
+									<button
+										onClick={handleAceitos}
+										className="flex items-center gap-2 rounded-xl border-0 border-none p-2 text-white"
+										style={{ backgroundColor: '#DD4467' }}
+									>
+										<CiCircleCheck className="text-[1.8rem] text-white" />
+										<p className="">Aceitos</p>
+									</button>
+								)}
+							</div>
 						</div>
-						<div>
-							{declined ? (
-								<button className="flex flex-row items-center gap-2">
-									<CiCircleRemove className="text-[2rem]" />
-									<p>Recusados</p>
-								</button>
-							) : (
-								<button
-									onClick={handleRecusados}
-									className="flex items-center gap-2 rounded-xl border-0 border-none p-2 text-white"
-									style={{ backgroundColor: '#DD4467' }}
-								>
-									<CiCircleRemove className="text-[2rem] text-white" />
-									<p className="">Recusados</p>
-								</button>
-							)}
-						</div>
-					</div>
+					)}
+
 					<div className="flex flex-col gap-6">
 						<SearchFilter />
 					</div>

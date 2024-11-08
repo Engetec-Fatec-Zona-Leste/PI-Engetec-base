@@ -5,108 +5,25 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { FaRegUser } from 'react-icons/fa';
-import Select from 'react-select';
 
 import DefaultButton from '@/components/DefaultButton';
 import FileInput from '@/components/FileInput';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/NavbarAuthenticated';
 import NormalInput from '@/components/NormalInput';
-import SelectCom from '@/components/Select';
+import Select from '@/components/Select';
 import TextAreaInput from '@/components/TextAreaInput';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
 import { AuthorType } from '@/mocks/Aluno';
-import grandeAreasMock from '@/mocks/Areas';
+import { areas, especialidades, grandesAreas, subAreas } from '@/mocks/Areas';
+import { checkboxPeriodo } from '@/mocks/checkboxes';
 
 export default function SubmeterArquivoPage({
 	params,
 }: {
 	params: { eventId: string };
 }) {
-	const [titulo, setTitulo] = useState('');
-	const [resumo, setResumo] = useState('');
-	const [abstract, setAbstract] = useState('');
-	const [palavras, setPalavras] = useState('');
-	const [words, setWords] = useState('');
-	const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
-	const [selectedGrandeArea, setSelectedGrandeArea] =
-		useState<GrandeArea | null>(null);
-	const [selectedArea, setSelectedArea] = useState<Area | null>(null);
-	const [selectedSubArea, setSelectedSubArea] = useState<SubArea | null>(null);
-	const [selectedEspecialidade, setSelectedEspecialidade] =
-		useState<Especialidade | null>(null);
-
-	const grandeAreaOptions = grandeAreasMock.map((grandeArea) => ({
-		value: grandeArea.nome,
-		label: grandeArea.nome,
-		grandeArea: grandeArea,
-	}));
-
-	const areaOptions = selectedGrandeArea
-		? selectedGrandeArea.areas.map((area) => ({
-				value: area.nome,
-				label: area.nome,
-				area: area,
-		  }))
-		: [];
-
-	const subAreaOptions = selectedArea
-		? selectedArea.subAreas.map((subArea) => ({
-				value: subArea.nome,
-				label: subArea.nome,
-				subArea: subArea,
-		  }))
-		: [];
-
-	const especialidadeOptions = selectedSubArea
-		? selectedSubArea.especialidades.map((especialidade) => ({
-				value: especialidade.nome,
-				label: especialidade.nome,
-		  }))
-		: [];
-
-	const handleGrandeAreaChange = (selectedOption: any) => {
-		setSelectedGrandeArea(selectedOption ? selectedOption.grandeArea : null);
-		setSelectedArea(null);
-		setSelectedSubArea(null);
-		setSelectedEspecialidade(null);
-	};
-
-	const handleAreaChange = (selectedOption: any) => {
-		setSelectedArea(selectedOption ? selectedOption.area : null);
-		setSelectedSubArea(null);
-		setSelectedEspecialidade(null);
-	};
-
-	const handleSubAreaChange = (selectedOption: any) => {
-		setSelectedSubArea(selectedOption ? selectedOption.subArea : null);
-		setSelectedEspecialidade(null);
-	};
-
-	const handleEspecialidadeChange = (selectedOption: any) => {
-		setSelectedEspecialidade(selectedOption || null);
-	};
-	type Especialidade = {
-		nome: string;
-	};
-
-	type SubArea = {
-		nome: string;
-		especialidades: Especialidade[];
-	};
-
-	type Area = {
-		nome: string;
-		subAreas: SubArea[];
-	};
-
-	type GrandeArea = {
-		nome: string;
-		areas: Area[];
-	};
-
-	const grandeAreas: GrandeArea[] = grandeAreasMock;
-
 	const router = useRouter();
 
 	const [authors, setAuthors] = useState<AuthorType[]>([]);
@@ -143,6 +60,12 @@ export default function SubmeterArquivoPage({
 
 	const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		// action(formData, authors)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 	};
 
 	return (
@@ -161,24 +84,21 @@ export default function SubmeterArquivoPage({
 								id="title"
 								label="Título"
 								placeholder="Título do artigo"
-								value={titulo}
-								onChange={(e) => setTitulo(e.target.value)}
+								name="titulo"
 							/>
 
 							<NormalInput
 								id="palavras"
 								label="Palavras-Chaves"
 								placeholder="Artigo, Análise Científica, etc..."
-								value={palavras}
-								onChange={(e) => setPalavras(e.target.value)}
+								name="palavras"
 							/>
 
 							<TextAreaInput
 								id="resumo"
 								label="Resumo"
 								placeholder="Resumo do artigo"
-								value={resumo}
-								onChange={(e) => setResumo(e.target.value)}
+								name="resumo"
 								rows={5}
 							/>
 
@@ -186,8 +106,7 @@ export default function SubmeterArquivoPage({
 								id="abstract"
 								label="Abstract"
 								placeholder="Summary of article"
-								value={abstract}
-								onChange={(e) => setAbstract(e.target.value)}
+								name="abstract"
 								rows={5}
 							/>
 
@@ -195,76 +114,40 @@ export default function SubmeterArquivoPage({
 								id="words"
 								label="Key-Words"
 								placeholder="Plástico, Polímeros, Isopor"
-								value={words}
-								onChange={(e) => setWords(e.target.value)}
+								name="words"
 							/>
 
 							<>
-								<div className="mb-5 flex w-[45%] flex-col">
-									<label
-										className="mb-2 text-sm font-medium"
-										htmlFor="grandeArea"
-									>
-										Grande Área
-									</label>
-									<Select
-										options={grandeAreaOptions}
-										onChange={handleGrandeAreaChange}
-										placeholder="Selecione uma Grande Área"
-										styles={customStyles}
-										isClearable
-										id="grandeArea"
-									/>
-								</div>
+								<Select
+									options={grandesAreas}
+									placeholder="Selecione uma Grande Área"
+									label="Grandes Área"
+									preSelect={0}
+									name="grandes-areas"
+								/>
+								<Select
+									options={areas}
+									placeholder="Selecione uma Área"
+									id="area"
+									label="Área"
+									preSelect={0}
+									name="area"
+								/>
 
-								<div className="mb-5 flex w-[45%] flex-col">
-									<label className="mb-2 text-sm font-medium" htmlFor="area">
-										Área
-									</label>
-
-									<Select
-										options={areaOptions}
-										onChange={handleAreaChange}
-										placeholder="Selecione uma Área"
-										styles={customStyles}
-										isClearable
-										isDisabled={!selectedGrandeArea}
-										id="area"
-									/>
-								</div>
-
-								<div className="mb-5 flex w-[45%] flex-col">
-									<label className="mb-2 text-sm font-medium" htmlFor="subArea">
-										Sub Área
-									</label>
-									<Select
-										options={subAreaOptions}
-										onChange={handleSubAreaChange}
-										placeholder="Selecione uma SubÁrea"
-										styles={customStyles}
-										isClearable
-										isDisabled={!selectedArea}
-										id="subArea"
-									/>
-								</div>
-
-								<div className="mb-5 flex w-[45%] flex-col">
-									<label
-										className="mb-2 text-sm font-medium"
-										htmlFor="especialidade"
-									>
-										Especialidade
-									</label>
-									<Select
-										options={especialidadeOptions}
-										onChange={handleEspecialidadeChange}
-										placeholder="Selecione uma Especialidade"
-										styles={customStyles}
-										isClearable
-										isDisabled={!selectedSubArea}
-										id="especialidade"
-									/>
-								</div>
+								<Select
+									options={subAreas}
+									placeholder="Selecione uma SubÁrea"
+									label="Sub Área"
+									preSelect={0}
+									name="area"
+								/>
+								<Select
+									options={especialidades}
+									placeholder="Selecione uma Especialidade"
+									label="Especialidade"
+									preSelect={0}
+									name="area"
+								/>
 							</>
 						</div>
 
@@ -292,7 +175,7 @@ export default function SubmeterArquivoPage({
 									<p>Autor</p>
 								</div>
 
-								<SelectCom
+								<Select
 									value={authors[newAuthor.id]?.period}
 									onChange={(e) =>
 										handleAuthorCheckPeriodChange(newAuthor.id, e.target.value)
@@ -347,7 +230,7 @@ export default function SubmeterArquivoPage({
 							<DefaultButton
 								label="Enviar"
 								backgroundColorHex="#4B00E0"
-								onClick={() => router.push('/dashboard/meus-arquivos')}
+								onClick={() => router.push('/areal-dashboard/meus-arquivos')}
 							/>
 						</div>
 					</form>

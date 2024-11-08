@@ -1,10 +1,10 @@
 'use client';
 
-import CriarAreaConhecimento from '../criar-area-conhecimento';
-import CriarEspecialide from '../criar-especialidade';
-import CriarGrandeAreaConhecimento from '../criar-grande-area';
-import CriarSubAreaConhecimento from '../criar-sub-area';
-import SearchComponent from '../pesquisar';
+import CriarAreaConhecimento from '../_criar-area-conhecimento';
+import CriarEspecialide from '../_criar-especialidade';
+import CriarGrandeAreaConhecimento from '../_criar-grande-area';
+import CriarSubAreaConhecimento from '../_criar-sub-area';
+import SearchComponent from '../_pesquisar';
 import * as S from './styles';
 
 type SelectAreaProps = {

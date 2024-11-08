@@ -6,19 +6,20 @@ interface CustomIncrementInputProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {
 	label: string;
 	customWidth?: string;
-	arrayValue: string[];
-	setArrayValue: Dispatch<SetStateAction<string[]>>;
+	arrayValue?: string[];
+	setArrayValue?: Dispatch<SetStateAction<string[]>>;
 }
 
 const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 	label,
 	customWidth,
-	arrayValue,
-	setArrayValue,
+	// arrayValue,
+	// setArrayValue,
 	...inputProps
 }) => {
 	// const [arrayValue, setArrayValue] = useState(['']);
 	const [ass, setAss] = useState(['']);
+	const [arrayValue, setArrayValue] = useState(['']);
 	const handleAddItem = (
 		setArrayValue: React.Dispatch<React.SetStateAction<string[]>>
 	) => {
@@ -92,7 +93,7 @@ const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 								<input
 									className="w-full rounded-md border-0 bg-white text-sm outline-none"
 									type="text"
-									name="arrayValue"
+									name={`${inputProps.name}[]`}
 									value={area}
 									onChange={(e) =>
 										handleInputChange(index, e.target.value, setArrayValue)

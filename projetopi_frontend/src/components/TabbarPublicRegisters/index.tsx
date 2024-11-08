@@ -3,16 +3,11 @@
 import { useState } from 'react';
 
 import CadastroComissaoAvaliador from './TabbarForms/TabbarFormsComissaoAvaliador';
-import CadastroComissaoOrganizador from './TabbarForms/TabbarFormsComissaoOrganizador';
 import CadastroEditorChefe from './TabbarForms/TabbarFormsEditorChefe';
 import CadastroUser from './TabbarForms/TabbarFormsUser';
 import * as S from './styles';
 
-type TabbarProps = {
-	eventId: string;
-};
-
-export default function Tabbar({ eventId }: TabbarProps) {
+export default function Tabbar() {
 	const [currentOption, setCurrentOption] = useState('cadastrar-user');
 
 	const handleOptionClick = (option: string) => {
@@ -21,13 +16,11 @@ export default function Tabbar({ eventId }: TabbarProps) {
 	const renderContent = () => {
 		switch (currentOption) {
 			case 'cadastrar-user':
-				return <CadastroUser/>;
+				return <CadastroUser />;
 			case 'cadastrar-comissao-avaliadora':
-				return <CadastroComissaoAvaliador eventId={eventId} />;
-			case 'cadastrar-comissao-organizadora':
-				return <CadastroComissaoOrganizador eventId={eventId} />;
+				return <CadastroComissaoAvaliador />;
 			case 'cadastrar-editorchefe':
-				return <CadastroEditorChefe eventId={eventId} />;
+				return <CadastroEditorChefe />;
 			default:
 				return null;
 		}
@@ -56,20 +49,6 @@ export default function Tabbar({ eventId }: TabbarProps) {
 						</S.OptionMenu>
 						<S.IconComission
 							selected={currentOption === 'cadastrar-comissao-avaliadora'}
-						/>
-					</div>
-					<div className="flex items-center gap-2">
-						<S.OptionMenu
-							onClick={() =>
-								handleOptionClick('cadastrar-comissao-organizadora')
-							}
-							className="flex-shrink-0 cursor-pointer text-sm"
-							selected={currentOption === 'cadastrar-comissao-organizadora'}
-						>
-							Cadastrar Comissão Organizadora
-						</S.OptionMenu>
-						<S.IconComission
-							selected={currentOption === 'cadastrar-comissao-organizadora'}
 						/>
 					</div>
 					<div className="flex items-center gap-2">

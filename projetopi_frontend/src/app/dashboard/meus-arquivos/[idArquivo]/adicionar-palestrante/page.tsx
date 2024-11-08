@@ -23,6 +23,12 @@ export default function AdicionarPalestrantePage({
 	};
 }) {
 	const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
+<<<<<<<< HEAD:src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
+<<<<<<<< Updated upstream:src/app/dashboard/adicionar-palestrante/page.tsx
+	const [palestrante, setPalestrante] = useState(false);
+========
+========
+>>>>>>>> merge-of-prs:src/app/areal-dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
 	const router = useRouter();
 
 	const handleAddAuthor = (e: React.FormEvent<HTMLFormElement>) => {
@@ -33,7 +39,11 @@ export default function AdicionarPalestrantePage({
 			'idPalestrantes: ',
 			selectedSpeakers
 		);
+<<<<<<<< HEAD:src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
 		router.push('/dashboard/meus-arquivos');
+========
+		router.push('/areal-dashboard/meus-arquivos');
+>>>>>>>> merge-of-prs:src/app/areal-dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
 		// backend tasks
 	};
 
@@ -45,6 +55,10 @@ export default function AdicionarPalestrantePage({
 				: [...prevSelected, studentId]
 		);
 	};
+<<<<<<<< HEAD:src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
+>>>>>>>> Stashed changes:src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
+========
+>>>>>>>> merge-of-prs:src/app/areal-dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
 
 	return (
 		<div>

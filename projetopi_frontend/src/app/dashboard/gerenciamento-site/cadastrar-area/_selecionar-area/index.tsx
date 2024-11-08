@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import CriarAreaConhecimento from "../criar-area-conhecimento";
-import CriarEspecialide from "../criar-especialidade";
-import CriarGrandeAreaConhecimento from "../criar-grande-area";
-import CriarSubAreaConhecimento from "../criar-sub-area";
-import SearchComponent from "../pesquisar";
-import * as S from "./styles";
+import CriarAreaConhecimento from '../_criar-area-conhecimento';
+import CriarEspecialide from '../_criar-especialidade';
+import CriarGrandeAreaConhecimento from '../_criar-grande-area';
+import CriarSubAreaConhecimento from '../_criar-sub-area';
+import SearchComponent from '../_pesquisar';
+import * as S from './styles';
 
 type SelectAreaProps = {
 	currentOption: string;
@@ -18,28 +18,28 @@ export default function SelecionarArea({
 }: SelectAreaProps) {
 	const renderContent = () => {
 		switch (currentOption) {
-			case "criar-area":
+			case 'criar-area':
 				return (
 					<CriarAreaConhecimento
-						handleOptionClick={() => handleOptionClick("criar-area")}
+						handleOptionClick={() => handleOptionClick('criar-area')}
 					/>
 				);
-			case "criar-especialidade":
+			case 'criar-especialidade':
 				return (
 					<CriarEspecialide
-						handleOptionClick={() => handleOptionClick("criar-especialidade")}
+						handleOptionClick={() => handleOptionClick('criar-especialidade')}
 					/>
 				);
-			case "criar-grande-area":
+			case 'criar-grande-area':
 				return (
 					<CriarGrandeAreaConhecimento
-						handleOptionClick={() => handleOptionClick("criar-grande-area")}
+						handleOptionClick={() => handleOptionClick('criar-grande-area')}
 					/>
 				);
-			case "criar-sub-area":
+			case 'criar-sub-area':
 				return (
 					<CriarSubAreaConhecimento
-						handleOptionClick={() => handleOptionClick("criar-sub-area")}
+						handleOptionClick={() => handleOptionClick('criar-sub-area')}
 					/>
 				);
 
@@ -55,9 +55,9 @@ export default function SelecionarArea({
 					<div className="h-18 z-10 flex w-1/4 flex-wrap items-center justify-center gap-3 rounded-xl bg-[#F4F4F4] pb-2 pt-4 shadow">
 						<div className="flex items-center gap-2">
 							<S.OptionMenu
-								onClick={() => handleOptionClick("criar-grande-area")}
+								onClick={() => handleOptionClick('criar-grande-area')}
 								className="flex-shrink-0 cursor-pointer text-xs"
-								selected={currentOption === "criar-grande-area"}
+								selected={currentOption === 'criar-grande-area'}
 							>
 								Grande Área
 							</S.OptionMenu>
@@ -65,27 +65,27 @@ export default function SelecionarArea({
 
 						<div className="flex items-center gap-2">
 							<S.OptionMenu
-								onClick={() => handleOptionClick("criar-area")}
+								onClick={() => handleOptionClick('criar-area')}
 								className="flex-shrink-0 cursor-pointer text-xs"
-								selected={currentOption === "criar-area"}
+								selected={currentOption === 'criar-area'}
 							>
 								Área
 							</S.OptionMenu>
 						</div>
 						<div className="flex items-center gap-2">
 							<S.OptionMenu
-								onClick={() => handleOptionClick("criar-sub-area")}
+								onClick={() => handleOptionClick('criar-sub-area')}
 								className="flex-shrink-0 cursor-pointer text-xs"
-								selected={currentOption === "criar-sub-area"}
+								selected={currentOption === 'criar-sub-area'}
 							>
 								Sub-Área
 							</S.OptionMenu>
 						</div>
 						<div className="flex items-center gap-2">
 							<S.OptionMenu
-								onClick={() => handleOptionClick("criar-especialidade")}
+								onClick={() => handleOptionClick('criar-especialidade')}
 								className="flex-shrink-0 cursor-pointer text-xs"
-								selected={currentOption === "criar-especialidade"}
+								selected={currentOption === 'criar-especialidade'}
 							>
 								Especialidade
 							</S.OptionMenu>

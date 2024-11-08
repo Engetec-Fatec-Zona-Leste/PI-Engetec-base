@@ -1,16 +1,14 @@
 'use client';
 
-import { useState } from 'react';
-
 import { TfiPlus } from 'react-icons/tfi';
 
-import AlertCard from '@/components/AlertCard';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import NavbarAuthenticated from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
-import DefaultSelect from '@/components/Select';
+import Select from '@/components/Select';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
 import { instituicoesMock } from '@/mocks/Instituicoes';
 
 export default function CadastrarEditorChefeEmEvento({
@@ -18,34 +16,20 @@ export default function CadastrarEditorChefeEmEvento({
 }: {
 	params: { idEvento: string };
 }) {
-	// const pathname = usePathname();
-	// const searchParams = useSearchParams();
-	//Do something in response to a route change
-	// useEffect(() => {
-	// 	// Do something here...
-	// }, [pathname, searchParams]);
-
-	const [password, setPassword] = useState('');
-	const [name, setName] = useState('');
-	const [cpf, setCpf] = useState('');
-	const [email, setEmail] = useState('');
-	const [lattes, setLattes] = useState('');
-	const [confirmpassword, setConfirmpassword] = useState('');
-	const [showCard, setShowCard] = useState(false);
-	const [instituicao, setInst] = useState('');
-
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		// await action(formData, files)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 	};
 	return (
 		<div>
 			<NavbarAuthenticated />
 			<div className="container">
 				<div className="w-[60vw]">
-					<AlertCard
-						message="Comissao cadastrada com sucesso"
-						show={showCard}
-					/>
 					<Title
 						title="Cadastrar Comissão"
 						subtitle={`Cadastro como administrador no evento ${params.idEvento}`}
@@ -59,15 +43,13 @@ export default function CadastrarEditorChefeEmEvento({
 								label="Nome completo"
 								placeholder="Nome do aluno"
 								required
-								value={name}
-								onChange={(e) => setName(e.target.value)}
+								name="nome"
 							/>
 							<NormalInput
 								id="email"
 								label="E-mail"
 								placeholder="emailuser@email.com"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+								name="email"
 								type="email"
 								required
 							/>
@@ -77,8 +59,7 @@ export default function CadastrarEditorChefeEmEvento({
 								label="Senha"
 								placeholder="Senha do Usuário"
 								type="password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
+								name="senha"
 								required
 							/>
 							<NormalInput
@@ -86,8 +67,7 @@ export default function CadastrarEditorChefeEmEvento({
 								label="Confirmar Senha"
 								placeholder="Senha do Usuário"
 								type="password"
-								value={confirmpassword}
-								onChange={(e) => setConfirmpassword(e.target.value)}
+								name="confirm-senha"
 								required
 							/>
 							<NormalInput
@@ -95,18 +75,15 @@ export default function CadastrarEditorChefeEmEvento({
 								label="CPF"
 								placeholder="CPF do Usuário"
 								type="text"
-								value={cpf}
-								onChange={(e) => setCpf(e.target.value)}
+								name="cpf"
 								required
 							/>
 
-							<DefaultSelect
+							<Select
 								label="Instituição Referente"
 								id="institution"
-								name="institution"
+								name="instituicao"
 								options={instituicoesMock}
-								selected={instituicao}
-								onChange={(e) => setInst(e.target.value)}
 								preSelect={0}
 							/>
 
@@ -114,8 +91,7 @@ export default function CadastrarEditorChefeEmEvento({
 								id="link"
 								label="Link Lattes"
 								placeholder="https://link.lattes.da.comissão.com"
-								value={lattes}
-								onChange={(e) => setLattes(e.target.value)}
+								name="lattes"
 								required
 								type="url"
 							/>

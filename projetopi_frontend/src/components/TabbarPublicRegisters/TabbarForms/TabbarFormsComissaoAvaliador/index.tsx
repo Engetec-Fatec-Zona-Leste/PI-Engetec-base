@@ -4,75 +4,33 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import axios from 'axios';
 import { TfiPlus } from 'react-icons/tfi';
-import Select from 'react-select';
 
-import AlertCard from '@/components/AlertCard';
 import CheckInput from '@/components/CheckInput';
 import DefaultButton from '@/components/DefaultButton';
 import IncrementInput from '@/components/IncrementInput';
 import NormalInput from '@/components/NormalInput';
+import Select from '@/components/Select';
 import DefaultSelect from '@/components/Select';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
+import { areas, grandesAreas } from '@/mocks/Areas';
 import { instituicoesMock } from '@/mocks/Instituicoes';
-import { customStyles } from '@/utils/customStyle';
+import { checkboxPeriodo, checkboxRole } from '@/mocks/checkboxes';
 
-type CadastroComissaoAvaliadorProps = {
-	eventId: string;
-};
-
-export default function CadastroComissaoAvaliador({
-	eventId,
-}: CadastroComissaoAvaliadorProps) {
-	type Option = { label: string; value: string };
-
-	// Estrutura de dados: Grande Área -> Áreas -> Subáreas
-	const data: Record<string, Record<string, string[]>> = {
-		'Ciências Exatas e da Terra': {
-			Matemática: ['Álgebra', 'Geometria', 'Cálculo'],
-			Física: ['Física Teórica', 'Física Aplicada'],
-		},
-		'Ciências Humanas': {
-			História: ['História Antiga', 'História Moderna'],
-			Filosofia: ['Filosofia Antiga', 'Filosofia Contemporânea'],
-		},
+export default function CadastroComissaoAvaliador() {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		// action(formData)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 	};
-	const [selectedGrandeArea, setSelectedGrandeArea] = useState<Option | null>(
-		null
-	);
-	const [selectedArea, setSelectedArea] = useState<Option | null>(null);
-
-	const grandeAreasOptions: Option[] = Object.keys(data).map((key) => ({
-		label: key,
-		value: key,
-	}));
-
-	const areasOptions: Option[] = selectedGrandeArea
-		? Object.keys(data[selectedGrandeArea.value]).map((key) => ({
-				label: key,
-				value: key,
-		  }))
-		: [];
-
-	const [password, setPassword] = useState('');
-	const [name, setName] = useState('');
-	const [cpf, setCpf] = useState('');
-	const [email, setEmail] = useState('');
-	const [instituicao, setInst] = useState('');
-	const [turno, setTurno] = useState<string | undefined>('');
-	const [lattes, setLattes] = useState('');
-	const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
-	const [confirmpassword, setConfirmpassword] = useState('');
-	const checkboxNames = ['Organizador', 'Avaliador'];
-	const [checkboxes, setCheckboxes] = useState(checkboxNames.map(() => false));
-	const [showCard, setShowCard] = useState(false);
-
-	const [realAreas, setRealAreas] = useState<(string | undefined)[]>([]);
-
-	const [subareas, setSubAreas] = useState(['']);
 
 	const router = useRouter();
+
 	const [selectedPeriods, setSelectedPeriods] = useState<string[]>([]);
 	const handleCheckboxChangePeriod = (periodId: string) => {
 		setSelectedPeriods((prevSelected) =>
@@ -82,14 +40,9 @@ export default function CadastroComissaoAvaliador({
 		);
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-	};
-
 	return (
 		<div className="container-submenu">
 			<div className="w-[60vw]">
-				<AlertCard message="Comissao cadastrada com sucesso" show={showCard} />
 				<Title
 					title="Cadastrar Comissão Avaliador"
 					subtitle="Cadastro como parte da comissão"
@@ -103,15 +56,13 @@ export default function CadastroComissaoAvaliador({
 							label="Nome completo"
 							placeholder="Nome do aluno"
 							required
-							value={name}
-							onChange={(e) => setName(e.target.value)}
+							name="nome"
 						/>
 						<NormalInput
 							id="email"
 							label="E-mail"
 							placeholder="emailuser@email.com"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
+							name="email"
 							type="email"
 							required
 						/>
@@ -121,8 +72,7 @@ export default function CadastroComissaoAvaliador({
 							label="Senha"
 							placeholder="Senha do Usuário"
 							type="password"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
+							name="senha"
 							required
 						/>
 						<NormalInput
@@ -130,8 +80,7 @@ export default function CadastroComissaoAvaliador({
 							label="Confirmar Senha"
 							placeholder="Senha do Usuário"
 							type="password"
-							value={confirmpassword}
-							onChange={(e) => setConfirmpassword(e.target.value)}
+							name="confirm-senha"
 							required
 						/>
 						<NormalInput
@@ -139,18 +88,15 @@ export default function CadastroComissaoAvaliador({
 							label="CPF"
 							placeholder="CPF do Usuário"
 							type="text"
-							value={cpf}
-							onChange={(e) => setCpf(e.target.value)}
+							name="cpf"
 							required
 						/>
 
 						<DefaultSelect
 							label="Instituição Referente"
 							id="institution"
-							name="institution"
+							name="instituicao"
 							options={instituicoesMock}
-							selected={instituicao}
-							onChange={(e) => setInst(e.target.value)}
 							preSelect={0}
 						/>
 
@@ -159,7 +105,7 @@ export default function CadastroComissaoAvaliador({
 							<div className="flex items-center gap-3 py-2.5">
 								{checkboxPeriodo.map((name, index) => (
 									<CheckInput
-										label={name}
+										label={`periodo-${name}`}
 										key={index}
 										name={name}
 										value={name}
@@ -174,51 +120,28 @@ export default function CadastroComissaoAvaliador({
 							id="link"
 							label="Link Lattes"
 							placeholder="https://link.lattes.da.comissão.com"
-							value={lattes}
-							onChange={(e) => setLattes(e.target.value)}
+							name="lattes"
 							required
 							type="url"
 						/>
-
-						<div className="mb-5 flex w-[45%] flex-col">
-							<label className="mb-2 text-sm font-medium" htmlFor="areas">
-								Grandes Áreas de Conhecimento
-							</label>
-							<div className="w-full">
-								<Select
-									options={grandeAreasOptions}
-									value={selectedGrandeArea}
-									onChange={(option) => {
-										setSelectedGrandeArea(option);
-										setSelectedArea(null);
-									}}
-									styles={customStyles}
-									placeholder="Selecione uma Grande Área"
-								/>
-							</div>
-						</div>
-						<div className="mb-5 flex w-[45%] flex-col">
-							<label className="mb-2 text-sm font-medium" htmlFor="areas">
-								Áreas de Conhecimento
-							</label>
-							<div className="w-full">
-								<Select
-									options={areasOptions}
-									value={selectedArea}
-									onChange={(option) => {
-										setSelectedArea(option);
-									}}
-									isDisabled={!selectedGrandeArea}
-									placeholder="Selecione uma Área"
-									styles={customStyles}
-								/>
-							</div>
-						</div>
+						<Select
+							name="grande-area"
+							options={grandesAreas}
+							placeholder="Selecione uma Grande Área"
+							label="Grandes Áreas de Conhecimento"
+							preSelect={0}
+						/>
+						<Select
+							name="area"
+							options={areas}
+							placeholder="Selecione uma Área"
+							label="Áreas de Conhecimento"
+							preSelect={0}
+						/>
 
 						<IncrementInput
 							label="Sub Áreas de Conhecimento"
-							arrayValue={subareas}
-							setArrayValue={setSubAreas}
+							name="sub-area"
 							customWidth="45%"
 							placeholder="SubAreas de Conhecimento da Comissão"
 						/>
@@ -233,7 +156,7 @@ export default function CadastroComissaoAvaliador({
 							className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-red-500"
 							type="button"
 							onClick={() =>
-								router.push(`/criar-evento/${eventId}/cadastrar-instituicao`)
+								router.push(`/criar-evento/1234/cadastrar-instituicao`)
 							}
 						>
 							<TfiPlus height="40px" color="white" />

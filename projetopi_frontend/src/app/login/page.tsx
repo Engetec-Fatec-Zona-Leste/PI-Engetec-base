@@ -1,6 +1,5 @@
 'use client';
 
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import { BsStar } from 'react-icons/bs';

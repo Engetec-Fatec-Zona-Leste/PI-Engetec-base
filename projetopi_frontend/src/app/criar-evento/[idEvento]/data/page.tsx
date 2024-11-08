@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Hibrido, Online, Presencial } from '@/components/EventModels';
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 
 export type DataLocalProps = {
 	handleNextClick: (option: string) => void;
@@ -36,7 +36,7 @@ export default function DataLocalPage({
 		case 'Presencial':
 			return (
 				<div>
-					<NavbarAuthenticated />
+					<Navbar />
 					{modalidadesType.Presencial}
 					<Footer />
 				</div>
@@ -44,7 +44,7 @@ export default function DataLocalPage({
 		case 'Hibrido':
 			return (
 				<div>
-					<NavbarAuthenticated />
+					<Navbar />
 					{modalidadesType.Hibrido}
 					<Footer />
 				</div>
@@ -52,7 +52,7 @@ export default function DataLocalPage({
 		default:
 			return (
 				<div>
-					<NavbarAuthenticated />
+					<Navbar />
 					{modalidadesType.Remoto}
 					<Footer />
 				</div>

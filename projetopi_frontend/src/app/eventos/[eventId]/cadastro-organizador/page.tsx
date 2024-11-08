@@ -2,26 +2,41 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { TfiPlus } from 'react-icons/tfi';
 
+import { registerOrganizador } from '@/_actions/registerOrganizador';
 import CheckInput from '@/components/CheckInput';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
 import IncrementInput from '@/components/IncrementInput';
-import NavbarAuthenticated from '@/components/Navbar';
+import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
-import Select from '@/components/Select';
+import DefaultSelect, { OptionsType } from '@/components/Select';
 import Title from '@/components/Title';
 import { showToast } from '@/contexts/ToastProvider';
-import { areas } from '@/mocks/Areas';
+import { areas, grandesAreas } from '@/mocks/Areas';
 import { instituicoesMock } from '@/mocks/Instituicoes';
 import { checkboxPeriodo } from '@/mocks/checkboxes';
 
-export default function CadastrarAvaliadorEmEvento({
+export default function CadastroComissaoOrganizador({
 	params,
 }: {
 	params: { idEvento: string };
 }) {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		registerOrganizador(formData, params.idEvento);
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
+	};
+
+	const router = useRouter();
+
 	const [selectedPeriods, setSelectedPeriods] = useState<string[]>([]);
 	const handleCheckboxChangePeriod = (periodId: string) => {
 		setSelectedPeriods((prevSelected) =>
@@ -31,63 +46,66 @@ export default function CadastrarAvaliadorEmEvento({
 		);
 	};
 
-	const [subareas, setSubAreas] = useState(['']);
-
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		// await action(formData, files)
-		showToast(
-			'info',
-			'Informarion: use this to display a card message on the top left of the screen'
-		);
-	};
-
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 			<div className="container">
 				<div className="w-[60vw]">
 					<Title
-						title="Cadastrar"
-						subtitle={`Cadastro como avaliador em evento ${params.idEvento}`}
+						title="Cadastrar Comissão Organizadora"
+						subtitle="Cadastro como parte da comissão"
 						colorHex="#4B00E0"
 					/>
 
 					<form className="form bg-white shadow-md" onSubmit={handleSubmit}>
 						<div className="flex w-full flex-wrap justify-center gap-5">
 							<NormalInput
+								name="nome"
 								id="fullName"
 								label="Nome completo"
 								placeholder="Nome do aluno"
 								required
-								name="nome"
 							/>
 							<NormalInput
+								name="email"
 								id="email"
 								label="E-mail"
 								placeholder="emailuser@email.com"
-								name="email"
 								type="email"
 								required
 							/>
 
 							<NormalInput
-								id="link"
-								label="Link Lattes"
-								placeholder="https://link.lattes.da.comissão.com"
-								name="lattes"
+								name="senha"
+								id="password"
+								label="Senha"
+								placeholder="Senha do Usuário"
+								type="password"
 								required
-								type="url"
+							/>
+							<NormalInput
+								name="confirm-senha"
+								id="confirmPassword"
+								label="Confirmar Senha"
+								placeholder="Senha do Usuário"
+								type="password"
+								required
+							/>
+							<NormalInput
+								name="cpf"
+								id="cpf"
+								label="CPF"
+								placeholder="CPF do Usuário"
+								type="text"
+								required
 							/>
 
-							<Select
-								label="Instituição Referente"
-								options={instituicoesMock}
-								disabled={false}
-								preSelect={0}
-								id="institution"
+							<DefaultSelect
 								name="instituicao"
+								label="Instituição Referente"
+								id="institution"
+								options={instituicoesMock}
+								preSelect={0}
 							/>
 
 							<div className="mb-5 w-[45%]">
@@ -95,9 +113,9 @@ export default function CadastrarAvaliadorEmEvento({
 								<div className="flex items-center gap-3 py-2.5">
 									{checkboxPeriodo.map((name, index) => (
 										<CheckInput
+											name={`periodo-${name}`}
 											label={name}
 											key={index}
-											name={name}
 											value={name}
 											checked={selectedPeriods.includes(name)}
 											onChange={() => handleCheckboxChangePeriod(name)}
@@ -105,19 +123,35 @@ export default function CadastrarAvaliadorEmEvento({
 									))}
 								</div>
 							</div>
-							<Select
+
+							<NormalInput
+								name="lattes"
+								id="link"
+								label="Link Lattes"
+								placeholder="https://link.lattes.da.comissão.com"
+								required
+								type="url"
+							/>
+							<DefaultSelect
+								preSelect={0}
+								label="Grandes Áreas de Conhecimento"
+								name="grande-area"
+								options={grandesAreas}
+								placeholder="Selecione uma Grande Área"
+							/>
+							<DefaultSelect
+								name="area"
 								options={areas}
+								placeholder="Selecione uma Área"
 								label="Áreas de Conhecimento"
 								preSelect={0}
-								name="areas"
-								placeholder="Selecione uma Área"
 							/>
 
 							<IncrementInput
 								label="Sub Áreas de Conhecimento"
 								customWidth="45%"
+								name="sub-area"
 								placeholder="SubAreas de Conhecimento da Comissão"
-								name="sub-areasx"
 							/>
 						</div>
 
@@ -129,11 +163,27 @@ export default function CadastrarAvaliadorEmEvento({
 							<button
 								className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-red-500"
 								type="button"
+								onClick={() =>
+									router.push(
+										`/criar-evento/${params.idEvento}/cadastrar-instituicao`
+									)
+								}
 							>
 								<TfiPlus height="40px" color="white" />
 							</button>
 						</div>
 
+						<div className="mb-5 flex w-[45%] flex-col">
+							<p className="text-center text-xs font-normal text-slate-400">
+								Já tem uma conta？
+								<a
+									className="cursor-pointer font-bold text-[#4B00E0] underline"
+									href="/login"
+								>
+									Log in
+								</a>
+							</p>
+						</div>
 						<div className="flex w-full items-center justify-center gap-5">
 							<DefaultButton
 								label="Voltar"

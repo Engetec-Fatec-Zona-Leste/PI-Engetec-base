@@ -3,74 +3,25 @@
 import { useState } from 'react';
 
 import { TfiPlus } from 'react-icons/tfi';
-import Select from 'react-select';
 
-import AlertCard from '@/components/AlertCard';
 import CheckInput from '@/components/CheckInput';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
 import IncrementInput from '@/components/IncrementInput';
 import NavbarAuthenticated from '@/components/NavbarAuthenticated';
 import NormalInput from '@/components/NormalInput';
-import DefaultSelect from '@/components/Select';
-import { OptionsType } from '@/components/Select';
+import Select from '@/components/Select';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
+import { areas } from '@/mocks/Areas';
+import { instituicoesMock } from '@/mocks/Instituicoes';
+import { checkboxPeriodo } from '@/mocks/checkboxes';
 
 export default function CadastrarOrganizadorEmEvento({
 	params,
 }: {
 	params: { idEvento: string };
 }) {
-	// const pathname = usePathname();
-	// const searchParams = useSearchParams();
-	//Do something in response to a route change
-	// useEffect(() => {
-	// 	// Do something here...
-	// }, [pathname, searchParams]);
-	type Option = { label: string; value: string };
-
-	const data: Record<string, Record<string, string[]>> = {
-		'Ciências Exatas e da Terra': {
-			Matemática: ['Álgebra', 'Geometria', 'Cálculo'],
-			Física: ['Física Teórica', 'Física Aplicada'],
-		},
-		'Ciências Humanas': {
-			História: ['História Antiga', 'História Moderna'],
-			Filosofia: ['Filosofia Antiga', 'Filosofia Contemporânea'],
-		},
-	};
-	const [selectedGrandeArea, setSelectedGrandeArea] = useState<Option | null>(
-		null
-	);
-	const [selectedArea, setSelectedArea] = useState<Option | null>(null);
-
-	const areasOptions: Option[] = selectedGrandeArea
-		? Object.keys(data[selectedGrandeArea.value]).map((key) => ({
-				label: key,
-				value: key,
-		  }))
-		: [];
-
-	const instituicoesMock: OptionsType[] = [
-		{
-			label: 'Fatec Zona Leste',
-			value: 0,
-		},
-		{
-			label: 'Fatec São Paulo',
-			value: 1,
-		},
-		{
-			label: 'Fatec Zona Oeste',
-			value: 2,
-		},
-	];
-
-	const [name, setName] = useState('');
-	const [email, setEmail] = useState('');
-	const [lattes, setLattes] = useState('');
-	const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
-	const [showCard, setShowCard] = useState(false);
 	const [selectedPeriods, setSelectedPeriods] = useState<string[]>([]);
 	const handleCheckboxChangePeriod = (periodId: string) => {
 		setSelectedPeriods((prevSelected) =>
@@ -80,22 +31,14 @@ export default function CadastrarOrganizadorEmEvento({
 		);
 	};
 
-	const [subareas, setSubAreas] = useState(['']);
-
-	const customStyles = {
-		control: (provided: any) => ({
-			...provided,
-			width: '100%',
-			height: 'auto',
-			borderRadius: '0.375rem',
-			border: '1',
-			background: 'white',
-			fontSize: '0.875rem',
-		}),
-	};
-
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		// await action(formData, files)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 	};
 
 	return (
@@ -103,10 +46,6 @@ export default function CadastrarOrganizadorEmEvento({
 			<NavbarAuthenticated />
 			<div className="container">
 				<div className="w-[60vw]">
-					<AlertCard
-						message="Comissao cadastrada com sucesso"
-						show={showCard}
-					/>
 					<Title
 						title="Cadastrar"
 						subtitle={`Cadastro como organizador em evento ${params.idEvento}`}
@@ -120,15 +59,13 @@ export default function CadastrarOrganizadorEmEvento({
 								label="Nome completo"
 								placeholder="Nome do aluno"
 								required
-								value={name}
-								onChange={(e) => setName(e.target.value)}
+								name="nome"
 							/>
 							<NormalInput
 								id="email"
 								label="E-mail"
 								placeholder="emailuser@email.com"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
+								name="email"
 								type="email"
 								required
 							/>
@@ -137,18 +74,18 @@ export default function CadastrarOrganizadorEmEvento({
 								id="link"
 								label="Link Lattes"
 								placeholder="https://link.lattes.da.comissão.com"
-								value={lattes}
-								onChange={(e) => setLattes(e.target.value)}
+								name="lattes"
 								required
 								type="url"
 							/>
 
-							<DefaultSelect
+							<Select
 								label="Instituição Referente"
 								options={instituicoesMock}
 								disabled={false}
 								preSelect={0}
 								id="institution"
+								name="instituicao"
 							/>
 
 							<div className="mb-5 w-[45%]">
@@ -166,31 +103,19 @@ export default function CadastrarOrganizadorEmEvento({
 									))}
 								</div>
 							</div>
-
-							<div className="mb-5 flex w-[45%] flex-col">
-								<label className="mb-2 text-sm font-medium" htmlFor="areas">
-									Áreas de Conhecimento
-								</label>
-								<div className="w-full">
-									<Select
-										options={areasOptions}
-										value={selectedArea}
-										onChange={(option) => {
-											setSelectedArea(option);
-										}}
-										isDisabled={!selectedGrandeArea}
-										placeholder="Selecione uma Área"
-										styles={customStyles}
-									/>
-								</div>
-							</div>
+							<Select
+								options={areas}
+								label="Áreas de Conhecimento"
+								preSelect={0}
+								name="areas"
+								placeholder="Selecione uma Área"
+							/>
 
 							<IncrementInput
 								label="Sub Áreas de Conhecimento"
-								arrayValue={subareas}
-								setArrayValue={setSubAreas}
 								customWidth="45%"
 								placeholder="SubAreas de Conhecimento da Comissão"
+								name="sub-areasx"
 							/>
 						</div>
 

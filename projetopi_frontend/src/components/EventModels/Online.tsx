@@ -8,14 +8,9 @@ import { DataLocalProps } from '@/app/criar-evento/[idEvento]/data/page';
 import AlertCard from '@/components/AlertCard';
 import CheckInput from '@/components/CheckInput';
 import DefaultButton from '@/components/DefaultButton';
+import { showToast } from '@/contexts/ToastProvider';
 
 const Online = ({ handleNextClick }: DataLocalProps) => {
-	const [link, setLink] = useState('');
-	const [dataInicio, setDataInicio] = useState('');
-	const [dataFinal, setDataFinal] = useState('');
-	const [horarioInicio, setHorarioInicio] = useState('');
-	const [horarioFinal, setHorarioFinal] = useState('');
-	const [showCard, setShowCard] = useState(false);
 	const [selectedPeriods, setSelectedPeriods] = useState<string[]>([]);
 	const handleCheckboxChangePeriod = (periodId: string) => {
 		setSelectedPeriods((prevSelected) =>
@@ -30,6 +25,12 @@ const Online = ({ handleNextClick }: DataLocalProps) => {
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
+		// action(formData)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 		handleNextClick('arquivos');
 	};
 
@@ -42,7 +43,6 @@ const Online = ({ handleNextClick }: DataLocalProps) => {
 				>
 					Data e Local
 				</h1>
-				<AlertCard message="Evento cadastrado com sucesso" show={showCard} />
 				<form className="mt-8 w-full" onSubmit={handleSubmit}>
 					<div className="flex justify-center gap-10">
 						<div className="w-full">
@@ -59,8 +59,6 @@ const Online = ({ handleNextClick }: DataLocalProps) => {
 										type="Date"
 										name="dateInicio"
 										id="dateInicio"
-										value={dataInicio}
-										onChange={(e) => setDataInicio(e.target.value)}
 										required
 									/>
 								</div>
@@ -78,8 +76,6 @@ const Online = ({ handleNextClick }: DataLocalProps) => {
 										type="time"
 										name="horaInicio"
 										id="horaInicio"
-										value={horarioInicio}
-										onChange={(e) => setHorarioInicio(e.target.value)}
 										required
 									/>
 								</div>
@@ -118,8 +114,6 @@ const Online = ({ handleNextClick }: DataLocalProps) => {
 										type="Date"
 										name="dateFinal"
 										id="dateFinal"
-										value={dataFinal}
-										onChange={(e) => setDataFinal(e.target.value)}
 										required
 									/>
 								</div>
@@ -134,8 +128,6 @@ const Online = ({ handleNextClick }: DataLocalProps) => {
 										type="time"
 										name="horaFinal"
 										id="horaFinal"
-										value={horarioFinal}
-										onChange={(e) => setHorarioFinal(e.target.value)}
 										required
 									/>
 								</div>
@@ -151,8 +143,6 @@ const Online = ({ handleNextClick }: DataLocalProps) => {
 										type="link"
 										name="link"
 										id="link"
-										value={link}
-										onChange={(e) => setLink(e.target.value)}
 										required
 									/>
 								</div>

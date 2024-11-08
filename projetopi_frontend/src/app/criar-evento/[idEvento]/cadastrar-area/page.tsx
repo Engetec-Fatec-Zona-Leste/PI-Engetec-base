@@ -5,7 +5,7 @@ import { useState } from 'react';
 import Footer from '@/components/Footer';
 import NavbarAuthenticated from '@/components/NavbarAuthenticated';
 
-import SelecionarArea from './selecionar-area';
+import SelecionarArea from './_selecionar-area';
 
 export default function AreaConhecimento() {
 	const [currentOption, setCurrentOption] = useState('criar-grande-area');

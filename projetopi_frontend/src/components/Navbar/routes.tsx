@@ -8,7 +8,7 @@ type navItemType = {
 
 export const navigationNotAuthenticatedRoutes: navItemType[] = [
 	{
-		link: '/',
+		link: '/eventos',
 		title: 'Página Inicial',
 	},
 	{
@@ -16,11 +16,11 @@ export const navigationNotAuthenticatedRoutes: navItemType[] = [
 		title: 'Login',
 	},
 	{
-		link: '/cadastrarUsuarios',
-		title: 'Cadastrar',
+		link: '/cadastros-publicos',
+		title: 'Cadastrar-se',
 	},
 	{
-		link: '/suporte',
-		title: 'Suporte',
+		link: '/criar-evento',
+		title: 'Criar Evento',
 	},
 ];

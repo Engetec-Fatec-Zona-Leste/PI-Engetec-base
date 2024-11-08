@@ -12,56 +12,9 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/NavbarAuthenticated';
 
-const filesData = [
-	{
-		event_title: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
-		arquivos: [
-			{
-				file_title:
-					'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
-				status: 'Não Possui Avaliador',
-				tipo_arquivo: 'Relatório',
-				area_arquivo: 'Tecnologia, Análise Estratégica',
-				autores: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
-				avaliadores: 'Clara Santos, Gustavo Oliveira',
-			},
-			{
-				file_title:
-					'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
-				status: 'Reenvio Aprovado',
-				tipo_arquivo: 'Relatório',
-				area_arquivo: 'Tecnologia, Análise Estratégica',
-				autores: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
-				avaliadores: 'Clara Santos, Gustavo Oliveira',
-			},
-		],
-	},
-	{
-		event_title: 'Digital Transformation Symposium',
-		arquivos: [
-			{
-				file_title:
-					'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
-				status: 'Não Finalizado',
-				tipo_arquivo: 'Relatório',
-				area_arquivo: 'Tecnologia, Análise Estratégica',
-				autores: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
-				avaliadores: 'Clara Santos, Gustavo Oliveira',
-			},
-			{
-				file_title:
-					'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
-				status: 'Aprovado',
-				tipo_arquivo: 'Relatório',
-				area_arquivo: 'Tecnologia, Análise Estratégica',
-				autores: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
-				avaliadores: 'Clara Santos, Gustavo Oliveira',
-			},
-		],
-	},
-];
+import filesData from './files.json';
 
-export default function GerenciarAvaliacoesPage() {
+export default function ArtigosAvaliarTodos() {
 	const changeColor = (text: string) => {
 		if (text == 'Não Possui Avaliador' || text == 'Recusado') {
 			return '#B9012D';
@@ -126,9 +79,8 @@ export default function GerenciarAvaliacoesPage() {
 					>
 						Arquivos
 					</h1>
-					<h2 className="text-center text-7xl" style={{ color: '#000000' }}>
-						Todos os arquivos enviados GERENCIAMENTO DE AVALIACOES A DUDA VAI
-						FAZER A TABELA AINDA
+					<h2 className="text-center" style={{ color: '#000000' }}>
+						Todos os arquivos enviados
 					</h2>
 
 					<div className="absolute mt-14 flex w-8/12 flex-col items-end gap-2">

@@ -8,9 +8,12 @@ import { FaTimes } from 'react-icons/fa';
 import { FiUpload } from 'react-icons/fi';
 import 'react-tagsinput/react-tagsinput.css';
 
+import CheckInput from '@/components/CheckInput';
 import Footer from '@/components/Footer';
 import IncrementInput from '@/components/IncrementInput';
 import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import { showToast } from '@/contexts/ToastProvider';
+import { checkboxEvento, checkboxGerar } from '@/mocks/checkboxes';
 
 export default function CriarEventoPage({
 	params,
@@ -23,24 +26,30 @@ export default function CriarEventoPage({
 	// useEffect(() => {
 	// 	// Do something here...
 	// }, [pathname, searchParams]);
+	const [showModal, setShowModal] = useState(false);
 
-	const [nome, setNome] = useState('');
-	const [nomeEditor, setNomeEditor] = useState('');
-	const [email, setEmail] = useState('');
-	const [descricao, setDescricao] = useState('');
-	const [tipo, setTipo] = useState('');
-	const [assuntoPrincipal, setAssuntoPrincipal] = useState('');
-	const [apoiadores, setApoiadores] = useState(['']);
-	const [corpoEditorial, setCorpoEditorial] = useState(['']);
-	const checkboxEvento = ['Público', 'Privado'];
-	const [checkboxes, setCheckboxes] = useState(checkboxEvento.map(() => false));
-	const checkboxGerar = ['Proceedings', 'Certificados'];
-	const [checkboxesGerar, setCheckboxesGerar] = useState(
-		checkboxGerar.map(() => false)
+	const [selectedVisibilidade, setSelectedVisibilidade] = useState<string[]>(
+		[]
 	);
+	const handleCheckboxChangeVisibilidade = (id: string) => {
+		setSelectedVisibilidade((prevSelected) =>
+			prevSelected.includes(id)
+				? prevSelected.filter((id) => id !== id)
+				: [...prevSelected, id]
+		);
+	};
+	const [selectedGerar, setSelectedGerar] = useState<string[]>([]);
+	const handleCheckboxChangeGerar = (id: string) => {
+		setSelectedGerar((prevSelected) =>
+			prevSelected.includes(id)
+				? prevSelected.filter((id) => id !== id)
+				: [...prevSelected, id]
+		);
+	};
+
 	const [file, setFile] = useState<File | null>(null);
 	const [previewURL, setPreviewURL] = useState<string | null>(null);
-	const [showModal, setShowModal] = useState(false);
+
 	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = e.target.files && e.target.files[0];
 		setFile(selectedFile || null);
@@ -57,7 +66,19 @@ export default function CriarEventoPage({
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		router.push(`/criar-evento/1234/data?modalidade=${tipo}`);
+		const formData = new FormData(e.currentTarget);
+		let eventIdCreated = 12;
+		// eventIdCreated await = action(formData)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
+
+		router.push(
+			`/criar-evento/${eventIdCreated}/data?modalidade=${formData.get(
+				'modalidade'
+			)}`
+		);
 		// router.push('/cadastrar/12345/data?modalidade=Presencial');
 		// router.push('/cadastrar/12345/data?modalidade=Hibrido');
 	};
@@ -91,8 +112,6 @@ export default function CriarEventoPage({
 											name="eventName"
 											id="feventName"
 											placeholder="Nome do Evento"
-											value={nome}
-											onChange={(e) => setNome(e.target.value)}
 											required
 										/>
 									</div>
@@ -111,8 +130,6 @@ export default function CriarEventoPage({
 												className="w-full rounded-md border-0 bg-white text-sm outline-none"
 												name="nomeEditor"
 												id="nomeEditor"
-												value={nomeEditor}
-												onChange={(e) => setNomeEditor(e.target.value)}
 												required
 											>
 												<option value="Eduardo">Eduardo Lima</option>
@@ -143,8 +160,6 @@ export default function CriarEventoPage({
 											id="descricao"
 											placeholder="Descrição do Evento"
 											rows={4}
-											value={descricao}
-											onChange={(e) => setDescricao(e.target.value)}
 											required
 										/>
 									</div>
@@ -162,8 +177,6 @@ export default function CriarEventoPage({
 											className="w-full rounded-md border-0 bg-white text-sm outline-none"
 											name="modalidade"
 											id="modalidade"
-											value={tipo}
-											onChange={(e) => setTipo(e.target.value)}
 											required
 										>
 											<option selected value="">
@@ -187,8 +200,6 @@ export default function CriarEventoPage({
 											name="assunto"
 											id="assunto"
 											placeholder="Assunto Principal do Evento"
-											value={assuntoPrincipal}
-											onChange={(e) => setAssuntoPrincipal(e.target.value)}
 											required
 										/>
 									</div>
@@ -210,8 +221,6 @@ export default function CriarEventoPage({
 											name="emailEvent"
 											id="emailEvent"
 											placeholder="Email do Evento"
-											value={email}
-											onChange={(e) => setEmail(e.target.value)}
 											required
 										/>
 									</div>
@@ -222,62 +231,14 @@ export default function CriarEventoPage({
 									</label>
 									<div className="flex items-center gap-3 py-2.5">
 										{checkboxEvento.map((name, index) => (
-											<div key={index}>
-												<div className="flex items-center">
-													<input
-														className="hidden"
-														type="checkbox"
-														name={`checkbox-${index}`}
-														id={`checkbox-${index}`}
-														checked={checkboxes[index]}
-														onChange={() => {
-															setCheckboxes((prev) => {
-																const newCheckboxes = [...prev];
-																newCheckboxes[index] = !newCheckboxes[index];
-																return newCheckboxes;
-															});
-														}}
-													/>
-													<label
-														className="flex cursor-pointer items-center"
-														style={
-															checkboxes[index]
-																? {
-																		color: '#4B00E0',
-																  }
-																: {
-																		color: '#000',
-																  }
-														}
-														htmlFor={`checkbox-${index}`}
-													>
-														<div
-															className="mr-2 flex h-3.5 w-3.5 items-center justify-center"
-															style={
-																checkboxes[index]
-																	? {
-																			backgroundColor: '#4B00E0',
-																			border: '1px solid #4B00E0',
-																	  }
-																	: {
-																			backgroundColor: '#fff',
-																			border: '1px solid #4B00E0',
-																	  }
-															}
-														>
-															{checkboxes[index] && (
-																<svg
-																	className="pointer-events-none h-2 w-3 fill-current text-white"
-																	viewBox="0 0 20 20"
-																>
-																	<path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />
-																</svg>
-															)}
-														</div>
-														<span className="text-sm font-medium">{name}</span>
-													</label>
-												</div>
-											</div>
+											<CheckInput
+												key={index}
+												label={name}
+												name={`evento-${name}`}
+												value={name}
+												checked={selectedVisibilidade.includes(name)}
+												onChange={() => handleCheckboxChangeVisibilidade(name)}
+											/>
 										))}
 									</div>
 								</div>
@@ -287,76 +248,26 @@ export default function CriarEventoPage({
 									</label>
 									<div className="flex items-center gap-3 py-2.5">
 										{checkboxGerar.map((name, index) => (
-											<div key={index}>
-												<div className="flex items-center">
-													<input
-														className="hidden"
-														type="checkbox"
-														name={`checkbox1-${index}`}
-														id={`checkbox1-${index}`}
-														checked={checkboxesGerar[index]}
-														onChange={() => {
-															setCheckboxesGerar((prev) => {
-																const newCheckboxes = [...prev];
-																newCheckboxes[index] = !newCheckboxes[index];
-																return newCheckboxes;
-															});
-														}}
-													/>
-													<label
-														className="flex cursor-pointer items-center"
-														style={
-															checkboxesGerar[index]
-																? {
-																		color: '#4B00E0',
-																  }
-																: {
-																		color: '#000',
-																  }
-														}
-														htmlFor={`checkbox1-${index}`}
-													>
-														<div
-															className="mr-2 flex h-3.5 w-3.5 items-center justify-center"
-															style={
-																checkboxesGerar[index]
-																	? {
-																			backgroundColor: '#4B00E0',
-																			border: '1px solid #4B00E0',
-																	  }
-																	: {
-																			backgroundColor: '#fff',
-																			border: '1px solid #4B00E0',
-																	  }
-															}
-														>
-															{checkboxesGerar[index] && (
-																<svg
-																	className="pointer-events-none h-2 w-3 fill-current text-white"
-																	viewBox="0 0 20 20"
-																>
-																	<path d="M0 11l2-2 5 5L18 3l2 2L7 18z" />
-																</svg>
-															)}
-														</div>
-														<span className="text-sm font-medium">{name}</span>
-													</label>
-												</div>
-											</div>
+											<CheckInput
+												key={index}
+												label={name}
+												name={`gerar-${name}`}
+												value={name}
+												checked={selectedGerar.includes(name)}
+												onChange={() => handleCheckboxChangeGerar(name)}
+											/>
 										))}
 									</div>
 								</div>
 								<IncrementInput
 									label="Corpo Editorial"
-									arrayValue={corpoEditorial}
-									setArrayValue={setCorpoEditorial}
 									placeholder="Adicione os integrantes do Corpo Editorial"
+									name="corpo-editorial"
 								/>
 								<IncrementInput
 									label="Apoiador"
-									arrayValue={apoiadores}
-									setArrayValue={setApoiadores}
 									placeholder="Adicione os apoiadores"
+									name="apoiador"
 								/>
 							</div>
 						</div>
@@ -367,7 +278,6 @@ export default function CriarEventoPage({
 										<input
 											className="w-full rounded-md border-0 bg-white text-sm outline-none"
 											value="Cadastrar áreas de conhecimento do evento"
-											onChange={(e) => setNome(e.target.value)}
 											readOnly
 										/>
 									</div>

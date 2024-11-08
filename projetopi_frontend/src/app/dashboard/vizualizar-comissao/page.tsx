@@ -29,9 +29,9 @@ export default function VizualizarComissaoPage() {
 	const [lattes, setLattes] = useState('');
 
 	// funcao no evento:
-	const checkboxNames = ['Organizador', 'Chair', 'Avaliador', 'Admin'];
+	const checkboxRole = ['Organizador', 'Chair', 'Avaliador', 'Admin'];
 	const [checkboxesCharge, setCheckboxesCharge] = useState(
-		checkboxNames.map(() => false)
+		checkboxRole.map(() => false)
 	);
 	const handleCheckboxChangeCharge = (index: any) => {
 		setCheckboxesCharge((prev) => {
@@ -208,7 +208,7 @@ export default function VizualizarComissaoPage() {
 								Função no Evento
 							</label>
 							<div className="flex flex-wrap items-center gap-3 py-2.5">
-								{checkboxNames.map((name, index) => (
+								{checkboxRole.map((name, index) => (
 									<CheckboxInput
 										id={`${name}-${index}`}
 										label={name}
