@@ -14,7 +14,7 @@ export default function CadastroPublicUsers({
 	return (
 		<div>
 			<NavbarAuthenticated />
-			<Tabbar eventId={params.eventId} />
+			<Tabbar/>
 			<Footer />
 		</div>
 	);

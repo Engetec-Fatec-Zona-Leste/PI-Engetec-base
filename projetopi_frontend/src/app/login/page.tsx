@@ -73,7 +73,7 @@ export default function LoginPage() {
 								Não possui cadastro？
 								<a
 									className="cursor-pointer font-bold text-[#4B00E0] underline"
-									href="/eventos"
+									href="/cadastros-publicos"
 								>
 									Cadastrar aqui
 								</a>

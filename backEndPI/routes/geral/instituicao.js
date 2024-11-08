@@ -24,6 +24,15 @@ router.post("/", async (req, res) => {
     }
   });
 
+  router.get("/", async (req, res) => {
+  try {
+    const instituicoes = await Instituicoes.findAll();
+    res.status(200).json(instituicoes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Ocorreu um erro ao buscar as instituições.' });
+  }
+});
 
   module.exports = router
   

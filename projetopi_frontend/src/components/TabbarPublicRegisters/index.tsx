@@ -21,7 +21,7 @@ export default function Tabbar({ eventId }: TabbarProps) {
 	const renderContent = () => {
 		switch (currentOption) {
 			case 'cadastrar-user':
-				return <CadastroUser eventId={eventId} />;
+				return <CadastroUser/>;
 			case 'cadastrar-comissao-avaliadora':
 				return <CadastroComissaoAvaliador eventId={eventId} />;
 			case 'cadastrar-comissao-organizadora':
