@@ -16,9 +16,6 @@ app.use('/auth', authRoutes);
 const instituicao = require('./routes/geral/instituicao');
 app.use('/instituicao', instituicao);
 
-const instituicao = require('./routes/geral/instituicao');
-app.use('/instituicao', instituicao);
-
 const home = require('./routes/novo/home');
 app.use('/home', authMiddleware(['Admin', 'Autor']), home);
 
