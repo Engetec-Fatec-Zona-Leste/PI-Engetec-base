@@ -4,12 +4,11 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { FaTimes } from 'react-icons/fa';
-import { FiUpload } from 'react-icons/fi';
 import 'react-tagsinput/react-tagsinput.css';
 
 import CheckInput from '@/components/CheckInput';
 import Footer from '@/components/Footer';
+import ImgInput from '@/components/ImgInput';
 import IncrementInput from '@/components/IncrementInput';
 import NavbarAuthenticated from '@/components/NavbarAuthenticated';
 import { showToast } from '@/contexts/ToastProvider';
@@ -26,40 +25,24 @@ export default function CriarEventoPage({
 	// useEffect(() => {
 	// 	// Do something here...
 	// }, [pathname, searchParams]);
-	const [showModal, setShowModal] = useState(false);
 
 	const [selectedVisibilidade, setSelectedVisibilidade] = useState<string[]>(
 		[]
 	);
-	const handleCheckboxChangeVisibilidade = (id: string) => {
+	const handleCheckboxChangeVisibilidade = (idP: string) => {
 		setSelectedVisibilidade((prevSelected) =>
-			prevSelected.includes(id)
-				? prevSelected.filter((id) => id !== id)
-				: [...prevSelected, id]
+			prevSelected.includes(idP)
+				? prevSelected.filter((id) => id !== idP)
+				: [...prevSelected, idP]
 		);
 	};
 	const [selectedGerar, setSelectedGerar] = useState<string[]>([]);
-	const handleCheckboxChangeGerar = (id: string) => {
+	const handleCheckboxChangeGerar = (idP: string) => {
 		setSelectedGerar((prevSelected) =>
-			prevSelected.includes(id)
-				? prevSelected.filter((id) => id !== id)
-				: [...prevSelected, id]
+			prevSelected.includes(idP)
+				? prevSelected.filter((id) => id !== idP)
+				: [...prevSelected, idP]
 		);
-	};
-
-	const [file, setFile] = useState<File | null>(null);
-	const [previewURL, setPreviewURL] = useState<string | null>(null);
-
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const selectedFile = e.target.files && e.target.files[0];
-		setFile(selectedFile || null);
-		if (selectedFile) {
-			const reader = new FileReader();
-			reader.onloadend = () => {
-				setPreviewURL(reader.result as string);
-			};
-			reader.readAsDataURL(selectedFile);
-		}
 	};
 
 	const router = useRouter();
@@ -291,73 +274,12 @@ export default function CriarEventoPage({
 									</div>
 								</div>
 							</div>
-							<div className="mb-6 flex flex-col">
-								<label
-									className="mb-2 text-center text-sm font-medium"
-									htmlFor="file"
-								>
-									Anexar Logo
-								</label>
-
-								<div
-									className={`flex w-full justify-center rounded-md border-0 ${
-										previewURL ? 'bg-transparent py-3' : 'bg-gray-200 px-4 py-5'
-									}`}
-								>
-									{!previewURL && ( // Renderiza o ícone de upload somente se não houver previewURL
-										<label htmlFor="fileInput" className="cursor-pointer">
-											<FiUpload className="mx-2 h-5 w-5 text-black" />{' '}
-										</label>
-									)}
-
-									<div className="flex flex-col items-end">
-										<input
-											type="file"
-											id="fileInput"
-											name="file"
-											style={{ display: 'none' }}
-											onChange={(e) => handleFileChange(e)}
-											required
-										/>
-										{file && (
-											<button
-												className="-mr-1 -mt-3 cursor-pointer rounded-full bg-red-500 p-0.5"
-												onClick={() => {
-													setFile(null);
-													setPreviewURL(null);
-												}}
-											>
-												<FaTimes className="text-[9px] text-white" />
-											</button>
-										)}
-										{previewURL ? (
-											<>
-												<img
-													src={previewURL}
-													alt="Preview"
-													className="mr-2 max-h-20 max-w-full cursor-pointer"
-													onClick={() => setShowModal(true)}
-												/>
-												{showModal && (
-													<div
-														className="fixed left-0 top-0 z-50 flex h-screen w-screen items-center justify-center bg-black bg-opacity-80 py-20"
-														onClick={() => setShowModal(false)} // Fecha o modal quando o fundo escuro é clicado
-													>
-														<img
-															src={previewURL}
-															alt="Preview"
-															className="max-h-full max-w-full"
-															onClick={() => setShowModal(false)} // fecha o modal quando a imagem é clicada
-														/>
-													</div>
-												)}
-											</>
-										) : (
-											<span className="text-sm">{file ? file.name : ''}</span>
-										)}
-									</div>
-								</div>
-							</div>
+							<ImgInput
+								label="Anexar Logo"
+								type="file"
+								id="fileInput"
+								name="file"
+							/>
 						</div>
 						<div className="flex items-center justify-center">
 							<button

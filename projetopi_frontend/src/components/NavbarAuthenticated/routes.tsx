@@ -17,17 +17,9 @@ export const navigationAuthenticatedRoutes: navItemType[] = [
 		title: 'Página Inicial',
 	},
 	{
-		link: '/components-example',
-		title: 'Exemplo de uso dos componentes',
-	},
-	{
 		link: '/dashboard/meus-arquivos',
 		title: 'Meus Arquivos',
 		subtitle: [
-			{
-				name: 'Arquivos Submetidos',
-				link: '/dashboard/meus-arquivos',
-			},
 			{
 				name: 'Arquivos Finalizados',
 				link: '/dashboard/meus-arquivos/arquivos-finalizados',
@@ -69,6 +61,10 @@ export const navigationAuthenticatedRoutes: navItemType[] = [
 				link: '/dashboard/gerenciamento-site/cadastrar-area',
 			},
 		],
+	},
+	{
+		link: '/dashboard/proceedings',
+		title: 'Proceedings',
 	},
 	{
 		link: '/dashboard/certificados',

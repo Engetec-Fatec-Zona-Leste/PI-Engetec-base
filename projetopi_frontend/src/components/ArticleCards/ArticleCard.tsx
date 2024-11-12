@@ -5,6 +5,7 @@ import { IoMdDownload } from 'react-icons/io';
 import { IoEyeOutline } from 'react-icons/io5';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 
+import { showToast } from '@/contexts/ToastProvider';
 import { CardsDataType } from '@/mocks/ArtigosCards';
 
 interface CardI {
@@ -21,9 +22,17 @@ export default function ArticleCard({ card }: CardI) {
 
 	const handleDownloadFile = (e: React.MouseEvent<HTMLButtonElement>) => {
 		// backend instructions
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 	};
 	const handleDeleteFile = (e: React.MouseEvent<HTMLButtonElement>) => {
 		// backend instructions
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 	};
 	const handleOnClickDiv = (e: React.MouseEvent<HTMLDivElement>) => {
 		e.preventDefault();
@@ -128,9 +137,9 @@ export default function ArticleCard({ card }: CardI) {
 									</button>
 								</div>
 							)}
-							<div className="flex w-[120px] items-center justify-center gap-1 rounded-full text-[#000000] ring-2 ring-black">
+							<div className="flex min-w-[8rem] cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[#000000] ring-2 ring-black">
 								<button
-									className="p-1 text-[14px] font-medium"
+									className="h-full w-full p-1 text-[14px] font-medium"
 									type="button"
 									onClick={() =>
 										router.push(`/dashboard/meus-arquivos/arquivos-finalizados`)
@@ -141,9 +150,9 @@ export default function ArticleCard({ card }: CardI) {
 								<IoEyeOutline />
 							</div>
 
-							<div className="flex w-[120px] items-center justify-center gap-1 rounded-full px-4 text-[#4B00E0] ring-2 ring-[#4B00E0]">
+							<div className="flex min-w-[8rem] cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[#4B00E0] ring-2 ring-[#4B00E0]">
 								<button
-									className="p-1 text-[14px] font-medium"
+									className="h-full w-full p-1 text-[14px] font-medium"
 									type="button"
 									onClick={handleDownloadFile}
 								>
@@ -152,9 +161,9 @@ export default function ArticleCard({ card }: CardI) {
 								<IoMdDownload />
 							</div>
 
-							<div className="flex w-[120px] items-center justify-center gap-1 rounded-full px-4 text-[#126A10] ring-2 ring-[#126A10]">
+							<div className="flex min-w-[8rem] cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[#126A10] ring-2 ring-[#126A10]">
 								<button
-									className="p-1 text-[14px] font-medium"
+									className="h-full w-full p-1 text-[14px] font-medium"
 									type="button"
 									onClick={() =>
 										router.push(`/dashboard/meus-arquivos/${card.id}`)
@@ -165,9 +174,9 @@ export default function ArticleCard({ card }: CardI) {
 								<FaRegEdit />
 							</div>
 
-							<div className="flex w-[120px] items-center justify-center gap-1 rounded-full px-4 text-[#BF0000] ring-2 ring-[#BF0000]">
+							<div className="flex min-w-[8rem] cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[#BF0000] ring-2 ring-[#BF0000]">
 								<button
-									className="p-1 text-[14px] font-medium"
+									className="h-full w-full p-1 text-[14px] font-medium"
 									type="button"
 									onClick={handleDeleteFile}
 								>

@@ -24,40 +24,15 @@ import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
 import NavbarAuthenticated from '@/components/NavbarAuthenticated';
 import OutlineButton from '@/components/OutlineButton';
+import { eventThemeMocks } from '@/mocks/EventThemes';
 
 export default function VerEvento({ params }: { params: { eventId: string } }) {
 	const router = useRouter();
 	const [subscribed, setSubscribed] = useState(false);
-	const events = [
-		{
-			title: 'Tecnologia',
-			description:
-				'Os eventos de tecnologia permitirão que você aprimore suas habilidades, explore novas tecnologias e mergulhe em projetos emocionantes. De codificação e desenvolvimento de aplicativos a projetos de hardware e design.',
-			image: ImgTech,
-		},
-		{
-			title: 'Música',
-			description:
-				'Prepare-se para mergulhar em um mundo de melodias envolventes, Participe de oficinas de música com profissionais experientes, onde poderá aprimorar suas habilidades, aprender novas técnicas e descobrir os segredos por trás das criações musicais.',
-			image: ImgMusic,
-		},
-		{
-			title: 'Culinária',
-			description:
-				'Você poderá aprender técnicas, dicas e truques para aprimorar suas habilidades na cozinha e experimentar pratos únicos e autênticos. Deixe-se envolver por uma atmosfera de prazer, descoberta e pratos irresistíveis.',
-			image: ImgFood,
-		},
-		{
-			title: 'Artes',
-			description:
-				'Artistas de diferentes estilos e técnicas se reunirão para compartilhar seu amor pela pintura e inspirar uns aos outros. Estes eventos são um convite para explorar seu lado artístico, expressar-se livremente e mergulhar em um universo repleto de pinceladas de imaginação.',
-			image: ImgArt,
-		},
-	];
 
 	const createSubscription = () => {
 		// .... more task from backend
-		router.push(`/cadastros-publicos/${params.eventId}`);
+		router.push(`/cadastros-publicos`);
 		// setSubscribed(true);
 	};
 	const cancelSubscription = () => {
@@ -318,7 +293,7 @@ export default function VerEvento({ params }: { params: { eventId: string } }) {
 								interesse!
 							</h2>
 							<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-								{events.map((event, index) => (
+								{eventThemeMocks.map((event, index) => (
 									<div
 										key={index}
 										className="flex flex-col items-center gap-4 rounded-lg border px-4 pb-8 pt-4 text-center shadow-md"

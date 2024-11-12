@@ -1,51 +1,20 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 
-import AlertCard from '@/components/AlertCard';
+import { showToast } from '@/contexts/ToastProvider';
 
 function useClipboard() {
-	const [showCardClip, setShowCardClip] = useState(false);
-	const renderClipCard = (clipRes?: boolean): React.ReactNode => {
-		if (!clipRes) {
-			return (
-				<AlertCard
-					message="Texto copiado para área de transferência"
-					show={showCardClip && !clipRes}
-				/>
-			);
-		}
-		if (clipRes) {
-			return (
-				<AlertCard
-					message="Cardoso cornao falhou em copiar o texto"
-					show={showCardClip && clipRes}
-					color="text-red-600"
-				/>
-			);
-		}
-	};
-
 	const copyToClipboard = useCallback(async (text: string | undefined) => {
 		try {
 			if (text) {
 				await navigator.clipboard.writeText(text ? text : '');
-				console.log('Texto copiado para a área de transferência');
-				setShowCardClip(true);
-				renderClipCard(true);
-				setTimeout(() => {
-					setShowCardClip(false);
-				}, 3000);
+				showToast('success', 'Texto copiado para área de transferência');
 			}
 		} catch (err) {
-			console.log('Falha ao copiar o texto', err);
-			setShowCardClip(true);
-			renderClipCard(false);
-			setTimeout(() => {
-				setShowCardClip(false);
-			}, 3000);
+			showToast('error', `Falha ao copiar o texto: \n ${err}`);
 		}
 	}, []);
 
-	return { copyToClipboard, renderClipCard };
+	return { copyToClipboard };
 }
 
 export default useClipboard;

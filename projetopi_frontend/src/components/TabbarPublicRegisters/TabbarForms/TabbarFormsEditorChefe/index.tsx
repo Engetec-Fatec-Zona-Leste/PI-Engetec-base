@@ -89,9 +89,7 @@ export default function CadastroEditorChefe() {
 						<button
 							className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-red-500"
 							type="button"
-							onClick={() =>
-								router.push(`/criar-evento/12345/cadastrar-instituicao`)
-							}
+							onClick={() => router.push(`/cadastrar-instituicao`)}
 						>
 							<TfiPlus height="40px" color="white" />
 						</button>
@@ -111,7 +109,7 @@ export default function CadastroEditorChefe() {
 						<DefaultButton
 							label="Voltar"
 							backgroundColorHex="#8A8A8A"
-							type="submit"
+							onClick={() => router.back()}
 						/>
 						<DefaultButton
 							label="Cadastrar"

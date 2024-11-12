@@ -13,39 +13,29 @@ interface CustomIncrementInputProps
 const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 	label,
 	customWidth,
-	// arrayValue,
-	// setArrayValue,
 	...inputProps
 }) => {
-	// const [arrayValue, setArrayValue] = useState(['']);
-	const [ass, setAss] = useState(['']);
 	const [arrayValue, setArrayValue] = useState(['']);
-	const handleAddItem = (
-		setArrayValue: React.Dispatch<React.SetStateAction<string[]>>
-	) => {
-		const lastArea =
-			setArrayValue === setArrayValue
-				? arrayValue[arrayValue.length - 1]
-				: ass[ass.length - 1];
-		if (lastArea.trim() !== '') {
-			setArrayValue((prevAreas) => [...prevAreas, '']);
+
+	const handleAddItem = () => {
+		const lastItem = arrayValue[arrayValue.length - 1];
+		if (lastItem.trim() !== '') {
+			setArrayValue((prevValues) => [...prevValues, '']);
 		}
 	};
-	const handleRemoveItem = (
-		index: number,
-		setArrayValue: React.Dispatch<React.SetStateAction<string[]>>
-	) => {
-		setArrayValue((prevAreas) => prevAreas.filter((_, i) => i !== index));
+
+	const handleRemoveItem = (index: number) => {
+		setArrayValue((prevValues) => prevValues.filter((_, i) => i !== index));
 	};
-	const handleInputChange = (
-		index: number,
-		value: string,
-		setArrayValue: React.Dispatch<React.SetStateAction<string[]>>
-	) => {
-		const newAreas = [...(setArrayValue === setArrayValue ? arrayValue : ass)];
-		newAreas[index] = value;
-		setArrayValue(newAreas);
+
+	const handleInputChange = (index: number, value: string) => {
+		setArrayValue((prevValues) => {
+			const updatedValues = [...prevValues];
+			updatedValues[index] = value;
+			return updatedValues;
+		});
 	};
+
 	return (
 		<div
 			className="mb-5 flex w-full flex-col"
@@ -57,7 +47,7 @@ const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 				{label}
 			</label>
 			<div>
-				<div className="mb-3 ">
+				<div className="mb-3">
 					<div className="flex w-full items-center justify-around rounded-md border border-gray-300 bg-white px-4 py-2">
 						<input
 							className="w-full bg-white text-sm outline-none"
@@ -65,11 +55,7 @@ const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 							name="arrayValue"
 							value={arrayValue[arrayValue.length - 1]}
 							onChange={(e) =>
-								handleInputChange(
-									arrayValue.length - 1,
-									e.target.value,
-									setArrayValue
-								)
+								handleInputChange(arrayValue.length - 1, e.target.value)
 							}
 							placeholder={inputProps.placeholder}
 							required
@@ -77,14 +63,14 @@ const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 
 						<div
 							className="m-0 flex h-[2rem] w-[2.2rem] cursor-pointer items-center justify-center rounded-full border-[1px] border-slate-900 p-0"
-							onClick={() => handleAddItem(setArrayValue)}
+							onClick={handleAddItem}
 						>
-							<p className="text-xl font-bold ">+</p>
+							<p className="text-xl font-bold">+</p>
 						</div>
 					</div>
 				</div>
 				<div className="flex flex-wrap gap-2.5">
-					{arrayValue.map((area, index) => (
+					{arrayValue.slice(0, -1).map((area, index) => (
 						<div
 							key={index}
 							className="flex items-center rounded-full border border-gray-300 bg-white px-2 py-0.5"
@@ -95,10 +81,7 @@ const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 									type="text"
 									name={`${inputProps.name}[]`}
 									value={area}
-									onChange={(e) =>
-										handleInputChange(index, e.target.value, setArrayValue)
-									}
-									readOnly
+									onChange={(e) => handleInputChange(index, e.target.value)}
 									required
 								/>
 							</div>
@@ -107,7 +90,7 @@ const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 								style={{
 									backgroundColor: '#ef0037',
 								}}
-								onClick={() => handleRemoveItem(index, setArrayValue)}
+								onClick={() => handleRemoveItem(index)}
 							>
 								<FaTimes className="w-2 text-white" />
 							</div>

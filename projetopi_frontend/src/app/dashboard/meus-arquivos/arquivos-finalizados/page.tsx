@@ -231,7 +231,7 @@ export default function MeusArquivosFinalizados() {
 										label="Voltar"
 										type="button"
 										customWidth="40%"
-										onClick={() => router.push('/dashboard/meus-arquivos')}
+										onClick={() => router.back()}
 									/>
 								</div>
 							</form>

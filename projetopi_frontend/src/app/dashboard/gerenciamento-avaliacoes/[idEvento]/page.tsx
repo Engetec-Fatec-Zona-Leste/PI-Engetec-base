@@ -11,10 +11,58 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 
 import Footer from '@/components/Footer';
 import Navbar from '@/components/NavbarAuthenticated';
-
-import filesData from './files.json';
+import SearchFilter from '@/components/SearchFilter';
 
 export default function ArtigosAvaliarTodos() {
+	const filesData = [
+		{
+			event_title: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
+			arquivos: [
+				{
+					file_title:
+						'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
+					status: 'Não Possui Avaliador',
+					tipo_arquivo: 'Relatório',
+					area_arquivo: 'Tecnologia, Análise Estratégica',
+					autores: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
+					avaliadores: 'Clara Santos, Gustavo Oliveira',
+				},
+				{
+					file_title:
+						'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
+					status: 'Reenvio Aprovado',
+					tipo_arquivo: 'Relatório',
+					area_arquivo: 'Tecnologia, Análise Estratégica',
+					autores: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
+					avaliadores: 'Clara Santos, Gustavo Oliveira',
+				},
+			],
+		},
+		{
+			event_title: 'Digital Transformation Symposium',
+			arquivos: [
+				{
+					file_title:
+						'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
+					status: 'Não Finalizado',
+					tipo_arquivo: 'Relatório',
+					area_arquivo: 'Tecnologia, Análise Estratégica',
+					autores: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
+					avaliadores: 'Clara Santos, Gustavo Oliveira',
+				},
+				{
+					file_title:
+						'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
+					status: 'Aprovado',
+					tipo_arquivo: 'Relatório',
+					area_arquivo: 'Tecnologia, Análise Estratégica',
+					autores: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
+					avaliadores: 'Clara Santos, Gustavo Oliveira',
+				},
+			],
+		},
+	];
+
 	const changeColor = (text: string) => {
 		if (text == 'Não Possui Avaliador' || text == 'Recusado') {
 			return '#B9012D';
@@ -79,19 +127,13 @@ export default function ArtigosAvaliarTodos() {
 					>
 						Arquivos
 					</h1>
+					<h1 className="text-7xl">NOT IMPLEMENTED DUDA</h1>
 					<h2 className="text-center" style={{ color: '#000000' }}>
 						Todos os arquivos enviados
 					</h2>
 
-					<div className="absolute mt-14 flex w-8/12 flex-col items-end gap-2">
-						<div className="flex cursor-pointer gap-3">
-							<p className="text-lg font-medium">Buscar</p>
-							<IoSearchOutline size={30} />
-						</div>
-						<div className="flex cursor-pointer gap-5">
-							<p className="text-lg font-medium">Filtrar</p>
-							<CiFilter size={30} />
-						</div>
+					<div className="flex w-full justify-end px-10">
+						<SearchFilter />
 					</div>
 
 					{filesData && (

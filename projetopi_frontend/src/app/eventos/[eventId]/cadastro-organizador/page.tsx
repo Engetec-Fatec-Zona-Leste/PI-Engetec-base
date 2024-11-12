@@ -113,7 +113,7 @@ export default function CadastroComissaoOrganizador({
 								<div className="flex items-center gap-3 py-2.5">
 									{checkboxPeriodo.map((name, index) => (
 										<CheckInput
-											name={`periodo-${name}`}
+											name={name}
 											label={name}
 											key={index}
 											value={name}

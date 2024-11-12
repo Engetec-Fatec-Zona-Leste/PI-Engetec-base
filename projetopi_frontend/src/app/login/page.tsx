@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import { BsStar } from 'react-icons/bs';
@@ -42,7 +43,7 @@ export default function LoginPage() {
 	return (
 		<div className="flex h-screen flex-col justify-items-center ">
 			<Navbar />
-			<div className="container">
+			<div className="container mb-20">
 				<div className="w-[60vw]">
 					<form
 						className="form flex flex-col items-center bg-white px-5 shadow-md"
@@ -70,12 +71,12 @@ export default function LoginPage() {
 						<div className="mb-6">
 							<p className="text-center text-xs font-normal text-slate-400">
 								Não possui cadastro？
-								<a
+								<Link
 									className="cursor-pointer font-bold text-[#4B00E0] underline"
 									href="/cadastros-publicos"
 								>
 									Cadastrar aqui
-								</a>
+								</Link>
 							</p>
 						</div>
 

@@ -13,7 +13,9 @@ import Navbar from '@/components/NavbarAuthenticated';
 import NormalInput from '@/components/NormalInput';
 import Select from '@/components/Select';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
 import { cardsData2 } from '@/mocks/ArtigosCards';
+import { checkboxPeriodo } from '@/mocks/checkboxes';
 
 export default function AdicionarPalestrantePage({
 	params,
@@ -22,29 +24,21 @@ export default function AdicionarPalestrantePage({
 		idArquivo: string;
 	};
 }) {
-	const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
-<<<<<<<< HEAD:src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
-<<<<<<<< Updated upstream:src/app/dashboard/adicionar-palestrante/page.tsx
-	const [palestrante, setPalestrante] = useState(false);
-========
-========
->>>>>>>> merge-of-prs:src/app/areal-dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
 	const router = useRouter();
-
 	const handleAddAuthor = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		// action(selectedSpeakers)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
 		console.log(
 			'idArquivo: ',
 			params.idArquivo,
 			'idPalestrantes: ',
 			selectedSpeakers
 		);
-<<<<<<<< HEAD:src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
 		router.push('/dashboard/meus-arquivos');
-========
-		router.push('/areal-dashboard/meus-arquivos');
->>>>>>>> merge-of-prs:src/app/areal-dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
-		// backend tasks
 	};
 
 	const [selectedSpeakers, setSelectedSpeakers] = useState<number[]>([]);
@@ -55,10 +49,6 @@ export default function AdicionarPalestrantePage({
 				: [...prevSelected, studentId]
 		);
 	};
-<<<<<<<< HEAD:src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
->>>>>>>> Stashed changes:src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
-========
->>>>>>>> merge-of-prs:src/app/areal-dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante/page.tsx
 
 	return (
 		<div>

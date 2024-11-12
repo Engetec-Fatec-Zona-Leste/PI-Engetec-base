@@ -4,17 +4,26 @@ import React from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { FaRegEye } from 'react-icons/fa';
+import { FaDownload, FaEdit, FaRegEye } from 'react-icons/fa';
 import { MdFileDownload } from 'react-icons/md';
 
 import Footer from '@/components/Footer';
 import Navbar from '@/components/NavbarAuthenticated';
 import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
 import { articlesToRate } from '@/mocks/ArtigosRate';
 
 export default function ArtigosAvaliarPrincipal() {
 	const router = useRouter();
+	const handleDownloadFile = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		// backend instructions
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
+	};
 	return (
 		<div>
 			<Navbar />
@@ -51,15 +60,9 @@ export default function ArtigosAvaliarPrincipal() {
 						<tbody>
 							{articlesToRate.map((article) => (
 								<tr
-									className={`cursor-pointer border-t ${
+									className={`border-t ${
 										!(article.id % 2 == 0) ? 'bg-[#e4e4e4]' : ''
 									}`}
-									onClick={(e) => {
-										e.stopPropagation();
-										router.push(
-											`/dashboard/avaliar-artigo/${article.id}/avaliar`
-										);
-									}}
 								>
 									<td className="px-4 py-3 text-sm text-black">
 										{article.title}
@@ -73,12 +76,32 @@ export default function ArtigosAvaliarPrincipal() {
 									<td className="px-4 py-3 text-sm text-black">
 										{article.theme}
 									</td>
-									<td className="flex flex-col items-center gap-3 px-4 py-3">
-										<button>
-											<FaRegEye />
+									<td className="mt-3 flex h-full flex-col items-center justify-center gap-3 px-4 py-3">
+										<button
+											className="h-[1.5rem] w-[1.5rem] cursor-pointer"
+											onClick={(e) => {
+												e.stopPropagation();
+												router.push(`/dashboard/avaliar-artigo/${article.id}`);
+											}}
+										>
+											<FaRegEye className="h-full w-full text-[100%]" />
 										</button>
-										<button>
-											<MdFileDownload size={20} className="text-[#4B00E0]" />
+										<button
+											className="h-[1.5rem] w-[1.5rem] cursor-pointer"
+											onClick={handleDownloadFile}
+										>
+											<FaDownload className="h-full w-full text-[100%]" />
+										</button>
+										<button
+											className="h-[1.5rem] w-[1.5rem] translate-x-1 cursor-pointer"
+											onClick={(e) => {
+												e.stopPropagation();
+												router.push(
+													`/dashboard/avaliar-artigo/${article.id}/avaliar`
+												);
+											}}
+										>
+											<FaEdit className="h-full w-full text-[100%]" />
 										</button>
 									</td>
 								</tr>

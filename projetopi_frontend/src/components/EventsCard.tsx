@@ -71,7 +71,12 @@ export default function EventsCard({ card, manageAvaliations }: EventCardsI) {
 						<FaRegEye className="w-5" />
 					</button>
 					{manageAvaliations && (
-						<div className="flex items-center justify-between gap-3 rounded-lg bg-[#4B00E0] p-2 py-1 text-[12px] font-medium ring-2 ring-[#4B00E0]">
+						<div
+							className="flex items-center justify-between gap-3 rounded-lg bg-[#4B00E0] p-2 py-1 text-[12px] font-medium ring-2 ring-[#4B00E0]"
+							onClick={() =>
+								router.push(`/dashboard/gerenciamento-avaliacoes/${card.id}`)
+							}
+						>
 							<button className="ml-2 text-[12px] font-medium text-white">
 								Ver avaliações{' '}
 							</button>
