@@ -5,7 +5,7 @@ import baseURL from './configUrl';
 
 export const registerInstituicao = async (formData: FormData) => {
     try {
-        const response = await baseURL.post(`/instituicao`, {
+        const response = await baseURL.post(`/cadastrar/instituicao`, {
             nome: formData.get('nome'),
             cnpj: formData.get('cnpj'),
         });

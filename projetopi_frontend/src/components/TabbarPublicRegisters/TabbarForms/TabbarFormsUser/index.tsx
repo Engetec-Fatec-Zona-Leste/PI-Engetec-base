@@ -96,18 +96,13 @@ export default function CadastroUser() {
 							required
 							type="text"
 						/>
-						{/* Verifica se as instituições estão carregadas */}
-						{loading ? (
-							<p>Carregando instituições...</p> // Exibe um loading enquanto está carregando
-						) : (
-							<DefaultSelect
-								label="Instituição Referente"
-								id="institution"
-								name="instituicao"
-								options={instituicoes}
-								preSelect={0}
-							/>
-						)}
+						<DefaultSelect
+							label="Instituição Referente"
+							id="institution"
+							name="instituicao"
+							options={instituicoes}
+							preSelect={0}
+						/>
 
 						<NormalInput
 							id="curso"
