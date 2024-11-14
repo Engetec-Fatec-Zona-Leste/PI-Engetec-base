@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useRouter } from 'next/navigation';
 
 import { IoMdDownload } from 'react-icons/io';
 import { MdStarBorder } from 'react-icons/md';
@@ -11,6 +13,7 @@ import NavbarAuthenticated from '@/components/NavbarAuthenticated';
 import NormalInput from '@/components/NormalInput';
 import TextAreaInput from '@/components/TextAreaInput';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
 
 export default function ViewArticlePage() {
 	const [resumo, setResumo] = useState('');
@@ -20,6 +23,37 @@ export default function ViewArticlePage() {
 	const [knowlogyArea, setKnowlogyArea] = useState('');
 	const [palavraChave, setPalavraChave] = useState('');
 	const [keyword, setKeyword] = useState('');
+
+	const router = useRouter();
+
+	useEffect(() => {
+		setResumo('Resumo');
+		setAbstract('Abstract');
+		setAreas('Areas');
+		setTitulo('Titulo');
+		setKnowlogyArea('Area de Conhecimento');
+		setPalavraChave('PalavraChave');
+		setKeyword('Keyword');
+	}, []);
+
+	const handleRecuseArticle = async (
+		e: React.MouseEvent<HTMLButtonElement>
+	) => {
+		e.preventDefault();
+		//backend actions...
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
+	};
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		// actions({states}, params.idArquivo)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
+	};
 
 	return (
 		<div>
@@ -31,9 +65,11 @@ export default function ViewArticlePage() {
 						subtitle="Visualizar Informações"
 						colorHex="#4B00E0"
 					/>
-					<h1 className="text-7xl">TEM QUE MOCKAR!!!!</h1>
 
-					<form className="rounded-xl bg-[#FDFDFD] p-5 shadow-md">
+					<form
+						className="rounded-xl bg-[#FDFDFD] p-5 shadow-md"
+						onSubmit={handleSubmit}
+					>
 						<div className="form">
 							<TextAreaInput
 								label="Resumo:"
@@ -111,16 +147,21 @@ export default function ViewArticlePage() {
 						</div>
 
 						<div className="mb-5 flex justify-center gap-8">
-							<DefaultButton label="Recusar" backgroundColorHex="#840120" />
+							<DefaultButton
+								label="Recusar"
+								backgroundColorHex="#840120"
+								onClick={handleRecuseArticle}
+							/>
 							<DefaultButton
 								label="Avaliar"
 								backgroundColorHex="#4B00E0"
 								icon={<MdStarBorder />}
+								type="submit"
 							/>
 						</div>
 					</form>
 					<div className="mt-8 flex flex-col items-center">
-						<DefaultButton label="Voltar" />
+						<DefaultButton label="Voltar" onClick={() => router.back()} />
 					</div>
 				</div>
 			</div>

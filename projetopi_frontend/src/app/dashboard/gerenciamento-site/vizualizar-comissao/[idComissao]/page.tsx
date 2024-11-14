@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { toNumber } from 'lodash';
 import { FaRegTrashCan } from 'react-icons/fa6';
 
@@ -18,6 +20,7 @@ import { areas } from '@/mocks/Areas';
 import { checkboxPeriodo, checkboxRole } from '@/mocks/checkboxes';
 
 export default function VizualizarComissaoPage() {
+	const router = useRouter();
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [cpf, setCpf] = useState('');
@@ -144,7 +147,11 @@ export default function VizualizarComissaoPage() {
 						</div>
 
 						<div className="flex w-full items-center justify-center gap-5">
-							<DefaultButton label="Voltar" backgroundColorHex="#8A8A8A" />
+							<DefaultButton
+								label="Voltar"
+								backgroundColorHex="#8A8A8A"
+								onClick={() => router.back()}
+							/>
 							<DefaultButton
 								label="Salvar"
 								backgroundColorHex="#4B00E0"

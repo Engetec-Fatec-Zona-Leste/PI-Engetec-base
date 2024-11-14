@@ -23,6 +23,7 @@ type RatingsState = {
 };
 
 export default function ViewArticlePage() {
+	const router = useRouter();
 	const [ratings, setRatings] = useState<RatingsState>({
 		tema: 4,
 		objetivos: 4,
@@ -219,7 +220,7 @@ export default function ViewArticlePage() {
 						</div>
 					</form>
 					<div className="mt-12 flex flex-col items-center">
-						<DefaultButton label="Voltar" />
+						<DefaultButton label="Voltar" onClick={() => router.back()} />
 					</div>
 				</div>
 			</div>

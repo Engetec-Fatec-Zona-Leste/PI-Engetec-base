@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { TfiPlus } from 'react-icons/tfi';
 
 import CheckInput from '@/components/CheckInput';
@@ -22,6 +24,7 @@ export default function CadastrarOrganizadorEmEvento({
 }: {
 	params: { idEvento: string };
 }) {
+	const router = useRouter();
 	const [selectedPeriods, setSelectedPeriods] = useState<string[]>([]);
 	const handleCheckboxChangePeriod = (periodId: string) => {
 		setSelectedPeriods((prevSelected) =>
@@ -136,7 +139,7 @@ export default function CadastrarOrganizadorEmEvento({
 							<DefaultButton
 								label="Voltar"
 								backgroundColorHex="#8A8A8A"
-								type="submit"
+								onClick={() => router.back()}
 							/>
 							<DefaultButton
 								label="Cadastrar"

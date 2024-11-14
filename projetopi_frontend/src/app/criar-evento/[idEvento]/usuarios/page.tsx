@@ -161,7 +161,7 @@ export default function CadastrarUsuario({
 									className="w-44
                         rounded-xl border-none p-2 text-center text-base font-medium text-white"
 									style={{ backgroundColor: '#8A8A8A' }}
-									type="submit"
+									onClick={() => router.back()}
 								>
 									Voltar
 								</button>

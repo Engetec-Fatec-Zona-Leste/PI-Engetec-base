@@ -188,7 +188,7 @@ export default function CadastroComissaoOrganizador({
 							<DefaultButton
 								label="Voltar"
 								backgroundColorHex="#8A8A8A"
-								type="submit"
+								onClick={() => router.back()}
 							/>
 							<DefaultButton
 								label="Cadastrar"

@@ -229,7 +229,7 @@ export default function CriarAreaConhecimento({
 						className="mb-6 w-1/5 rounded-xl border-none p-2 text-center text-base font-medium text-white"
 						style={{ backgroundColor: '#8A8A8A' }}
 						type="button"
-						onClick={() => router.push('/criar-evento')}
+						onClick={() => router.back()}
 					>
 						Voltar
 					</button>
