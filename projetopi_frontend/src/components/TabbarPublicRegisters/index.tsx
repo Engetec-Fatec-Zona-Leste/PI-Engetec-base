@@ -7,11 +7,7 @@ import CadastroEditorChefe from './TabbarForms/TabbarFormsEditorChefe';
 import CadastroUser from './TabbarForms/TabbarFormsUser';
 import * as S from './styles';
 
-type TabbarProps = {
-	eventId: string;
-};
-
-export default function Tabbar({ eventId }: TabbarProps) {
+export default function Tabbar() {
 	const [currentOption, setCurrentOption] = useState('cadastrar-user');
 
 	const handleOptionClick = (option: string) => {
