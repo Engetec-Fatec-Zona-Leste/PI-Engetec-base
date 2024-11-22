@@ -162,6 +162,7 @@ export default function Eventos() {
 									outlineColorHex="#BE0BD9"
 									customWidth="100%"
 									textColorHex="#BE0BD9"
+									onClick={() => router.push('/eventos/submeter')}
 								/>
 							</div>
 						))}

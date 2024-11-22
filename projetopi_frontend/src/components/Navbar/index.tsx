@@ -43,8 +43,15 @@ export default function Navbar() {
 						className="cursor-pointer"
 						onClick={() => setOpenMenu(!openMenu)}
 					/>
-					<GoHome className="cursor-pointer" />
-					<GoSearch className="cursor-pointer" />
+					<GoHome 
+					className="cursor-pointer" 
+					onClick={() => router.push('/')}/>
+
+					<GoSearch 
+					className="cursor-pointer"
+					onClick={() => router.push('/')}
+					/>
+
 				</div>
 				<a href="/">
 					<Image

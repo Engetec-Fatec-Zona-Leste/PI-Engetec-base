@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import 'react-tagsinput/react-tagsinput.css';
 
+import { registerEvento } from '@/_actions/registerEvento';
 import CheckInput from '@/components/CheckInput';
 import Footer from '@/components/Footer';
 import ImgInput from '@/components/ImgInput';
@@ -13,7 +14,6 @@ import IncrementInput from '@/components/IncrementInput';
 import NavbarAuthenticated from '@/components/NavbarAuthenticated';
 import { showToast } from '@/contexts/ToastProvider';
 import { checkboxEvento, checkboxGerar } from '@/mocks/checkboxes';
-
 export default function CriarEventoPage({
 	params,
 }: {
@@ -47,23 +47,22 @@ export default function CriarEventoPage({
 
 	const router = useRouter();
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		let eventIdCreated = 12;
-		// eventIdCreated await = action(formData)
-		showToast(
-			'info',
-			'Informarion: use this to display a card message on the top left of the screen'
-		);
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const formData = new FormData(event.currentTarget);
 
-		router.push(
-			`/criar-evento/${eventIdCreated}/data?modalidade=${formData.get(
-				'modalidade'
-			)}`
-		);
-		// router.push('/cadastrar/12345/data?modalidade=Presencial');
-		// router.push('/cadastrar/12345/data?modalidade=Hibrido');
+		const eventObject = {} as Record<string, string>;
+		for (const pair of formData.entries()) {
+			eventObject[pair[0]] = pair[1] as string;
+		}
+		// Chame a função do servidor e exiba o toast com base na resposta
+		const result = await registerEvento(eventObject);
+
+		if (result.success) {
+			showToast('success', result.message);
+		} else {
+			showToast('error', result.message);
+		}
 	};
 
 	return (

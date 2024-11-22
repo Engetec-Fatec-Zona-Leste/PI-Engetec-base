@@ -35,12 +35,6 @@ export default function RegisterInstitutionPage({
 					className="card rounded-lg px-36 py-20 shadow-lg"
 					onSubmit={handleSubmit}
 				>
-					<Title
-						title={`Cadastrar Instituição no evento ${params.idEvento}`}
-						colorHex="#4B00E0"
-						subtitle="Irá ter que passar por uma aprovação para ter a instituição cadastrada"
-					/>
-
 					<div className="mb-4 flex flex-col items-center gap-5">
 						<NormalInput
 							label="Nome:"
