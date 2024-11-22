@@ -30,6 +30,12 @@ export const navigationAuthenticatedRoutes: navItemType[] = [
 	{
 		link: '/dashboard/avaliar-artigo',
 		title: 'Avaliar Arquivo',
+		subtitle: [
+			{
+				name: 'Avaliações Realizadas',
+				link: '/dashboard/dashboard/avaliar-artigo/avalicoesRealizadas',
+			},
+		],
 	},
 	{
 		link: '/dashboard/meus-eventos-criados',

@@ -19,12 +19,12 @@ export default function CadastroUser() {
 		const fetchInstituicoes = async () => {
 			try {
 				const response = await baseURL.get('/instituicao');
-	
+
 				// A resposta já é um array, não precisa acessar response.data.instituicoes
 				if (Array.isArray(response.data)) {
 					const instituicoesOptions = response.data.map((instituicao) => ({
 						label: instituicao.nome, // Usando o campo "nome"
-						value: instituicao.id,   // Usando o campo "id"
+						value: instituicao.id, // Usando o campo "id"
 					}));
 					setInstituicoes(instituicoesOptions);
 				} else {

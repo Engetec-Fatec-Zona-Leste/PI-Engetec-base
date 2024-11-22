@@ -15,4 +15,10 @@ export const proceedingsMock: Proceedings[] = [
 		authors: ['Rodrigo', 'Maria'],
 		date: '8º EngeTec(2024)',
 	},
+
+	{
+		EventName: 'Digital Transformation Symposium',
+		authors: ['Ana Konda', 'Déssio Pinto'],
+		date: '7º EngeTec(2024)',
+	},
 ];
