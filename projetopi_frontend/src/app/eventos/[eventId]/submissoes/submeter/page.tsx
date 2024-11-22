@@ -226,7 +226,11 @@ export default function SubmeterArquivoPage({
 
 						{/* submit button  */}
 						<div className="flex w-full items-center justify-center gap-5">
-							<DefaultButton label="Voltar" backgroundColorHex="#8A8A8A" />
+							<DefaultButton
+								label="Voltar"
+								backgroundColorHex="#8A8A8A"
+								onClick={() => router.back()}
+							/>
 							<DefaultButton
 								label="Enviar"
 								backgroundColorHex="#4B00E0"

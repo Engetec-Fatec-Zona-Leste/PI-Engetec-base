@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import Title from '@/components/Title';
 
 type RateArticleProps = {
@@ -13,6 +15,7 @@ export default function RateArticle({
 	handleOptionClick,
 	idArquivo,
 }: RateArticleProps) {
+	const router = useRouter();
 	const [comentarioAutores, setComentarioAutores] = useState('');
 	const [comentarioOrg, setcomentarioOrg] = useState('');
 
@@ -107,7 +110,7 @@ export default function RateArticle({
 			<div className="mt-8 flex flex-row items-center justify-center gap-6">
 				<button
 					className="w-40 rounded-xl border p-2.5 text-center text-sm font-medium text-white"
-					type="submit"
+					onClick={() => router.back()}
 					style={{ backgroundColor: '#8A8A8A' }}
 				>
 					Voltar

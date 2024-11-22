@@ -210,7 +210,7 @@ const Hibrido = ({ handleNextClick }: DataLocalProps) => {
 						<DefaultButton
 							label="Voltar"
 							type="button"
-							onClick={() => router.push('/criar-evento')}
+							onClick={() => router.back()}
 						/>
 						<DefaultButton
 							label="Avançar"

@@ -33,9 +33,10 @@ const Select: React.FC<CustomSelectInputProps> = ({
 			</label>
 			<select
 				{...inputProps}
-				className={`h-full w-full rounded-md border border-gray-300 bg-white px-4 py-2 ${
-					inputProps.disabled ? 'bg-[#B7B7B7]' : 'bg-white'
-				}  text-sm outline-none`}
+				className={`h-full w-full rounded-md border border-gray-300 bg-white px-4 py-2  text-sm text-black outline-none`}
+				style={{
+					backgroundColor: inputProps.disabled ? '#C6C6C6' : '#FFFFFF',
+				}}
 			>
 				{options.map((area, index) => {
 					return (

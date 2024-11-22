@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
@@ -15,6 +15,7 @@ import NormalInput from '@/components/NormalInput';
 import OutlineButton from '@/components/OutlineButton';
 import TextAreaInput from '@/components/TextAreaInput';
 import Title from '@/components/Title';
+import { showToast } from '@/contexts/ToastProvider';
 
 export default function EditArquivePage({
 	params,
@@ -24,7 +25,6 @@ export default function EditArquivePage({
 	};
 }) {
 	const router = useRouter();
-	const idArquivo = params.idArquivo;
 
 	const [resumo, setResumo] = useState('');
 	const [abstract, setAbstract] = useState('');
@@ -34,19 +34,42 @@ export default function EditArquivePage({
 	const [palavraChave, setPalavraChave] = useState('');
 	const [keyword, setKeyword] = useState('');
 	const [subAreas, setSubAreas] = useState('');
+
+	useEffect(() => {
+		setResumo('Resumo');
+		setAbstract('Abstract');
+		setAreas('Areas');
+		setTitulo('Titulo');
+		setAutores('Autores');
+		setPalavraChave('PalavraChave');
+		setKeyword('Keyword');
+		setSubAreas('SubAreas');
+	}, []);
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		// actions({states}, params.idArquivo)
+		showToast(
+			'info',
+			'Informarion: use this to display a card message on the top left of the screen'
+		);
+	};
+
 	return (
 		<div>
 			<NavbarAuthenticated />
-
 			<div className="container">
-				<div className="w-3/5">
+				<div className="w-[60vw]">
 					<Title
 						title="Artigo"
 						subtitle="Visualizar Informações"
 						colorHex="#ef0037"
 					/>
 
-					<form className=" rounded-xl bg-[#FDFDFD] p-5 shadow-md">
+					<form
+						className=" rounded-xl bg-[#FDFDFD] p-5 shadow-md"
+						onSubmit={handleSubmit}
+					>
 						<div className="form">
 							<NormalInput
 								label="Título:"
@@ -131,7 +154,14 @@ export default function EditArquivePage({
 									icon={<IoMdDownload />}
 									customWidth="100%"
 								/>
-								<DefaultButton label="Voltar" customWidth="100%" />
+								<DefaultButton
+									label="Voltar"
+									customWidth="100%"
+									onClick={(e) => {
+										e.preventDefault();
+										router.back();
+									}}
+								/>
 							</div>
 							<div className="flex w-[20%] flex-col">
 								<DefaultButton
@@ -146,6 +176,7 @@ export default function EditArquivePage({
 									outlineColorHex="#126A10"
 									textColorHex="#126A10"
 									icon={<MdOutlineSaveAs />}
+									type="submit"
 								/>
 							</div>
 						</div>

@@ -1,5 +1,7 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { TfiPlus } from 'react-icons/tfi';
 
 import DefaultButton from '@/components/DefaultButton';
@@ -16,6 +18,7 @@ export default function CadastrarEditorChefeEmEvento({
 }: {
 	params: { idEvento: string };
 }) {
+	const router = useRouter();
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
@@ -114,7 +117,7 @@ export default function CadastrarEditorChefeEmEvento({
 							<DefaultButton
 								label="Voltar"
 								backgroundColorHex="#8A8A8A"
-								type="submit"
+								onClick={() => router.back()}
 							/>
 							<DefaultButton
 								label="Cadastrar"

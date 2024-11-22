@@ -34,10 +34,6 @@ export default function ArtigoPage() {
 		areas: 'Tecnologia, Análise Estratégicas',
 	};
 
-	const handleVoltarClick = () => {
-		/*  Implemente a lógica para voltar para a página anterior*/
-	};
-
 	return (
 		<div>
 			<Navbar />
@@ -216,7 +212,11 @@ export default function ArtigoPage() {
 							</div>
 						</div>
 						<div className="mt-24 flex justify-center gap-10">
-							<DefaultButton label="Voltar" type="button" />
+							<DefaultButton
+								label="Voltar"
+								type="button"
+								onClick={() => router.back()}
+							/>
 							<DefaultButton
 								label="Ver Avaliações"
 								backgroundColorHex="#4B00E0"

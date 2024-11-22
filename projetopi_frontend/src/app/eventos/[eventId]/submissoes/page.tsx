@@ -61,7 +61,7 @@ export default function PageMenuSubmissao({
 									</button>
 									<button
 										className="rounded-xl border-none p-3 text-center text-base font-medium text-white"
-										type="submit"
+										onClick={() => router.back()}
 										style={{ backgroundColor: '#8A8A8A' }}
 									>
 										Voltar

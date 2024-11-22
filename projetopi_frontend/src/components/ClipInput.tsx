@@ -13,7 +13,7 @@ const ClipInput: React.FC<CustomClipInputProps> = ({
 	customWidth,
 	...inputProps
 }) => {
-	const { copyToClipboard, renderClipCard } = useClipboard();
+	const { copyToClipboard } = useClipboard();
 	return (
 		<div
 			className="mb-5 flex w-[45%] flex-col"
@@ -21,7 +21,6 @@ const ClipInput: React.FC<CustomClipInputProps> = ({
 				width: customWidth,
 			}}
 		>
-			{renderClipCard()}
 			<label className="mb-2 text-sm font-medium" htmlFor="link">
 				{label}
 			</label>

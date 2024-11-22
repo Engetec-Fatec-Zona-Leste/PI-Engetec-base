@@ -2,6 +2,7 @@ import authors, { AuthorType } from './Aluno';
 
 export type CardsDataType = {
 	id: number;
+	eventName?: string;
 	title: string;
 	type: string;
 	status: string;
@@ -90,6 +91,42 @@ export const cardsData2: CardsDataType[] = [
 
 	{
 		id: 4,
+		title:
+			'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
+		type: 'Artigo',
+		status: 'Aprovado',
+		authorsString: ' Clara Santos, Gustavo Oliveira, Marina Almeida',
+		rooms: '02',
+		schedule: {
+			sendDate: '10/12/2022',
+			presentationDate: '13 as 18h',
+		},
+		presentation: true,
+		sendedArticle: true,
+	},
+];
+
+export const cardsData3: CardsDataType[] = [
+	{
+		id: 5,
+		eventName: 'AAAAAAA',
+		title:
+			'Transformação Digital: Uma Análise das Estratégias para o Sucesso Empresarial na Era Digital',
+		type: 'Artigo',
+		status: 'Em andamento',
+		authorsString: 'Clara Santos, Gustavo Oliveira, Marina Almeida',
+		authors: authors,
+		rooms: '01',
+		schedule: {
+			sendDate: '10/12/2022',
+		},
+		presentation: false,
+		sendedArticle: true,
+	},
+
+	{
+		id: 6,
+		eventName: 'BBBBB',
 		title:
 			'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
 		type: 'Artigo',

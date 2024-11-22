@@ -61,12 +61,12 @@ export default function CadastrarUsuario({
 	};
 
 	const handleOrganizador = () => {
-		setOrganizador(true);
+		setOrganizadorChange(true);
 		setAvaliador(false);
 	};
 
 	const handleAvaliador = () => {
-		setOrganizador(false);
+		setOrganizadorChange(false);
 		setAvaliador(true);
 	};
 
@@ -89,6 +89,7 @@ export default function CadastrarUsuario({
 	const [declined, setDeclines] = useState(false);
 
 	const [organizador, setOrganizador] = useState(true);
+	const [organizadorChange, setOrganizadorChange] = useState(true);
 	const [avaliador, setAvaliador] = useState(false);
 	const [users, setUsers] = useState(UsersFunction);
 
@@ -109,9 +110,9 @@ export default function CadastrarUsuario({
 						className="mb-4 flex w-[29%] items-center justify-around rounded-2xl border border-transparent bg-[#F4F4F4] p-2"
 						style={{ boxShadow: '0px 4px 4px 0px #00000040' }}
 					>
-						{organizador ? (
+						{organizadorChange ? (
 							<>
-								<p className="cursor-default p-1.5">Organizador</p>
+								<p className="cursor-default p-1.5">Editor Chefe</p>
 								<p
 									className="cursor-pointer rounded-xl bg-[#DD4467] p-1.5 text-white"
 									onClick={handleAvaliador}
@@ -136,9 +137,9 @@ export default function CadastrarUsuario({
 							<label className="mr-64 text-base" htmlFor="cad">
 								Cadastrar Manualmente:
 							</label>
-							{organizador ? (
+							{organizadorChange ? (
 								<button className="mb-6 rounded-xl border-2 border-solid  border-black bg-transparent p-4 text-center text-lg text-black">
-									Organizador{' '}
+									Editor Chefe{' '}
 								</button>
 							) : (
 								<button className="mb-6 rounded-xl border-2 border-solid  border-black bg-transparent p-4 text-center text-lg text-black">
@@ -160,7 +161,7 @@ export default function CadastrarUsuario({
 									className="w-44
                         rounded-xl border-none p-2 text-center text-base font-medium text-white"
 									style={{ backgroundColor: '#8A8A8A' }}
-									type="submit"
+									onClick={() => router.back()}
 								>
 									Voltar
 								</button>

@@ -1,0 +1,45 @@
+version: "3"
+services:
+  mysql_db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: egentec
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    volumes:
+      - database:/var/lib/mysql
+    networks:
+      - database_network
+
+  backend:
+    build: ./backEndPI
+    ports:
+      - "3031:3031"
+    networks:
+      - database_network
+    depends_on:
+      - mysql_db
+
+  frontend:
+    build: ./projetopi_frontend
+    environment:
+      NODE_ENV: production
+      DEPLOYED_URL: backend
+    ports:
+      - "3000:3000"
+    command: "npm run start"
+    depends_on:
+      - backend
+    networks:
+      - database_network
+
+networks:
+  database_network:
+    driver: bridge
+volumes:
+  database:
+    driver: local

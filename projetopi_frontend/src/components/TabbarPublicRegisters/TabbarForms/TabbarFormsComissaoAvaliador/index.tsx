@@ -105,7 +105,7 @@ export default function CadastroComissaoAvaliador() {
 							<div className="flex items-center gap-3 py-2.5">
 								{checkboxPeriodo.map((name, index) => (
 									<CheckInput
-										label={`periodo-${name}`}
+										label={name}
 										key={index}
 										name={name}
 										value={name}
@@ -155,9 +155,7 @@ export default function CadastroComissaoAvaliador() {
 						<button
 							className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-red-500"
 							type="button"
-							onClick={() =>
-								router.push(`/criar-evento/1234/cadastrar-instituicao`)
-							}
+							onClick={() => router.push(`/cadastrar-instituicao`)}
 						>
 							<TfiPlus height="40px" color="white" />
 						</button>
@@ -178,7 +176,7 @@ export default function CadastroComissaoAvaliador() {
 						<DefaultButton
 							label="Voltar"
 							backgroundColorHex="#8A8A8A"
-							type="submit"
+							onClick={() => router.back()}
 						/>
 						<DefaultButton
 							label="Cadastrar"

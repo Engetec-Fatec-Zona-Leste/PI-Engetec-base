@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { FaRegEye } from 'react-icons/fa';
 
 import Rating from '@/components/Rating';
@@ -27,6 +29,7 @@ export default function RateByRanking({
 	handleOptionClick,
 	idArquivo,
 }: NavBarRateProps) {
+	const router = useRouter();
 	const [ratings, setRatings] = useState<RatingsState>({
 		tema: null,
 		objetivos: null,
@@ -177,7 +180,7 @@ export default function RateByRanking({
 					<div className="mt-8 flex flex-row items-center justify-center gap-6">
 						<button
 							className="w-40 rounded-xl border p-2.5 text-center text-sm font-medium text-white"
-							type="submit"
+							onClick={() => router.back()}
 							style={{ backgroundColor: '#8A8A8A' }}
 						>
 							Voltar

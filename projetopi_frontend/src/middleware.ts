@@ -18,33 +18,35 @@ const adminRoutes = [
     '/dashboard/gerenciamento-site/cadastrar-comissao',
     '/dashboard/gerenciamento-site/cadastrar-comissao/[idComissao]',
     '/dashboard/meus-eventos-criados',
+    '/dashboard/proceedings'
 ]
 const avaliadorRoutes = [
-    '/dashboard/avaliar-artigo'
+    '/dashboard/avaliar-artigo',
+    '/dashboard/avaliar-artigo/[idArquivo]',
+    '/dashboard/avaliar-artigo/[idArquivo]/avaliar'
 ]
 
 export default async function middleware(req: NextRequest) {
-    // Check if the current route is protected or public
-    const path = req.nextUrl.pathname
-    const isPublicRoute = publicRoutes.includes(path)
-    const isAdminRoute = adminRoutes.includes(path)
-    const isAvaliadorRoute = avaliadorRoutes.includes(path)
 
-    const cookie = req.cookies.get('session')?.value
-    const session = await decrypt(cookie)
+    // const path = req.nextUrl.pathname
+    // const isPublicRoute = publicRoutes.includes(path)
+    // const isAdminRoute = adminRoutes.includes(path)
+    // const isAvaliadorRoute = avaliadorRoutes.includes(path)
 
-    // Redirect to /login if the user is not authenticated
-    if (!isPublicRoute && !session) {
-        return NextResponse.redirect(new URL('/login', req.nextUrl))
-    }
+    // const cookie = req.cookies.get('session')?.value
+    // const session = await decrypt(cookie)
 
-    if (session && isAdminRoute && !(session.role.includes('Admin'))) {
-        return NextResponse.redirect(new URL('/login', req.nextUrl))
-    }
+    // if (!isPublicRoute && !session) {
+    //     return NextResponse.redirect(new URL('/login', req.nextUrl))
+    // }
 
-    if (session && isAvaliadorRoute && !(session.role.includes('Avaliador'))) {
-        return NextResponse.redirect(new URL('/login', req.nextUrl))
-    }
+    // if (session && isAdminRoute && !(session.role.includes('Admin'))) {
+    //     return NextResponse.redirect(new URL('/login', req.nextUrl))
+    // }
+
+    // if (session && isAvaliadorRoute && !(session.role.includes('Avaliador'))) {
+    //     return NextResponse.redirect(new URL('/login', req.nextUrl))
+    // }
 
     return NextResponse.next()
 }
