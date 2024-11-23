@@ -10,7 +10,7 @@ import { MdFileUpload, MdOutlineSaveAs } from 'react-icons/md';
 
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
 import OutlineButton from '@/components/OutlineButton';
 import TextAreaInput from '@/components/TextAreaInput';
@@ -57,7 +57,7 @@ export default function EditArquivePage({
 
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 			<div className="container">
 				<div className="w-[60vw]">
 					<Title

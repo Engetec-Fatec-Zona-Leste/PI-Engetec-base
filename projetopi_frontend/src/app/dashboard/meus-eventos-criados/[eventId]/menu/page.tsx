@@ -14,7 +14,7 @@ import { LuEye } from 'react-icons/lu';
 import { MdDateRange } from 'react-icons/md';
 
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 
 export default function EventoMenu({
 	params,
@@ -26,7 +26,7 @@ export default function EventoMenu({
 	const router = useRouter();
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 
 			<div className="mt-28 w-full p-5">
 				<div className="w-full">

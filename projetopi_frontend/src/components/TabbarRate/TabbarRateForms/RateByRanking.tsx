@@ -30,6 +30,8 @@ export default function RateByRanking({
 	idArquivo,
 }: NavBarRateProps) {
 	const router = useRouter();
+
+	// NAO TA GRAVANDO NOS STATES
 	const [ratings, setRatings] = useState<RatingsState>({
 		tema: null,
 		objetivos: null,
@@ -60,6 +62,7 @@ export default function RateByRanking({
 					subtitle="A média é calculada conforme as perguntas são respondidas"
 					colorHex="#4B00E0"
 				/>
+				<h1>FALTA ARRUMAR AQUI</h1>
 
 				<div className="my-5 flex w-[60vw] flex-row items-end justify-end">
 					<div className="mr-5 flex flex-row items-center gap-2 rounded-xl ring-1 ring-black ">

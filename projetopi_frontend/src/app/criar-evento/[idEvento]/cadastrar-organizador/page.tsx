@@ -10,7 +10,7 @@ import CheckInput from '@/components/CheckInput';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
 import IncrementInput from '@/components/IncrementInput';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
 import Select from '@/components/Select';
 import Title from '@/components/Title';
@@ -46,7 +46,7 @@ export default function CadastrarOrganizadorEmEvento({
 
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 			<div className="container">
 				<div className="w-[60vw]">
 					<Title

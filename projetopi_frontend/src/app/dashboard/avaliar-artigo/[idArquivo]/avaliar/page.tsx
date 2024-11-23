@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 
 import Footer from '@/components/Footer';
-import Navbar from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import NavBarRate from '@/components/TabbarRate';
 
 export default function RateArticlePage({

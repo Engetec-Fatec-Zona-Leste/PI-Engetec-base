@@ -19,8 +19,6 @@ export default function Tabbar() {
 				return <CadastroUser />;
 			case 'cadastrar-comissao-avaliadora':
 				return <CadastroComissaoAvaliador />;
-			case 'cadastrar-editorchefe':
-				return <CadastroEditorChefe />;
 			default:
 				return null;
 		}
@@ -49,18 +47,6 @@ export default function Tabbar() {
 						</S.OptionMenu>
 						<S.IconComission
 							selected={currentOption === 'cadastrar-comissao-avaliadora'}
-						/>
-					</div>
-					<div className="flex items-center gap-2">
-						<S.OptionMenu
-							onClick={() => handleOptionClick('cadastrar-editorchefe')}
-							className="flex-shrink-0 cursor-pointer text-sm"
-							selected={currentOption === 'cadastrar-editorchefe'}
-						>
-							Cadastrar Editor Chefe
-						</S.OptionMenu>
-						<S.IconEditor
-							selected={currentOption === 'cadastrar-editorchefe'}
 						/>
 					</div>
 				</div>

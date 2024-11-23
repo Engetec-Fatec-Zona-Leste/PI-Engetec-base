@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 
 import SelecionarArea from './_selecionar-area';
 
@@ -15,7 +15,7 @@ export default function AreaConhecimento() {
 	};
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 			<SelecionarArea
 				currentOption={currentOption}
 				handleOptionClick={handleOptionClick}

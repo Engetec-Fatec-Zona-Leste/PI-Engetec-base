@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import Rating from '@/components/Rating';
 import Title from '@/components/Title';
 
@@ -44,7 +44,7 @@ export default function ViewArticlePage() {
 	};
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 			<div className="container mx-auto mt-[210px] flex flex-col items-center">
 				<div className="w-3/5">
 					<Title

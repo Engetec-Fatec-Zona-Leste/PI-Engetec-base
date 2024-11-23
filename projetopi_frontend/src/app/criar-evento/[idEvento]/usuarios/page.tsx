@@ -10,7 +10,7 @@ import { CiCircleCheck } from 'react-icons/ci';
 
 import ClipInput from '@/components/ClipInput';
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';
 import { showToast } from '@/contexts/ToastProvider';
@@ -95,7 +95,7 @@ export default function CadastrarUsuario({
 
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 			<div className="container mb-6 mt-52 flex flex-col items-center">
 				<div className="w-1/2">
 					<Title

@@ -8,7 +8,7 @@ import { FaDownload, FaEdit, FaRegEye } from 'react-icons/fa';
 import { MdFileDownload } from 'react-icons/md';
 
 import Footer from '@/components/Footer';
-import Navbar from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';
 import { showToast } from '@/contexts/ToastProvider';
@@ -33,9 +33,9 @@ export default function ArtigosAvaliarPrincipal() {
 					subtitle="Todos os artigos direcionados a você para a avaliação"
 					colorHex="#EF0037"
 				/>
-				<div className="flex flex-col justify-end">
+				{/* <div className="flex flex-col justify-end">
 					<SearchFilter />
-				</div>
+				</div> */}
 				<div className="mt-8">
 					<table className="min-w-full border-separate border-spacing-0 overflow-hidden rounded-xl border-2 border-[#BCBCBC] bg-white">
 						<thead className="bg-[#E4E4E4]">
@@ -64,16 +64,16 @@ export default function ArtigosAvaliarPrincipal() {
 										!(article.id % 2 == 0) ? 'bg-[#e4e4e4]' : ''
 									}`}
 								>
-									<td className="px-4 py-3 text-sm text-black">
+									<td className="text-md px-4 py-3 text-black">
 										{article.title}
 									</td>
-									<td className="nowrap px-4 py-3 text-sm text-black">
+									<td className="nowrap text-md px-4 py-3 text-black">
 										{article.areas}
 									</td>
-									<td className="px-4 py-3 text-sm text-black">
+									<td className="text-md px-4 py-3 text-black">
 										{article.palavrasChaves}
 									</td>
-									<td className="px-4 py-3 text-sm text-black">
+									<td className="text-md px-4 py-3 text-black">
 										{article.theme}
 									</td>
 									<td className="mt-3 flex h-full flex-col items-center justify-center gap-3 px-4 py-3">

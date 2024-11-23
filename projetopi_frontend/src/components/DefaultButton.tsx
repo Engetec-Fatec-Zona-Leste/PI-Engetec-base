@@ -30,7 +30,7 @@ const DefaultButton: React.FC<CustomtButtonInterface> = ({
             rounded-xl border-none px-4 py-2 text-center
             text-base font-medium 
 
-            ${!backgroundColorHex && 'bg-[#8A8A8A]'}
+            ${!backgroundColorHex && 'bg-[#4B00E0]'}
             ${!textColorHex && 'text-white'}
             
             `}

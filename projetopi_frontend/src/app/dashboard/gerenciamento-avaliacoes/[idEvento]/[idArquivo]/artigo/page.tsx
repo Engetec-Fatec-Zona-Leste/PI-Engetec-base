@@ -7,7 +7,7 @@ import { IoDownloadOutline } from 'react-icons/io5';
 
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import Navbar from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
 import Title from '@/components/Title';
 

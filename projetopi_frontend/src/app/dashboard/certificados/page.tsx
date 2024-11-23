@@ -8,7 +8,7 @@ import { MdOutlineRemoveRedEye } from 'react-icons/md';
 import certificate from '@/assets/certificate.png';
 import FilterSearchLine from '@/components/FilterLine';
 import Footer from '@/components/Footer';
-import Navbar from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import Pagination2 from '@/components/Pagitation/Pagination2';
 import Title from '@/components/Title';
 import { eventCertificate } from '@/mocks/EventCertificate';

@@ -9,13 +9,17 @@ import { MdStarBorder } from 'react-icons/md';
 
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
 import TextAreaInput from '@/components/TextAreaInput';
 import Title from '@/components/Title';
 import { showToast } from '@/contexts/ToastProvider';
 
-export default function ViewArticlePage() {
+export default function ViewArticlePage({
+	params,
+}: {
+	params: { idArquivo: string };
+}) {
 	const [resumo, setResumo] = useState('');
 	const [abstract, setAbstract] = useState('');
 	const [areas, setAreas] = useState('');
@@ -41,10 +45,10 @@ export default function ViewArticlePage() {
 	) => {
 		e.preventDefault();
 		//backend actions...
-		showToast(
-			'info',
-			'Informarion: use this to display a card message on the top left of the screen'
-		);
+		// showToast(
+		// 	'info',
+		// 	'Informarion: use this to display a card message on the top left of the screen'
+		// );
 	};
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -57,7 +61,7 @@ export default function ViewArticlePage() {
 
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 			<div className="container">
 				<div className="w-3/5">
 					<Title
@@ -156,7 +160,12 @@ export default function ViewArticlePage() {
 								label="Avaliar"
 								backgroundColorHex="#4B00E0"
 								icon={<MdStarBorder />}
-								type="submit"
+								onClick={(e) => {
+									e.stopPropagation();
+									router.push(
+										`/dashboard/avaliar-artigo/${params.idArquivo}/avaliar`
+									);
+								}}
 							/>
 						</div>
 					</form>

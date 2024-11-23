@@ -11,7 +11,7 @@ import CheckboxInput from '@/components/CheckInput';
 import ClipInput from '@/components/ClipInput';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
 import OutlineButton from '@/components/OutlineButton';
 import Select, { OptionsType } from '@/components/Select';
@@ -54,7 +54,7 @@ export default function VizualizarComissaoPage() {
 
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 
 			<div className="container">
 				<div className="w-[60vw]">

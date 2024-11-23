@@ -45,7 +45,7 @@ export default function CriarAreaConhecimento({
 
 	return (
 		<div className="container">
-			<div className="w-[40vw]">
+			<div className="w-[60vw]">
 				<h1
 					className="text-center text-2xl font-bold text-black"
 					style={{ color: '#ef0037' }}

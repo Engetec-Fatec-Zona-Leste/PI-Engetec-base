@@ -3,16 +3,12 @@
 import { registerInstituicao } from '@/_actions/registerInstituicao';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import Navbar from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
 import Title from '@/components/Title';
 import { showToast } from '@/contexts/ToastProvider';
 
-export default function RegisterInstitutionPage({
-	params,
-}: {
-	params: { idEvento: string };
-}) {
+export default function RegisterInstitutionPage() {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
@@ -36,7 +32,7 @@ export default function RegisterInstitutionPage({
 					onSubmit={handleSubmit}
 				>
 					<Title
-						title={`Cadastrar Instituição no evento ${params.idEvento}`}
+						title={`Cadastrar Instituição no site`}
 						colorHex="#4B00E0"
 						subtitle="Irá ter que passar por uma aprovação para ter a instituição cadastrada"
 					/>

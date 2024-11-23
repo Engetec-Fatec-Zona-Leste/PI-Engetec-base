@@ -9,8 +9,7 @@ import { IoEyeOutline } from 'react-icons/io5';
 
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
-import SearchFilter from '@/components/SearchFilter';
+// import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';
 import { proceedingsMock } from '@/mocks/Proceedings';
 
@@ -20,7 +19,7 @@ export default function Proceedings() {
 
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 			<div className="align-center container my-36 flex w-[100vw] flex-col items-center justify-center">
 				<Title
 					title="Proceedings Evento"
@@ -28,9 +27,9 @@ export default function Proceedings() {
 					colorHex="#EF0037"
 				/>
 				<div className="mb-46 w-11/12">
-					<div className="flex flex-col items-start">
+					{/* <div className="flex flex-col items-start">
 						<SearchFilter />
-					</div>
+					</div> */}
 					<div className="">
 						{proceedingsMock.map((data, i) => (
 							// <>

@@ -2,7 +2,7 @@
 
 import EventsCard from '@/components/EventsCard';
 import Footer from '@/components/Footer';
-import NavbarAuthenticated from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import Pagination2 from '@/components/Pagitation/Pagination2';
 import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';
@@ -11,7 +11,7 @@ import { cardsData } from '@/mocks/EventCards';
 export default function Evento() {
 	return (
 		<div>
-			<NavbarAuthenticated />
+			<Navbar />
 
 			<div className="mt-36 flex flex-col items-center justify-items-stretch">
 				<Title

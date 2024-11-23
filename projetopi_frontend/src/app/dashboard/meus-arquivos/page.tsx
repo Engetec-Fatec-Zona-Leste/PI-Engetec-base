@@ -5,7 +5,7 @@ import React from 'react';
 
 import ArticleCard from '@/components/ArticleCards/ArticleCard';
 import Footer from '@/components/Footer';
-import Navbar from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import Pagination1 from '@/components/Pagitation/Pagination1';
 import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';

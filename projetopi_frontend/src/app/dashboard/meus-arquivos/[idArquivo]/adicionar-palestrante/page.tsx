@@ -9,7 +9,7 @@ import { FaRegUser } from 'react-icons/fa';
 import CheckInput from '@/components/CheckInput';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import Navbar from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
 import Select from '@/components/Select';
 import Title from '@/components/Title';
@@ -56,7 +56,7 @@ export default function AdicionarPalestrantePage({
 			<div className="container mb-6 mt-52 flex justify-center ">
 				<form className="w-[60vw]" onSubmit={handleAddAuthor}>
 					<Title
-						title="Adicionar Palestrante"
+						title="Definir Apresentador"
 						colorHex="#EF0037"
 						subtitle="Selecione o apresentador do artigo para apresenta-lo durante o evento"
 					/>
@@ -70,7 +70,7 @@ export default function AdicionarPalestrantePage({
 								<FaRegUser />
 								<p>Autor</p>
 								<CheckInput
-									label="Palestrante"
+									label="Apresentador"
 									key={aluno.id}
 									name={aluno.name}
 									value={aluno.name}

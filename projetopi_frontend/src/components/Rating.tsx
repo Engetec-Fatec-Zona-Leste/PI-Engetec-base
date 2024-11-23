@@ -34,6 +34,7 @@ const Rating: React.FC<RatingProps> = ({
 
 	return (
 		<fieldset className="flex w-full items-center justify-between gap-4 p-4">
+			<h1>FALTA ARRUMAR AQUI</h1>
 			<span className="text-sm font-bold text-gray-600">
 				Ruim <br className="flex justify-center" />
 				<span style={{ marginLeft: '8px' }}>(1)</span>

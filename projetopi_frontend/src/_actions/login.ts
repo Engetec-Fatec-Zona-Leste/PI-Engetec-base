@@ -12,6 +12,6 @@ export const login = async (formData: FormData) => {
         await createSession(token, role ? role : ['Autor'])
         return { success: true, message: 'Login feito com sucesso!', role };
     } catch (error) {
-        return { success: false, message: 'Erro ao fazer o login!' };
+        return { error: false, message: 'Erro ao fazer o login!' };
     }
 }

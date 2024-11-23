@@ -25,15 +25,23 @@ export default function LoginPage() {
 			localStorage.setItem('authenticated', 'true');
 			switch (result.role[0]) {
 				case 'Admin':
-					router.push('/eventos');
+					localStorage.setItem('role', result.role[0]);
+					router.push('/dashboard/gerenciamento-site');
+					break;
 				case 'Editor':
+					localStorage.setItem('role', result.role[0]);
 					router.push('/eventos');
+					break;
 				case 'Avaliador':
-					router.push('/eventos');
+					localStorage.setItem('role', result.role[0]);
+					router.push('/dashboard/avaliar-artigo');
+					break;
 				case 'Autor':
-					router.push('/eventos');
+					localStorage.setItem('role', result.role[0]);
+					router.push('/dashboard/meus-arquivos');
+					break;
 				default:
-					router.push('/eventos');
+					return;
 			}
 		} else {
 			showToast('error', result.message);

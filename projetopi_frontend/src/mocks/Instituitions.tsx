@@ -1,10 +1,10 @@
-export type UserFunctionType = {
+export type InstituitionType = {
 	name: string;
 	cnpj: string;
 	situation: string;
 };
 
-export const instituitions: UserFunctionType[] = [
+export const instituitions: InstituitionType[] = [
 	{
 		name: 'Fatec 1',
 		cnpj: '00000000',

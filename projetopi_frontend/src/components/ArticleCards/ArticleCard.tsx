@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import { FaRegEdit } from 'react-icons/fa';
@@ -12,13 +14,13 @@ interface CardI {
 	card: CardsDataType;
 }
 
-// ver artigo - src/app/dashboard/meus-arquivos/arquivos-finalizados
-// editar artigo - src/app/dashboard/meus-arquivos/[idArquivo]
-// add palestrante/apresentador - src/app/dashboard/meus-arquivos/[idArquivo]/adicionar-palestrante
-
 export default function ArticleCard({ card }: CardI) {
 	const router = useRouter();
-	// router.push(`${params.eventName}`);
+	const [prazoAberto, setPrazoAbert] = useState(false);
+
+	// ABERRTO ROXO
+	// EM AVALIAÇÃO LARANJA
+	// EM REPROVADO VERMELHO
 
 	const handleDownloadFile = (e: React.MouseEvent<HTMLButtonElement>) => {
 		// backend instructions
@@ -54,69 +56,50 @@ export default function ArticleCard({ card }: CardI) {
 				onClick={handleOnClickDiv}
 			>
 				<div className="w-full">
-					{card.sendedArticle ? (
-						<>
-							<h3
-								className={`${
-									card.presentation ? 'text-[#4B00E0]' : 'text-[#FA023E]'
-								} mb-5 text-[23px] font-medium`}
-							>
-								{card.title}
-							</h3>
-							<p className="mb-4 font-bold">
-								Tipo do Arquivo:{' '}
-								<span className="font-normal">{card.type}</span>
-							</p>
-							<p className="mb-4 font-bold">
-								Status: <span className="font-normal">{card.status}</span>
-							</p>
-							<p className="font-bold">
-								Autores:{' '}
-								<span className="font-normal">{card.authorsString}</span>
-							</p>
-							{card.schedule && (
-								<>
-									<div className="mt-4 flex gap-10">
+					<>
+						<h1>FALTA ARRUMAR AQUI</h1>
+						<h3
+							className={`${
+								card.presentation ? 'text-[#4B00E0]' : 'text-[#FA023E]'
+							} mb-5 text-[23px] font-medium`}
+						>
+							{card.title}
+						</h3>
+						<p className="mb-4 font-bold">
+							Tipo do Arquivo: <span className="font-normal">{card.type}</span>
+						</p>
+						<p className="mb-4 font-bold">
+							Status: <span className="font-normal">{card.status}</span>
+						</p>
+						<p className="font-bold">
+							Autores: <span className="font-normal">{card.authorsString}</span>
+						</p>
+						{card.schedule && (
+							<>
+								<div className="mt-4 flex gap-10">
+									<p className="font-bold">
+										Data de Envio:{' '}
+										<span className="font-normal">
+											{card.schedule.sendDate}
+										</span>
+									</p>
+									{card.schedule.sendDate && (
 										<p className="font-bold">
-											Data de Envio:{' '}
+											Apresentação:{' '}
 											<span className="font-normal">
 												{card.schedule.sendDate}
 											</span>
 										</p>
-										{card.schedule.sendDate && (
-											<p className="font-bold">
-												Apresentação:{' '}
-												<span className="font-normal">
-													{card.schedule.sendDate}
-												</span>
-											</p>
-										)}
-										{card.rooms && (
-											<p className="font-bold">
-												Sala: <span className="font-normal">{card.rooms}</span>
-											</p>
-										)}
-									</div>
-								</>
-							)}
-						</>
-					) : (
-						<>
-							<h3
-								className={`${
-									card.presentation ? 'text-[#4B00E0]' : 'text-[#FA023E]'
-								} mb-5 text-[23px] font-medium`}
-							>
-								{card.type}
-							</h3>
-							<p className="font-bold">
-								Prazo de submissão:{' '}
-								<span className="font-normal">
-									{card.ArticleToSendInfos?.dateToSend}
-								</span>
-							</p>
-						</>
-					)}
+									)}
+									{card.rooms && (
+										<p className="font-bold">
+											Sala: <span className="font-normal">{card.rooms}</span>
+										</p>
+									)}
+								</div>
+							</>
+						)}
+					</>
 				</div>
 
 				{card.sendedArticle && (
@@ -133,7 +116,7 @@ export default function ArticleCard({ card }: CardI) {
 											)
 										}
 									>
-										Adicionar Palestrante
+										Definir Apresentador
 									</button>
 								</div>
 							)}
@@ -161,20 +144,24 @@ export default function ArticleCard({ card }: CardI) {
 								<IoMdDownload />
 							</div>
 
-							<div className="flex min-w-[8rem] cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[#126A10] ring-2 ring-[#126A10]">
-								<button
-									className="h-full w-full p-1 text-[14px] font-medium"
-									type="button"
-									onClick={() =>
-										router.push(`/dashboard/meus-arquivos/${card.id}`)
-									}
-								>
-									Editar
-								</button>
-								<FaRegEdit />
-							</div>
+							{prazoAberto ? (
+								<div className="flex min-w-[8rem] cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[#126A10] ring-2 ring-[#126A10]">
+									<button
+										className="h-full w-full p-1 text-[14px] font-medium"
+										type="button"
+										onClick={() =>
+											router.push(`/dashboard/meus-arquivos/${card.id}`)
+										}
+									>
+										Editar
+									</button>
+									<FaRegEdit />
+								</div>
+							) : (
+								''
+							)}
 
-							<div className="flex min-w-[8rem] cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[#BF0000] ring-2 ring-[#BF0000]">
+							{/* <div className="flex min-w-[8rem] cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[#BF0000] ring-2 ring-[#BF0000]">
 								<button
 									className="h-full w-full p-1 text-[14px] font-medium"
 									type="button"
@@ -183,7 +170,7 @@ export default function ArticleCard({ card }: CardI) {
 									Excluir
 								</button>
 								<RiDeleteBin6Line />
-							</div>
+							</div> */}
 						</div>
 					</div>
 				)}

@@ -19,23 +19,28 @@ export default function CadastroUser() {
 		const fetchInstituicoes = async () => {
 			try {
 				const response = await baseURL.get('/instituicao');
+				// console.log();
 
-				// A resposta já é um array, não precisa acessar response.data.instituicoes
+				// const instituicoesData = response.data?.instituicoes;
+
 				if (Array.isArray(response.data)) {
 					const instituicoesOptions = response.data.map((instituicao) => ({
-						label: instituicao.nome, // Usando o campo "nome"
-						value: instituicao.id, // Usando o campo "id"
+						label: instituicao.nome,
+						value: instituicao.id,
 					}));
 					setInstituicoes(instituicoesOptions);
 				} else {
-					console.error('A resposta da API não é um array.', response.data);
+					console.error(
+						'A resposta não contém um array de instituições',
+						response.data
+					);
 					throw new Error('Formato inesperado na resposta da API');
 				}
 			} catch (error) {
 				console.error('Erro ao carregar as instituições:', error);
-				setInstituicoes([]); // Limpa as instituições em caso de erro
+				throw error;
 			} finally {
-				setLoading(false); // Marca como carregado
+				setLoading(false);
 			}
 		};
 
@@ -44,10 +49,10 @@ export default function CadastroUser() {
 	}, []);
 
 	return (
-		<div className="container-submenu">
+		<div className="container">
 			<div className="w-[60vw]">
 				<Title
-					title="Cadastro como usuário"
+					title="Cadastro de usuário"
 					subtitle="Cadastro como usuário - Aluno"
 					colorHex="#4B00E0"
 				/>

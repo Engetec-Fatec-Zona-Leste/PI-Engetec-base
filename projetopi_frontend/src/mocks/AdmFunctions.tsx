@@ -60,4 +60,22 @@ export const AdmFunctions: UserFunctionType[] = [
 		instituition: 'Etec nome',
 		situation: 'declined',
 	},
+	{
+		name: 'Sarah Figueiredo',
+		email: 'sarah@gmail.com',
+		instituition: 'Etec nome',
+		situation: 'pending',
+	},
+	{
+		name: 'Sarah Figueiredo',
+		email: 'sarah@gmail.com',
+		instituition: 'Etec nome',
+		situation: 'pending',
+	},
+	{
+		name: 'Sarah Figueiredo',
+		email: 'sarah@gmail.com',
+		instituition: 'Etec nome',
+		situation: 'pending',
+	},
 ];

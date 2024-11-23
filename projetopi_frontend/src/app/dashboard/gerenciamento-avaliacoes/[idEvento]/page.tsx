@@ -11,7 +11,7 @@ import { MdFileDownload, MdStarBorder } from 'react-icons/md';
 
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
-import Navbar from '@/components/NavbarAuthenticated';
+import Navbar from '@/components/Navbar';
 import OutlineButton from '@/components/OutlineButton';
 import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';
