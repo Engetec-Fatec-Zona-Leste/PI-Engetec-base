@@ -44,6 +44,7 @@ export default function RegisterInstitutionPage() {
 							id="name"
 							name="nome"
 							customWidth="100%"
+							required={true}
 						/>
 						<NormalInput
 							label="CNPJ:"
@@ -51,6 +52,7 @@ export default function RegisterInstitutionPage() {
 							id="cnpj"
 							name="cnpj"
 							customWidth="100%"
+							required={true}
 						/>
 						<DefaultButton
 							label="Cadastrar"

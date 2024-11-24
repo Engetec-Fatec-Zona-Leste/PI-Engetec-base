@@ -10,7 +10,7 @@ type SessionPayload = {
 }
 
 
-const secretKey = process.env.SESSION_SECRET
+const secretKey = process.env.JWT_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
 
 export async function encrypt(payload: SessionPayload) {
@@ -47,6 +47,7 @@ export async function createSession(userId: string, role: string) {
             path: '/',       // Torna o cookie acessível em toda a aplicação
         }
     )
+    console.log('Session cookie set:', session);
 }
 
 export async function updateSession() {

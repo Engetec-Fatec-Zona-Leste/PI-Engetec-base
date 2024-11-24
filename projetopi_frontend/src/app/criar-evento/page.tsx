@@ -13,6 +13,11 @@ import IncrementInput from '@/components/IncrementInput';
 import Navbar from '@/components/Navbar';
 import { showToast } from '@/contexts/ToastProvider';
 import { checkboxEvento, checkboxGerar } from '@/mocks/checkboxes';
+import slugify from 'slugify';
+import baseURL from '@/_actions/configUrl';
+import Cookies from 'js-cookie';
+
+
 
 export default function CriarEventoPage({
 	params,
@@ -29,6 +34,9 @@ export default function CriarEventoPage({
 	const [selectedVisibilidade, setSelectedVisibilidade] = useState<string[]>(
 		[]
 	);
+
+
+	  
 	const handleCheckboxChangeVisibilidade = (idP: string) => {
 		setSelectedVisibilidade((prevSelected) =>
 			prevSelected.includes(idP)
@@ -47,24 +55,76 @@ export default function CriarEventoPage({
 
 	const router = useRouter();
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.currentTarget);
-		let eventIdCreated = 12;
-		// eventIdCreated await = action(formData)
-		showToast(
-			'info',
-			'Informarion: use this to display a card message on the top left of the screen'
-		);
+		const nomeEvento = formData.get('eventName') as string;
 
-		router.push(
-			`/criar-evento/${eventIdCreated}/data?modalidade=${formData.get(
-				'modalidade'
-			)}`
-		);
-		// router.push('/cadastrar/12345/data?modalidade=Presencial');
-		// router.push('/cadastrar/12345/data?modalidade=Hibrido');
+		// Validação do nome do evento
+		if (!nomeEvento || typeof nomeEvento !== 'string') {
+			return showToast('error', 'Por favor, insira um nome válido para o evento.');
+		}
+
+		// Gerar URL amigável
+		const url = slugify(nomeEvento);
+		const descricao = formData.get('descricao') as string || '';
+		const assuntoPrincipal = formData.get('assunto') as string || '';
+		const emailEvento = formData.get('emailEvent') as string || '';
+		const formato = formData.get('formato') as string || '';
+		const certificados = formData.get('certificados') as string || '';
+		const proceedings = formData.get('proceedings') as string || '';
+		const publico = formData.get('publico') as string || '';
+		// Captura o arquivo corretamente
+		const logoTeste = formData.get('file') as File | null;
+		console.log("logoTeste", logoTeste); // Verifique no console se o arquivo está sendo capturado corretamente
+
+		// Verificar se o logo foi selecionado
+		if (!logoTeste) {
+			return showToast('error', 'Por favor, insira um logo para o evento.');
+		}
+
+		// Criando o objeto de dados a ser enviado
+		const data = {
+			idAdmin: 11,
+			nome: nomeEvento,
+			nomeURL: url,
+			descricao: descricao,
+			assuntoPrincipal: assuntoPrincipal,
+			emailEvento: emailEvento,
+			formato: formato,
+			certificados: certificados,
+			proceedings: proceedings,
+			publico: publico,
+			// Incluindo o logo corretamente
+			logo: null,
+		};
+
+		try {
+			const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjQzMTM3OSwiZXhwIjoxNzMyNDQ5Mzc5fQ.5cHLhk14lyVzJESde3Jf1ocnOzDl878cj0QwbsBUg7c"
+			// Enviar os dados para a API
+			const response = await baseURL.post('/evento/' + url, data, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			if (response.data.success) {
+				showToast('info', 'Evento criado com sucesso!');
+				router.push(`/evento/${response.data.id}`); // Redirecionar para o evento criado
+			} else {
+				showToast('error', 'Erro ao criar evento.');
+			}
+		} catch (error: any) {
+			if (error.response) {
+				console.error('Erro ao cadastrar evento:', error.response.data);
+				showToast('error', `Erro ao criar evento: ${error.response.data.message}`);
+			} else {
+				console.error('Erro na comunicação com a API:', error);
+				showToast('error', 'Erro na comunicação com a API.');
+			}
+		}
 	};
+	  
 
 	return (
 		<div>
@@ -274,8 +334,7 @@ export default function CriarEventoPage({
 									</div>
 								</div>
 							</div>
-							<ImgInput
-								label="Anexar Logo"
+							<input
 								type="file"
 								id="fileInput"
 								name="file"
