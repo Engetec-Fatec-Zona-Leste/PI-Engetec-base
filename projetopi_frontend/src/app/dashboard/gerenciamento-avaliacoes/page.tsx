@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import EventsCard from '@/components/EventsCard';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
-import Navbar from '@/components/Navbar';
 import Pagination2 from '@/components/Pagitation/Pagination2';
 import SearchFilter from '@/components/SearchFilter';
 import Title from '@/components/Title';

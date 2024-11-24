@@ -35,35 +35,32 @@ export default function ArtigosAvaliarPrincipal() {
 			<div className="container mt-52 flex w-full  flex-col justify-center">
 				<Title
 					title="Artigos"
-					subtitle="Todos os artigos enviados do evento tal"
+					subtitle="Todos os artigos enviados do evento"
 					colorHex="#EF0037"
 				/>
-				<div className="ml-14 flex flex-col justify-end">
-					<SearchFilter />
-				</div>
 				<div className="mt-8">
-					<table className="mx-auto w-[80%] border-separate border-spacing-0 overflow-hidden rounded-xl border-2 border-[#BCBCBC] bg-white">
-						<thead className="bg-[#E4E4E4]">
+					<table className="mx-auto  w-[40vw] border-separate border-spacing-0  rounded-xl border-2 border-[#BCBCBC] bg-white">
+						<thead className="w-[40vw] overflow-auto bg-[#E4E4E4] ">
 							<tr>
-								<th className="w-[30%] px-4 py-2 text-left text-base font-bold text-black">
+								<th className="text-md w-[30%] px-4 py-2 text-left font-bold text-black">
 									Título
 								</th>
-								<th className="w-[25%] px-4 py-2 text-left text-base font-bold text-black">
+								<th className="text-md w-[25%] px-4 py-2 text-left font-bold text-black">
 									Autores
 								</th>
-								<th className="w-[25%] px-4 py-2 text-left text-base font-bold text-black">
+								<th className="text-md w-[25%] px-4 py-2 text-left font-bold text-black">
 									Área Artigos
 								</th>
-								<th className="w-[25%] px-4 py-2 text-left text-base font-bold text-black">
+								<th className="text-md w-[25%] px-4 py-2 text-left font-bold text-black">
 									Avaliadores
 								</th>
-								<th className="w-[25%] px-4 py-2 text-left text-base font-bold text-black">
+								<th className="text-md w-[25%] px-4 py-2 text-left font-bold text-black">
 									Área Avaliador
 								</th>
-								<th className="w-[30%] px-4 py-2 text-left text-base font-bold text-black">
+								<th className="text-md w-[30%] px-4 py-2 text-left font-bold text-black">
 									Status
 								</th>
-								<th className="w-[15%] px-4 py-2 text-center text-base font-bold text-black">
+								<th className="text-md w-[15%] px-4 py-2 text-center font-bold text-black">
 									Ações
 								</th>
 							</tr>
@@ -76,16 +73,16 @@ export default function ArtigosAvaliarPrincipal() {
 										!(article.id % 2 == 0) ? 'bg-[#e4e4e4]' : ''
 									}`}
 								>
-									<td className="px-4 py-3 text-sm text-black">
+									<td className="text-md px-4 py-3 text-black">
 										{article.title}
 									</td>
-									<td className="nowrap px-4 py-3 text-sm text-black">
+									<td className="nowrap text-md px-4 py-3 text-black">
 										{article.authorsString}
 									</td>
-									<td className="px-4 py-3 text-sm text-black">
+									<td className="text-md px-4 py-3 text-black">
 										{article.areas}
 									</td>
-									<td className="nowrap px-4 py-3 text-sm text-black">
+									<td className="nowrap text-md px-4 py-3 text-black">
 										<div className="text-nowrap rounded-full border border-black pl-2 pr-16 text-start">
 											{article.evaluators1}
 											<br />
@@ -94,7 +91,7 @@ export default function ArtigosAvaliarPrincipal() {
 											{article.evaluators2}
 										</div>
 									</td>
-									<td className="px-4 py-3 text-sm text-black">
+									<td className="text-md px-4 py-3 text-black">
 										<div className="text-nowrap rounded-full border border-black pl-2 pr-16 text-start">
 											{article.areaEvaluators1}
 											<br />
@@ -104,7 +101,7 @@ export default function ArtigosAvaliarPrincipal() {
 											{article.areaEvaluators2}
 										</div>
 									</td>
-									<td className="px-4 py-3 text-sm text-black">
+									<td className="text-md px-4 py-3 text-black">
 										{article.status === 'Aprovado' ? (
 											<div className="text-green-500 underline">
 												{article.status}
@@ -131,14 +128,14 @@ export default function ArtigosAvaliarPrincipal() {
 										<div className="flex flex-col items-center gap-4">
 											<button
 												className="
-												text-md flex w-full
-												items-center text-nowrap rounded-full
+												text-md text-md flex
+												w-full items-center text-nowrap
 												
-												border-[1.5px] border-red-500 
+												rounded-full border-[1.5px] 
+												border-red-500
 												px-2
-												py-[4px]
-												text-center 
-												text-base
+												py-[4px] 
+												text-center
 												font-medium
 												text-red-500
 												
@@ -156,15 +153,15 @@ export default function ArtigosAvaliarPrincipal() {
 											</button>
 											<button
 												className="
-												text-md ml-[0.1em] flex
-												w-full items-center text-nowrap
-												rounded-full
-												border-[1.5px] 
+												text-md text-md ml-[0.1em]
+												flex w-full items-center
+												text-nowrap
+												rounded-full 
+												border-[1.5px]
 												border-cyan-500
-												px-[19px]
-												py-[4px] 
+												px-[19px] 
+												py-[4px]
 												text-center
-												text-base
 												font-medium
 												text-black
 											"
@@ -183,9 +180,9 @@ export default function ArtigosAvaliarPrincipal() {
 
 					<div className="mt-12 flex w-full flex-row justify-center">
 						<button
-							className="mb-6 flex w-[200px] items-center justify-center
-          					  rounded-xl border-none bg-[#B9012D] px-4 py-2
-          					  text-center text-base font-medium text-white hover:bg-red-700"
+							className="text-md mb-6 flex w-[200px] items-center
+          					  justify-center rounded-xl border-none bg-[#B9012D] px-4
+          					  py-2 text-center font-medium text-white hover:bg-red-700"
 						>
 							Voltar
 						</button>
