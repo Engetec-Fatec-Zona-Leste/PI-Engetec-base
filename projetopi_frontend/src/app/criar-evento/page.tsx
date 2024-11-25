@@ -57,14 +57,15 @@ export default function CriarEventoPage({
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
+		const formData = new FormData(e.currentTarget); // Crie o FormData do formulário
+	  
 		const nomeEvento = formData.get('eventName') as string;
-
+	  
 		// Validação do nome do evento
 		if (!nomeEvento || typeof nomeEvento !== 'string') {
-			return showToast('error', 'Por favor, insira um nome válido para o evento.');
+		  return showToast('error', 'Por favor, insira um nome válido para o evento.');
 		}
-
+	  
 		// Gerar URL amigável
 		const url = slugify(nomeEvento);
 		const descricao = formData.get('descricao') as string || '';
@@ -74,56 +75,61 @@ export default function CriarEventoPage({
 		const certificados = formData.get('certificados') as string || '';
 		const proceedings = formData.get('proceedings') as string || '';
 		const publico = formData.get('publico') as string || '';
-		// Captura o arquivo corretamente
-		const logoTeste = formData.get('file') as File | null;
-		console.log("logoTeste", logoTeste); // Verifique no console se o arquivo está sendo capturado corretamente
-
+		
+		// Aqui você obtém o arquivo selecionado
+		// const logoTeste = formData.get('logo') as File | null;
+		// console.log("logoTeste", logoTeste); // Verifique se o arquivo foi capturado corretamente
+	  
 		// Verificar se o logo foi selecionado
-		if (!logoTeste) {
-			return showToast('error', 'Por favor, insira um logo para o evento.');
-		}
-
+		// if (!logoTeste) {
+		//   return showToast('error', 'Por favor, insira um logo para o evento.');
+		// }
+	  
 		// Criando o objeto de dados a ser enviado
 		const data = {
-			idAdmin: 11,
-			nome: nomeEvento,
-			nomeURL: url,
-			descricao: descricao,
-			assuntoPrincipal: assuntoPrincipal,
-			emailEvento: emailEvento,
-			formato: formato,
-			certificados: certificados,
-			proceedings: proceedings,
-			publico: publico,
-			// Incluindo o logo corretamente
-			logo: null,
+		  idAdmin: 11,
+		  nome: nomeEvento,
+		  nomeURL: url,
+		  descricao: descricao,
+		  assuntoPrincipal: assuntoPrincipal,
+		  emailEvento: emailEvento,
+		  formato: formato,
+		  certificados: false,
+		  proceedings: false,
+		  publico: false,
 		};
-
+	  
 		try {
-			const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjQzMTM3OSwiZXhwIjoxNzMyNDQ5Mzc5fQ.5cHLhk14lyVzJESde3Jf1ocnOzDl878cj0QwbsBUg7c"
-			// Enviar os dados para a API
-			const response = await baseURL.post('/evento/' + url, data, {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
+		  			const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiY2FyZ28iOlsiQWRtaW4iXSwiaWF0IjoxNzMyNTQyOTM2LCJleHAiOjE3MzI1NjA5MzZ9.OpRd0nks1j5fgZnhRZ9gM5bJY0Q_vqGgxJ7UEjoEYQA"
 
-			if (response.data.success) {
-				showToast('info', 'Evento criado com sucesso!');
-				router.push(`/evento/${response.data.id}`); // Redirecionar para o evento criado
-			} else {
-				showToast('error', 'Erro ao criar evento.');
-			}
+	  
+		  // Agora, você precisa enviar os dados como FormData, incluindo o arquivo
+		//   formData.append('logo', logoTeste); // Incluindo o arquivo 'logo'
+	  
+		  // Enviar os dados para a API
+		  const response = await baseURL.post('/evento/' + url, data, {
+			headers: {
+			  'Authorization': `Bearer ${token}`,
+			  'Content-Type': 'multipart/form-data', // Garantir o envio como FormData
+			},
+		  });
+	  
+		  if (response.data.success) {
+			showToast('info', 'Evento criado com sucesso!');
+			router.push(`/evento/${response.data.id}`); // Redirecionar para o evento criado
+		  } else {
+			showToast('error', 'Erro ao criar evento.');
+		  }
 		} catch (error: any) {
-			if (error.response) {
-				console.error('Erro ao cadastrar evento:', error.response.data);
-				showToast('error', `Erro ao criar evento: ${error.response.data.message}`);
-			} else {
-				console.error('Erro na comunicação com a API:', error);
-				showToast('error', 'Erro na comunicação com a API.');
-			}
+		  if (error.response) {
+			console.error('Erro ao cadastrar evento:', error.response.data);
+			showToast('error', `Erro ao criar evento: ${error.response.data.message}`);
+		  } else {
+			console.error('Erro na comunicação com a API:', error);
+			showToast('error', 'Erro na comunicação com a API.');
+		  }
 		}
-	};
+	  };
 	  
 
 	return (
@@ -337,7 +343,7 @@ export default function CriarEventoPage({
 							<input
 								type="file"
 								id="fileInput"
-								name="file"
+								name="logo"
 							/>
 						</div>
 						<div className="flex items-center justify-center">

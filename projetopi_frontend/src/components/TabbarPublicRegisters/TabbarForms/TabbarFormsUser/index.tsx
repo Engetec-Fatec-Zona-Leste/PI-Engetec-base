@@ -18,13 +18,12 @@ export default function CadastroUser() {
 	useEffect(() => {
 		const fetchInstituicoes = async () => {
 			try {
-				const response = await baseURL.get('/instituicao');
-				// console.log();
-
-				// const instituicoesData = response.data?.instituicoes;
-
-				if (Array.isArray(response.data)) {
-					const instituicoesOptions = response.data.map((instituicao) => ({
+				const response = await baseURL.get('/instituicao/filtro');
+	
+				const instituicoesData = response.data?.instituicoes;
+	
+				if (Array.isArray(instituicoesData)) {
+					const instituicoesOptions = instituicoesData.map((instituicao) => ({
 						label: instituicao.nome,
 						value: instituicao.id,
 					}));
@@ -38,15 +37,14 @@ export default function CadastroUser() {
 				}
 			} catch (error) {
 				console.error('Erro ao carregar as instituições:', error);
-				throw error;
 			} finally {
 				setLoading(false);
 			}
 		};
-
-		// baseURL.get('')
+	
 		fetchInstituicoes();
 	}, []);
+	
 
 	return (
 		<div className="container">

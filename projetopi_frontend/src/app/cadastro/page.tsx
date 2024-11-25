@@ -23,7 +23,7 @@ export default function CadastroUser() {
 	useEffect(() => {
 		const fetchInstituicoes = async () => {
 			try {
-				const response = await baseURL.get('/instituicao');
+				const response = await baseURL.get('/instituicao/filtro');
 				// console.log();
 
 				// const instituicoesData = response.data?.instituicoes;

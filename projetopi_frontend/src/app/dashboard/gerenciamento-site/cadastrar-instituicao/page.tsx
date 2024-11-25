@@ -51,7 +51,7 @@ export default function CadastrarInstituicao() {
 	useEffect(() => {
 		const fetchInstituicoes = async () => {
 			try {
-				const response = await baseURL.get('/instituicao');
+				const response = await baseURL.get('/instituicao/filtro');
 
 				if (Array.isArray(response.data)) {
 					const instituicoesOptions = response.data;

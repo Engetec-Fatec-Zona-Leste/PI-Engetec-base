@@ -23,25 +23,30 @@ export default function LoginPage() {
 		if (result.success) {
 			showToast('success', result.message);
 			localStorage.setItem('authenticated', 'true');
-			switch (result.role[0]) {
-				case 'Admin':
-					localStorage.setItem('role', result.role[0]);
-					router.push('/dashboard/gerenciamento-site');
-					break;
-				case 'Editor':
-					localStorage.setItem('role', result.role[0]);
-					router.push('/eventos');
-					break;
-				case 'Avaliador':
-					localStorage.setItem('role', result.role[0]);
-					router.push('/dashboard/avaliar-artigo');
-					break;
-				case 'Autor':
-					localStorage.setItem('role', result.role[0]);
-					router.push('/dashboard/meus-arquivos');
-					break;
-				default:
-					return;
+		
+			// Verifica se "usercargo" é um array e possui valores
+			if (Array.isArray(result.usercargo) && result.usercargo.length > 0) {
+				const userRole = result.usercargo[0];
+				localStorage.setItem('role', userRole);
+		
+				switch (userRole) {
+					case 'Admin':
+						router.push('/dashboard/gerenciamento-site');
+						break;
+					case 'Editor':
+						router.push('/eventos');
+						break;
+					case 'Avaliador':
+						router.push('/dashboard/avaliar-artigo');
+						break;
+					case 'Autor':
+						router.push('/dashboard/meus-arquivos');
+						break;
+					default:
+						showToast('error', 'Função de usuário inválida.');
+				}
+			} else {
+				showToast('error', 'Nenhum papel foi atribuído ao usuário.');
 			}
 		} else {
 			showToast('error', result.message);
