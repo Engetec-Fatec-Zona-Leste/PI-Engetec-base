@@ -6,9 +6,9 @@ export type InstituitionType = {
 
 export const instituitions: InstituitionType[] = [
 	{
-		name: 'Fatec 1',
+		nome: 'Fatec 1',
 		cnpj: '00000000',
-		situation: 'pending',
+		status: 'pending',
 	},
 	{
 		name: 'Fatec 2',

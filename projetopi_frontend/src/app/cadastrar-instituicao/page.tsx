@@ -1,25 +1,52 @@
 'use client';
 
+import { useState } from 'react';
+import { showToast } from '@/contexts/ToastProvider';
 import { registerInstituicao } from '@/_actions/registerInstituicao';
 import DefaultButton from '@/components/DefaultButton';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import NormalInput from '@/components/NormalInput';
 import Title from '@/components/Title';
-import { showToast } from '@/contexts/ToastProvider';
 
 export default function RegisterInstitutionPage() {
+	const [loading, setLoading] = useState(false);
+
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
 
-		// Chame a função do servidor e exiba o toast com base na resposta
-		const result = await registerInstituicao(formData);
+		// Criando um objeto para os dados do formulário
+		const institutionData = {
+			nome: formData.get('nome'),
+			cnpj: formData.get('cnpj'),
+		};
 
-		if (result.success) {
-			showToast('success', result.message);
-		} else {
-			showToast('error', result.message);
+		setLoading(true); // Ativando o estado de loading enquanto aguarda a resposta da API
+
+		// Enviar os dados para a API
+		try {
+			const response = await fetch('http://localhost:3031/instituicao/cadastrar', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(institutionData),
+			});
+
+			const result = await response.json();
+
+			// Exibe o toast com base no sucesso ou erro
+			if (result.success) {
+				showToast('success', result.message);
+			} else {
+				showToast('error', result.message);
+			}
+		} catch (error) {
+			console.error('Erro ao cadastrar instituição:', error);
+			showToast('error', 'Ocorreu um erro ao tentar cadastrar a instituição.');
+		} finally {
+			setLoading(false); // Desativando o estado de loading
 		}
 	};
 
@@ -55,9 +82,10 @@ export default function RegisterInstitutionPage() {
 							required={true}
 						/>
 						<DefaultButton
-							label="Cadastrar"
+							label={loading ? 'Cadastrando...' : 'Cadastrar'}
 							backgroundColorHex="#4B00E0"
 							type="submit"
+							disabled={loading} // Desabilita o botão enquanto está carregando
 						/>
 					</div>
 				</form>

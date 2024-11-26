@@ -1,76 +1,95 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-import { useRouter } from 'next/navigation';
-
 import { CiCircleRemove } from 'react-icons/ci';
 import { CiCircleCheck } from 'react-icons/ci';
-
+import axios from 'axios'; // Para fazer as requisições HTTP
 import baseURL from '@/_actions/configUrl';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import Title from '@/components/Title';
 import { showToast } from '@/contexts/ToastProvider';
-import { InstituitionType, instituitions } from '@/mocks/Instituitions';
 
 export default function CadastrarInstituicao() {
-	const router = useRouter();
+	const [pending, setPending] = useState(true); // Pendentes
+	const [accepted, setAccepted] = useState(false); // Ativos
+	const [declined, setDeclines] = useState(false); // Recusados
+	const [institutions, setInstitutions] = useState<any[]>([]); // Tipagem flexível para consumir dados da API
+	const [eventId, setEventId] = useState('');
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 	};
+
 	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		// await action()
 		showToast(
 			'info',
 			'Informarion: use this to display a card message on the top left of the screen'
 		);
 	};
 
-	const [pending, setPending] = useState(true);
-	const [accepted, setAccepted] = useState(false);
-	const [declined, setDeclines] = useState(false);
+	// Função para carregar as instituições com base no status selecionado
+	const fetchInstituicoes = async () => {
+		try {
+			let url = '';
 
-	const [institutions, setInstitutions] =
-		useState<InstituitionType[]>(instituitions);
-	const [eventId, setEventId] = useState('');
+			if (pending) {
+				url = '/instituicao/pendente'; // Rota para pendentes
+			} else if (accepted) {
+				url = '/instituicao/aprovada'; // Rota para ativos
+			} else if (declined) {
+				url = '/instituicao/recusada'; // Rota para recusados
+			}
 
-	const handleAccept = (index: number) => {
-		const updatedUsers = [...institutions];
-		updatedUsers[index].situation = 'accept';
-		setInstitutions(updatedUsers);
+			const response = await baseURL.get(url); // Consome a rota correta
+
+			if (Array.isArray(response.data)) {
+				setInstitutions(response.data); // Atualiza a lista de instituições diretamente com os dados da API
+			} else {
+				console.error('A resposta não contém um array de instituições', response.data);
+				throw new Error('Formato inesperado na resposta da API');
+			}
+		} catch (error) {
+			console.error('Erro ao carregar as instituições:', error);
+			throw error;
+		}
+		setEventId(localStorage.getItem('eventId') ?? '0');
 	};
 
-	const handleDecline = (index: number) => {
-		const updatedUsers = [...institutions];
-		updatedUsers[index].situation = 'declined';
-		setInstitutions(updatedUsers);
+	// Função para aprovar uma instituição
+	const handleAccept = async (id: string) => {
+		try {
+			await axios.post(`http://localhost:3031/controle/aprovar/instituicao`, {
+				id: id, // Passando o ID da instituição
+			});
+			// Recarrega as instituições após a aprovação
+			fetchInstituicoes();
+			showToast('success', 'Instituição aprovada com sucesso');
+		} catch (error) {
+			console.error('Erro ao aprovar a instituição:', error);
+			showToast('error', 'Erro ao aprovar a instituição');
+		}
+	};
+
+	// Função para recusar uma instituição
+	const handleDecline = async (id: string) => {
+		try {
+			await axios.post(`http://localhost:3031/controle/recusar/instituicao`, {
+				id: id, // Passando o ID da instituição
+			});
+			// Recarrega as instituições após a recusa
+			fetchInstituicoes();
+			showToast('success', 'Instituição recusada com sucesso');
+		} catch (error) {
+			console.error('Erro ao recusar a instituição:', error);
+			showToast('error', 'Erro ao recusar a instituição');
+		}
 	};
 
 	useEffect(() => {
-		const fetchInstituicoes = async () => {
-			try {
-				const response = await baseURL.get('/instituicao/filtro');
-
-				if (Array.isArray(response.data)) {
-					const instituicoesOptions = response.data;
-					setInstitutions(instituicoesOptions);
-				} else {
-					console.error(
-						'A resposta não contém um array de instituições',
-						response.data
-					);
-					throw new Error('Formato inesperado na resposta da API');
-				}
-			} catch (error) {
-				console.error('Erro ao carregar as instituições:', error);
-				throw error;
-			}
-			setEventId(localStorage.getItem('eventId') ?? '0');
-		};
 		fetchInstituicoes();
-	}, [institutions]);
+	}, [pending, accepted, declined]); // Recarrega sempre que o filtro for alterado
 
 	return (
 		<div>
@@ -204,140 +223,55 @@ export default function CadastrarInstituicao() {
 							text-white"
 						onClick={handleClick}
 					>
-						Salvar
+						<p className="">Nova Instituição</p>
 					</button>
 				</div>
-				<div className="mt-12 w-3/4 overflow-hidden rounded-xl border border-[#BCBCBC]">
-					<table className="w-full text-center">
-						<thead className="rounded-t-xl bg-[#DD4467] text-white">
-							<tr className="h-14">
-								<th scope="col" className=""></th>
-								<th scope="col" className="w-[57%] text-start text-lg">
-									Nome
-								</th>
-								<th scope="col" className="text-start text-lg">
-									CNPJ
-								</th>
+
+				<div className="overflow-x-auto w-full">
+					<table className="table-auto w-full">
+						<thead>
+							<tr>
+								<th className="text-left text-sm text-[#4E4B66]">Ações</th>
+								<th className="text-left text-sm text-[#4E4B66]">Instituição</th>
+								<th className="text-left text-sm text-[#4E4B66]">CNPJ</th>
 							</tr>
 						</thead>
-						<tbody className="rounded-b-xl">
-							{instituitions.map((user, i) => {
-								if (user.situation === 'pending' && pending) {
+						<tbody>
+							{institutions.map((user, i) => {
+								if (user.status === 'pending') {
 									return (
 										<tr
-											key={i}
-											className="h-20"
-											style={{
-												backgroundColor: i % 2 === 0 ? '' : '#E4E4E4',
-											}}
+											key={user.cnpj}
+											className="h-14 border-b border-[#e9e9e9]"
 										>
-											<td>
-												<div
-													style={{
-														display: 'flex',
-														gap: '20px',
-														justifyContent: 'center',
-													}}
+											<td className="flex items-center justify-center gap-4">
+												<button
+													onClick={() => handleAccept(user.id)} // Enviando o ID
+													className="rounded-lg border-none text-green-500"
 												>
-													<CiCircleCheck
-														className="cursor-pointer text-[2rem] text-green-600"
-														onClick={() => handleAccept(i)}
-													/>
-													<CiCircleRemove
-														className="cursor-pointer text-[2rem] text-red-600"
-														onClick={() => handleDecline(i)}
-													/>
-												</div>
+													<CiCircleCheck className="text-[1.5rem]" />
+												</button>
+												<button
+													onClick={() => handleDecline(user.id)} // Enviando o ID
+													className="rounded-lg border-none text-red-500"
+												>
+													<CiCircleRemove className="text-[1.5rem]" />
+												</button>
 											</td>
 											<td className="text-start">
-												<div className="w-[90%] rounded-lg border border-black p-1.5">
-													{user.name}
-												</div>
+												{user.nomeInstituicao}
 											</td>
-											<td className="text-start">
-												<div className="w-[90%] rounded-lg border border-black p-1.5">
-													{user.cnpj}
-												</div>
-											</td>
+											<td>{user.cnpj}</td>
 										</tr>
 									);
-								} else if (user.situation === 'accept' && accepted) {
-									return (
-										<tr
-											key={i}
-											className="h-20"
-											style={{
-												backgroundColor: i % 2 === 0 ? '' : '#E4E4E4',
-											}}
-										>
-											<td>
-												<div
-													style={{
-														display: 'flex',
-														gap: '20px',
-														justifyContent: 'center',
-													}}
-												>
-													<CiCircleRemove
-														className="cursor-pointer text-[2rem] text-red-600"
-														onClick={() => handleDecline(i)}
-													/>
-												</div>
-											</td>
-											<td className="text-start">
-												<div className="w-[90%] rounded-lg border border-black p-1.5">
-													{user.name}
-												</div>
-											</td>
-											<td className="text-start">
-												<div className="w-[90%] rounded-lg border border-black p-1.5">
-													{user.cnpj}
-												</div>
-											</td>
-										</tr>
-									);
-								} else if (user.situation === 'declined' && declined) {
-									return (
-										<tr
-											key={i}
-											className="h-20"
-											style={{
-												backgroundColor: i % 2 === 0 ? '' : '#E4E4E4',
-											}}
-										>
-											<td>
-												<div
-													style={{
-														display: 'flex',
-														gap: '20px',
-														justifyContent: 'center',
-													}}
-												>
-													<CiCircleCheck
-														className="cursor-pointer text-[2rem] text-green-600"
-														onClick={() => handleAccept(i)}
-													/>
-												</div>
-											</td>
-											<td className="text-start">
-												<div className="w-[90%] rounded-lg border border-black p-1.5">
-													{user.name}
-												</div>
-											</td>
-											<td className="text-start">
-												<div className="w-[90%] rounded-lg border border-black p-1.5">
-													{user.cnpj}
-												</div>
-											</td>
-										</tr>
-									);
+								} else {
+									return null;
 								}
 							})}
 						</tbody>
 					</table>
 				</div>
 			</div>
-
 			<Footer />
 		</div>
 	);

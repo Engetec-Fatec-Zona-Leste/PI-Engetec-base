@@ -1,24 +1,28 @@
-import 'server-only'
-import { SignJWT, jwtVerify } from 'jose'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import 'server-only';
+import { SignJWT, jwtVerify } from 'jose';
+import { cookies } from 'next/headers';
 
 type SessionPayload = {
-    userId: string,
-    expiresAt: Date,
-    role: string
+    userId: string;
+    expiresAt: Date | string; // Aceita `Date` ou string ISO
+    role: string;
+};
+
+const secretKey = process.env.JWT_SECRET;
+if (!secretKey) {
+    throw new Error('JWT_SECRET não definido no ambiente');
 }
-
-
-const secretKey = process.env.JWT_SECRET
-const encodedKey = new TextEncoder().encode(secretKey)
+const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: SessionPayload) {
-    const expiresAt = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60; // Timestamp em segundos
-    return new SignJWT({ ...payload, expiresAt })
+    const expiresAt = Math.floor(
+        (payload.expiresAt instanceof Date ? payload.expiresAt.getTime() : new Date(payload.expiresAt).getTime()) / 1000
+    );
+
+    return new SignJWT({ userId: payload.userId, role: payload.role, expiresAt })
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
-        .setExpirationTime(expiresAt) // Define a expiração no token
+        .setExpirationTime(expiresAt)
         .sign(encodedKey);
 }
 
@@ -32,61 +36,82 @@ export async function decrypt(session: string | undefined = '') {
             algorithms: ['HS256'],
         });
 
-        if (Date.now() / 1000 > payload.expiresAt) {
+        // Validação das propriedades do payload
+        if (!payload.userId || !payload.role || !payload.expiresAt) {
+            throw new Error('Payload inválido');
+        }
+
+        // Convertendo expiresAt para timestamp
+        const expiresAtRaw = payload.expiresAt;
+        const expiresAt = typeof expiresAtRaw === 'string' || expiresAtRaw instanceof Date
+            ? new Date(expiresAtRaw).getTime() / 1000
+            : expiresAtRaw;
+
+        if (typeof expiresAt !== 'number' || Date.now() / 1000 > expiresAt) {
             throw new Error('Session expirou');
         }
 
-        return payload;
+        return payload as { userId: string; role: string; expiresAt: number };
     } catch (error) {
         console.error('Erro ao verificar sessão:', error);
         throw new Error('Falha ao verificar a sessão');
-        console.log('Session Token:', session);
-
     }
 }
 
 export async function createSession(userId: string, role: string) {
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-    const session = await encrypt({ userId, expiresAt, role })
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-    cookies().set(
-        'session',
-        session,
-        {
-            httpOnly: true,
-            secure: false,  // Use true apenas em produção e com HTTPS
-            expires: expiresAt,
-            sameSite: 'lax', // Melhor compatibilidade
-            path: '/',       // Torna o cookie acessível em toda a aplicação
-        }
-    )
+    const session = await encrypt({ userId, expiresAt, role });
+
+    cookies().set('session', session, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        expires: expiresAt,
+        sameSite: 'lax',
+        path: '/',
+    });
+
     console.log('Session cookie set:', session);
 }
 
 export async function updateSession() {
-    const session = (await cookies()).get('session')?.value
-    const payload = await decrypt(session)
+    const session = cookies().get('session')?.value;
 
-    if (!session || !payload) {
-        return null
+    if (!session) {
+        return null;
     }
 
-    const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    try {
+        const payload = await decrypt(session);
 
-    const cookieStore = await cookies()
-    cookieStore.set('session', session, {
-        httpOnly: true,
-        secure: true,
-        expires: expires,
-        sameSite: 'lax',
-        path: '/',
-    })
+        // Atualiza expiração
+        const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        const updatedSession = await encrypt({
+            userId: payload.userId,
+            role: payload.role,
+            expiresAt,
+        });
+
+        cookies().set('session', updatedSession, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            expires: expiresAt,
+            sameSite: 'lax',
+            path: '/',
+        });
+
+        console.log('Session cookie updated:', updatedSession);
+    } catch (error) {
+        console.error('Erro ao atualizar a sessão:', error);
+        return null;
+    }
 }
 
 export async function deleteSession() {
-    await cookies().delete('session')
+    cookies().delete('session');
+    console.log('Session cookie deleted');
 }
 
 export async function logout() {
-    deleteSession()
+    deleteSession();
 }

@@ -175,15 +175,39 @@ router.post("/validar/admin", async (req, res) => {
     }
   })
 
-  router.post("/instituicao", async(req, res)=>{
+  router.post("/aprovar/instituicao", async(req, res)=>{
     const id = req.body.id
 
     try {
       const instituicao = await Instituicoes.findOne({where: { id: id }})
 
+
       if (!instituicao) {
         res.json("Erro ao validar instituicao, instituicão não pode ser encontrada")
       }
+
+      instituicao.status = "Aprovado"
+
+      res.status(200).json(instituicao)
+    } catch (error) {
+      onsole.error(error);
+      res.status(500).json({ message: 'Ocorreu um erro ao validar a instituicao' });
+    }
+  })
+
+
+  router.post("/recusar/instituicao", async(req, res)=>{
+    const id = req.body.id
+
+    try {
+      const instituicao = await Instituicoes.findOne({where: { id: id }})
+
+
+      if (!instituicao) {
+        res.json("Erro ao validar instituicao, instituicão não pode ser encontrada")
+      }
+
+      instituicao.status = "Recusado"
 
       res.status(200).json(instituicao)
     } catch (error) {
