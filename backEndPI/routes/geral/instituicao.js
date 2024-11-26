@@ -3,7 +3,7 @@ const {Instituicoes} = require("../../model/db");
 const { where } = require('sequelize');
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/cadastrar", async (req, res) => {
     const {nome, cnpj} = req.body 
 
     try {
@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
       const status = "Pendente"
       const instituicao = await Instituicoes.create({nome, cnpj, status})
 
-      res.status(200).json(instituicao)
+      res.status(200).json("A intituição cadastrada ainda deve ser aprovada ", instituicao)
 
     } catch (error) {
       console.error(error);
@@ -24,15 +24,28 @@ router.post("/", async (req, res) => {
     }
   });
 
-  router.get("/", async (req, res) => {
-  try {
-    const instituicoes = await Instituicoes.findAll();
-    res.status(200).json(instituicoes);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Ocorreu um erro ao buscar as instituições.' });
-  }
+  router.get('/filtro', async (req, res) => {
+    try {
+        const instituicoes = await Instituicoes.findAll({
+            where: { status: 'Aprovado' }, // Buscar apenas instituições aprovadas
+        });
+
+        if (instituicoes.length === 0) {
+            return res
+                .status(404)
+                .json({ message: 'Nenhuma instituição encontrada.' });
+        }
+
+        // Retornar instituições dentro de um atributo `instituicoes`
+        res.status(200).json({ instituicoes });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'Ocorreu um erro ao buscar as instituições.',
+        });
+    }
 });
+
 
   module.exports = router
   

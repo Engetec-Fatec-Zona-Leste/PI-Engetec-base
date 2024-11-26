@@ -1,9 +1,10 @@
 const express = require('express');
+const path = require('path'); // Para manipulação de caminhos
+const fs = require('fs'); // Para verificar e criar diretórios
+const { Eventos, CorpoEditoriais, Apoiadores, CorpoEditorialEventos, EventApoiadores, Onlines, Presenciais, Arquivos, Admin} = require("../../model/db"); // Modelos usados
+const multer = require('multer'); // Para upload de arquivos
+
 const router = express.Router();
-const { Eventos, CorpoEditoriais, Apoiadores, CorpoEditorialEventos, EventApoiadores, Onlines, Presenciais, Arquivos, Admin } = require("../../model/db");
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 
 // Função para garantir que o diretório exista
 const ensureDirExists = (dir) => {
@@ -12,7 +13,7 @@ const ensureDirExists = (dir) => {
     }
 };
 
-// Função slugify para normalizar o nome do arquivo
+// Função slugify para normalizar nomes
 function slugify(string) {
     return string
         .toString()
@@ -24,22 +25,29 @@ function slugify(string) {
         .replace(/-+$/, ''); // Remove hífen no final
 }
 
+// Configuração do multer para salvar arquivos
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const nomeEvento = slugify(req.params.nomeURL); // Usa apenas o nomeURL normalizado
+        const nomeEvento = slugify(req.params.nomeURL); // Usa nomeURL normalizado
         const eventDirLogo = path.join('uploads', nomeEvento, 'logo');
         const eventDirArquivos = path.join('uploads', nomeEvento, 'arquivos');
+        const eventDirApresentacao = path.join('uploads', nomeEvento, 'apresentacao');
 
-        // Cria os diretórios se não existirem
+
+        // Cria os diretórios, se necessário
         ensureDirExists(eventDirLogo);
         ensureDirExists(eventDirArquivos);
+        ensureDirExists(eventDirApresentacao);
 
-        // Define o diretório com base no campo do arquivo (logo ou arquivos)
+        // Define o diretório com base no tipo de arquivo
         if (file.fieldname === 'logo') {
             cb(null, eventDirLogo);
-        } else if (file.fieldname === 'ModeloArquivos' || file.fieldname === 'ModeloApresentacao') {
+        } else if (file.fieldname === 'modeloArquivos') {
             cb(null, eventDirArquivos);
-        } else {
+        }else if (file.fieldname === 'modeloApresentacao') {
+            cb(null, eventDirApresentacao);
+        }
+         else {
             cb(new Error('Campo de arquivo desconhecido'));
         }
     },
@@ -50,7 +58,9 @@ const storage = multer.diskStorage({
     }
 });
 
+// Middleware de upload
 const upload = multer({ storage: storage });
+
 
 router.post('/:nomeURL', upload.fields([{ name: 'logo' }]), async (req, res) => {
     try {
@@ -105,7 +115,7 @@ router.post('/:nomeURL', upload.fields([{ name: 'logo' }]), async (req, res) => 
         }
 
         // Associação dos Apoiadores ao evento
-        for (let index = 0; i < apoaId.length; i++) {
+        for (let index = 0; index < apoaId.length; index++) {
             await EventApoiadores.create({
                 idApoiadores: apoaId[index],
                 idEventos: event.id
@@ -229,8 +239,8 @@ router.post('/:nomeURL/hibrido', async(req, res)=>{
 });
 
 router.post('/:nomeURL/arquivos', upload.fields([
-    { name: 'ModeloArquivos' },
-    { name: 'ModeloApresentacao' }
+    { name: 'modeloApresentacao' },
+    { name: 'modeloArquivos' }
 ]), async (req, res) => {
     try {
         const event = await Eventos.findOne({ where: { nomeURL: req.params.nomeURL } });
@@ -245,9 +255,9 @@ router.post('/:nomeURL/arquivos', upload.fields([
             inicioAvaliacao: req.body.inicioAvaliacao,
             FinalAvaliacao: req.body.FinalAvaliacao,
             limiteArquivosAutores: req.body.limiteArquivosAutores,
-            limitesAutores: req.body.limitesAutores,
+            limiteAutores: req.body.limiteAutores,
             limiteAvaliadores: req.body.limiteAvaliadores,
-            modeloApresentacao: req.files.ModeloApresentacao ? req.files.ModeloApresentacao[0].path : null
+            modeloApresentacao: req.files.modeloApresentacao ? req.files.modeloApresentacao[0].path : null
         };
 
         await Eventos.update(dataEvent, { where: { id: event.id } });
@@ -259,7 +269,7 @@ router.post('/:nomeURL/arquivos', upload.fields([
             apresentacao: req.body.apresentacao,
             idEventos: event.id,
             idCategoriaArquivos: req.body.idCategoriaArquivos,
-            modeloArquivo: req.files.ModeloArquivos ? req.files.ModeloArquivos[0].path : null,
+            modeloArquivo: req.files.modeloArquivos ? req.files.modeloArquivos[0].path : null,
         };
 
         await Arquivos.create(dataArquivos);
