@@ -15,6 +15,6 @@ export const registerUser = async (formData: FormData) => {
     }).then(res => {
         console.log('cadastro feito: ', res.data)
     })
-    // redirect('/login')
+    redirect('/login')
 }
 
