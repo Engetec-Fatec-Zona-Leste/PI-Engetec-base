@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
@@ -27,6 +27,9 @@ export default function SubmeterArquivoPage({
 	const router = useRouter();
 
 	const [authors, setAuthors] = useState<AuthorType[]>([]);
+
+	const eventDate = '29/11/2024';
+	const actualDate = new Date().toLocaleDateString('pt-BR');
 
 	const handleAuthorCheckPeriodChange = (id: number, value: string) => {
 		setAuthors((prevAutores) => {
@@ -224,18 +227,41 @@ export default function SubmeterArquivoPage({
 							<p>Adicionar mais autores</p>
 						</div>
 
-						{/* submit button  */}
-						<div className="flex w-full items-center justify-center gap-5">
-							<DefaultButton
-								label="Voltar"
-								backgroundColorHex="#8A8A8A"
-								onClick={() => router.back()}
-							/>
-							<DefaultButton
-								label="Enviar"
-								backgroundColorHex="#4B00E0"
-								onClick={() => router.push('/areal-dashboard/meus-arquivos')}
-							/>
+						<div className="align-center mb-2 flex w-[100%] flex-col items-center  justify-center self-center">
+							{actualDate != eventDate ? (
+								<div className="mb-4 flex flex w-[80%] items-center justify-center">
+									<p className="text-[#949396]">
+										A data do evento ainda não chegou. Submissão de artigos
+										indisponível no momento.
+									</p>
+								</div>
+							) : (
+								''
+							)}
+
+							{/* submit button  */}
+							<div className="flex w-full items-center justify-center gap-5">
+								<DefaultButton
+									label="Voltar"
+									backgroundColorHex="#8A8A8A"
+									onClick={() => router.back()}
+								/>
+
+								{actualDate == eventDate ? (
+									<DefaultButton
+										label="Enviar"
+										backgroundColorHex="#4B00E0"
+										onClick={() =>
+											router.push('/areal-dashboard/meus-arquivos')
+										}
+									/>
+								) : (
+									<DefaultButton
+										label="Enviar"
+										style={{ cursor: 'default', backgroundColor: '#bcbbbf' }}
+									/>
+								)}
+							</div>
 						</div>
 					</form>
 				</div>
