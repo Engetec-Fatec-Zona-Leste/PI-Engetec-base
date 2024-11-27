@@ -55,7 +55,7 @@ router.get('/aprovada', async (req, res) => {
 router.get('/pendente', async (req, res) => {
   try {
     const instituicoes = await Instituicoes.findAll({
-      where: { status: 'pendente' },
+      where: { status: 'Pendente' },
     });
 
     if (instituicoes.length === 0) {

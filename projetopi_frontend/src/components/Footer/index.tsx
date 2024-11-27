@@ -78,11 +78,6 @@ export default function Footer() {
 					)}
 				</div>
 				<div>
-					<Link href="/">
-						<p className="text-md text-center font-medium text-white">
-							Anais Anteriores
-						</p>
-					</Link>
 					<Link href="/dashboard/proceedings">
 						<p className="text-md text-center font-medium text-white">
 							Proceedings

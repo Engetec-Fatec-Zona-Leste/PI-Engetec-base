@@ -273,16 +273,6 @@ export default function Navbar() {
 					>
 						Proceedings
 					</S.OptionMenu>
-					<S.OptionMenu
-						onClick={() => {
-							handleOptionClick('/eventos');
-							setOpenMenu(false);
-						}}
-						className="cursor-pointer text-base"
-						selected={currentOption === '/eventos'}
-					>
-						Anais Anteriores
-					</S.OptionMenu>
 
 					{!authenticated && (
 						<S.OptionMenu
@@ -319,7 +309,7 @@ export default function Navbar() {
 									showToast('success', res.data.message);
 									router.push('/login');
 								} catch (error) {
-									showToast('error', error?.message);
+									showToast('error', error + '');
 								}
 								setOpenMenu(false);
 							}}

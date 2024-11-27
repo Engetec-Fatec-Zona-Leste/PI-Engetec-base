@@ -175,44 +175,63 @@ router.post("/validar/admin", async (req, res) => {
     }
   })
 
-  router.post("/aprovar/instituicao", async(req, res)=>{
-    const id = req.body.id
-
-    try {
-      const instituicao = await Instituicoes.findOne({where: { id: id }})
-
-
-      if (!instituicao) {
-        res.json("Erro ao validar instituicao, instituicão não pode ser encontrada")
-      }
-
-      instituicao.status = "Aprovado"
-
-      res.status(200).json(instituicao)
-    } catch (error) {
-      onsole.error(error);
-      res.status(500).json({ message: 'Ocorreu um erro ao validar a instituicao' });
+  router.post("/aprovar/instituicao", async (req, res) => {
+    const { id } = req.body;
+  
+    // Verifica se o ID foi enviado
+    if (!id) {
+      return res.status(400).json({ message: "ID da instituição não fornecido." });
     }
-  })
+  
+    try {
+      // Busca a instituição no banco
+      const instituicao = await Instituicoes.findOne({ where: { id } });
+  
+      // Caso a instituição não seja encontrada
+      if (!instituicao) {
+        return res.status(404).json({ message: "Instituição não encontrada." });
+      }
+  
+      // Atualiza o status da instituição
+      instituicao.status = "Aprovado";
+      await instituicao.save(); // Salva as alterações no banco
+  
+      // Retorna a instituição atualizada
+      res.status(200).json({ message: "Instituição aprovada com sucesso.", instituicao });
+    } catch (error) {
+      console.error("Erro ao aprovar instituição:", error);
+      res.status(500).json({ message: "Ocorreu um erro ao aprovar a instituição." });
+    }
+  });
+  
 
 
   router.post("/recusar/instituicao", async(req, res)=>{
-    const id = req.body.id
-
+    const { id } = req.body;
+  
+    // Verifica se o ID foi enviado
+    if (!id) {
+      return res.status(400).json({ message: "ID da instituição não fornecido." });
+    }
+  
     try {
-      const instituicao = await Instituicoes.findOne({where: { id: id }})
-
-
+      // Busca a instituição no banco
+      const instituicao = await Instituicoes.findOne({ where: { id } });
+  
+      // Caso a instituição não seja encontrada
       if (!instituicao) {
-        res.json("Erro ao validar instituicao, instituicão não pode ser encontrada")
+        return res.status(404).json({ message: "Instituição não encontrada." });
       }
-
-      instituicao.status = "Recusado"
-
-      res.status(200).json(instituicao)
+  
+      // Atualiza o status da instituição
+      instituicao.status = "Recusada";
+      await instituicao.save(); // Salva as alterações no banco
+  
+      // Retorna a instituição atualizada
+      res.status(200).json({ message: "Instituição recusada com sucesso.", instituicao });
     } catch (error) {
-      onsole.error(error);
-      res.status(500).json({ message: 'Ocorreu um erro ao validar a instituicao' });
+      console.error("Erro ao aprovar instituição:", error);
+      res.status(500).json({ message: "Ocorreu um erro ao recusar a instituição." });
     }
   })
 

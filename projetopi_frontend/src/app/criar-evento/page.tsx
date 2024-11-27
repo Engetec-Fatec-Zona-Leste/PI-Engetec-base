@@ -57,79 +57,67 @@ export default function CriarEventoPage({
 
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const formData = new FormData(e.currentTarget); // Crie o FormData do formulário
-	  
+	
+		const formData = new FormData(e.currentTarget); // Criação do FormData a partir do formulário
+	
+		// Obtenção e validação dos campos do formulário
 		const nomeEvento = formData.get('eventName') as string;
-	  
-		// Validação do nome do evento
-		if (!nomeEvento || typeof nomeEvento !== 'string') {
-		  return showToast('error', 'Por favor, insira um nome válido para o evento.');
+		if (!nomeEvento) {
+			return showToast('error', 'Por favor, insira um nome válido para o evento.');
 		}
-	  
+	
 		// Gerar URL amigável
 		const url = slugify(nomeEvento);
-		const descricao = formData.get('descricao') as string || '';
-		const assuntoPrincipal = formData.get('assunto') as string || '';
-		const emailEvento = formData.get('emailEvent') as string || '';
-		const formato = formData.get('formato') as string || '';
-		const certificados = formData.get('certificados') as string || '';
-		const proceedings = formData.get('proceedings') as string || '';
-		const publico = formData.get('publico') as string || '';
-		
-		// Aqui você obtém o arquivo selecionado
-		// const logoTeste = formData.get('logo') as File | null;
-		// console.log("logoTeste", logoTeste); // Verifique se o arquivo foi capturado corretamente
-	  
-		// Verificar se o logo foi selecionado
-		// if (!logoTeste) {
-		//   return showToast('error', 'Por favor, insira um logo para o evento.');
-		// }
-	  
-		// Criando o objeto de dados a ser enviado
-		const data = {
-		  idAdmin: 11,
-		  nome: nomeEvento,
-		  nomeURL: url,
-		  descricao: descricao,
-		  assuntoPrincipal: assuntoPrincipal,
-		  emailEvento: emailEvento,
-		  formato: formato,
-		  certificados: false,
-		  proceedings: false,
-		  publico: false,
-		};
-	  
-		try {
-		  			const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiY2FyZ28iOlsiQWRtaW4iXSwiaWF0IjoxNzMyNTQyOTM2LCJleHAiOjE3MzI1NjA5MzZ9.OpRd0nks1j5fgZnhRZ9gM5bJY0Q_vqGgxJ7UEjoEYQA"
-
-	  
-		  // Agora, você precisa enviar os dados como FormData, incluindo o arquivo
-		//   formData.append('logo', logoTeste); // Incluindo o arquivo 'logo'
-	  
-		  // Enviar os dados para a API
-		  const response = await baseURL.post('/evento/' + url, data, {
-			headers: {
-			  'Authorization': `Bearer ${token}`,
-			  'Content-Type': 'multipart/form-data', // Garantir o envio como FormData
-			},
-		  });
-	  
-		  if (response.data.success) {
-			showToast('info', 'Evento criado com sucesso!');
-			router.push(`/evento/${response.data.id}`); // Redirecionar para o evento criado
-		  } else {
-			showToast('error', 'Erro ao criar evento.');
-		  }
-		} catch (error: any) {
-		  if (error.response) {
-			console.error('Erro ao cadastrar evento:', error.response.data);
-			showToast('error', `Erro ao criar evento: ${error.response.data.message}`);
-		  } else {
-			console.error('Erro na comunicação com a API:', error);
-			showToast('error', 'Erro na comunicação com a API.');
-		  }
+	
+		// Obter o arquivo de logo
+		const logoTeste = formData.get('logo') as File | null;
+		if (!logoTeste) {
+			return showToast('error', 'Por favor, insira um logo para o evento.');
 		}
-	  };
+	
+		// Adicionar os campos personalizados ao FormData
+		formData.append('nomeURL', url);
+		formData.append('idAdmin', '11'); // Exemplo de ID estático
+	
+		// Garantir que booleanos sejam enviados corretamente como strings (se necessário)
+		formData.set('certificados', String(false));
+		formData.set('proceedings', String(false));
+		formData.set('publico', String(false));
+	
+		// Log para depuração
+		console.log([...formData.entries()]); // <-- Aqui você pode ver exatamente o que está sendo enviado
+	
+		try {
+			const token =
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjY3ODYwMSwiZXhwIjoxNzMyNjk2NjAxfQ.Ef6AJE4_T4i8CFrC30OJ-dJdqZFePKF0qaSqtAR7AKo';
+	
+			// Enviar os dados como FormData
+			const response = await baseURL.post(`/evento/${url}`, formData, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+					'Content-Type': 'multipart/form-data', // É opcional, pois o Axios define automaticamente
+				},
+			});
+	
+			// Resposta da API
+			if (response.data.success) {
+				showToast('info', 'Evento criado com sucesso!');
+				router.push(`/evento/${response.data.id}`);
+			} else {
+				showToast('error', 'Erro ao criar evento.');
+			}
+		} catch (error: any) {
+			// Tratamento de erros
+			if (error.response) {
+				console.error('Erro ao cadastrar evento:', error.response.data);
+				showToast('error', `Erro ao criar evento: ${error.response.data.message}`);
+			} else {
+				console.error('Erro na comunicação com a API:', error);
+				showToast('error', 'Erro na comunicação com a API.');
+			}
+		}
+	};
+	
 	  
 
 	return (

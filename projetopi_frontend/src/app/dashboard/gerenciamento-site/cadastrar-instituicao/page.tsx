@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import Title from '@/components/Title';
 import { showToast } from '@/contexts/ToastProvider';
+import Cookies from 'js-cookie';
 
 export default function CadastrarInstituicao() {
 	const [statusFilter, setStatusFilter] = useState<'pending' | 'accepted' | 'declined'>('pending'); // Filtro de status
@@ -43,14 +44,42 @@ export default function CadastrarInstituicao() {
 
 	const handleStatusChange = async (id: string, action: 'aprovar' | 'recusar') => {
 		try {
-			await baseURL.post(`/controle/${action}/instituicao`, { id });
-			showToast('success', `Instituição ${action === 'aprovar' ? 'aprovada' : 'recusada'} com sucesso.`);
-			fetchInstituicoes(); // Atualiza a lista
-		} catch (error) {
+		  // Obtém o token armazenado (exemplo com cookies)
+
+	  
+		  // Faz a requisição ao servidor com o token no cabeçalho
+		  await baseURL.post(
+			`/controle/${action}/instituicao`, // Rota dinâmica
+			{ id }, // Corpo da requisição com o ID
+			{
+			  headers: {
+				Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjY3ODYwMSwiZXhwIjoxNzMyNjk2NjAxfQ.Ef6AJE4_T4i8CFrC30OJ-dJdqZFePKF0qaSqtAR7AKo", // Token de autenticação
+			  },
+			}
+		  );
+	  
+		  // Notifica sucesso e atualiza a lista
+		  showToast(
+			'success',
+			`Instituição ${action === 'aprovar' ? 'aprovada' : 'recusada'} com sucesso.`
+		  );
+		  fetchInstituicoes(); // Atualiza a lista de instituições
+		} catch (error: any) {
+		  // Verifica se o erro possui uma resposta do servidor
+		  if (error.response) {
+			console.error(`Erro ${action} instituição:`, error.response.data);
+			showToast(
+			  'error',
+			  `Erro ao ${action} instituição: ${error.response.data.message || 'Verifique os dados enviados.'}`
+			);
+		  } else {
 			console.error(`Erro ao ${action} instituição:`, error);
-			showToast('error', `Erro ao ${action} instituição.`);
+			showToast('error', `Erro ao ${action} instituição. Tente novamente mais tarde.`);
+		  }
 		}
-	};
+	  };
+	  
+	
 
 	useEffect(() => {
 		fetchInstituicoes();
@@ -124,16 +153,16 @@ export default function CadastrarInstituicao() {
 											statusFilter === status ? 'text-black' : 'text-white'
 										}`}
 									/>
-<p>
-  {status === 'pendente' 
-    ? 'Pendentes' 
-    : status === 'aprovada' 
-    ? 'Aprovadas' 
-    : status === 'recusada' 
-    ? 'Recusadas'
-    : 'Status Desconhecido'
-  }
-</p>
+										<p>
+										{status === 'pendente' 
+											? 'Pendentes' 
+											: status === 'aprovada' 
+											? 'Aprovadas' 
+											: status === 'recusada' 
+											? 'Recusadas'
+											: 'Status Desconhecido'
+										}
+										</p>
 								</button>
 							))}
 						</div>

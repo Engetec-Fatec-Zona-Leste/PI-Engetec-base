@@ -85,6 +85,8 @@ router.post('/:nomeURL', upload.fields([{ name: 'logo' }]), async (req, res) => 
             logo: req.files.logo ? req.files.logo[0].path : null
         };
 
+        console.log(data.logo)
+
         // Criação do evento
         const event = await Eventos.create(data);
 
