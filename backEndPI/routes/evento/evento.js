@@ -123,7 +123,10 @@ router.post('/:nomeURL', upload.fields([{ name: 'logo' }]), async (req, res) => 
             });
         }
 
-        res.status(200).json({ message: 'Evento criado com sucesso!' });
+       res.status(200).json({
+            message: 'Evento criado com sucesso!',
+            eventId: event.id
+        });
 
     } catch (error) {
         console.error('Erro ao criar evento:', error);

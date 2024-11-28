@@ -56,6 +56,8 @@ export default function CriarEventoPage({params}: {
 	
 		const formData   = new FormData(e.currentTarget);
 		const nomeEvento = formData.get('eventName') as string;
+		const modalidade = formData.get('modalidade') as string;
+
 
 		if (!nomeEvento) {
 			return showToast('error', 'Por favor, insira um nome válido para o evento.');
@@ -71,7 +73,7 @@ export default function CriarEventoPage({params}: {
 			return showToast('error', 'Por favor, insira um logo para o evento.');
 		}
 
-		console.log(a)
+
 	
 		const requestBody = new FormData();
 
@@ -88,7 +90,9 @@ export default function CriarEventoPage({params}: {
 		requestBody.append("corpoEditorial", 	corpoEditorial);
 		
 		try {
-			const token    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjc2MTQ3NSwiZXhwIjoxNzMyNzc5NDc1fQ.V_Z2DyyHXnjJmPlIeYmW_PfWLSQM4_eOhvHFJDQcwGQ'
+			const token =
+				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjgxMjg1MCwiZXhwIjoxNzMyODMwODUwfQ.8fZBTFOTQbtt6FaQwl8SNVT-Wpd_J8jtI6OmCNee3DM';
+	
 			const response = await baseURL.post(`/evento/${endpoint}`, requestBody, {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -96,24 +100,49 @@ export default function CriarEventoPage({params}: {
 				},
 			});
 	
-			// Resposta da API
-			if (response.data.success) {
+			if (response.status === 200 && response.data.eventId) {
+				const eventId = response.data.eventId;
+	
+				// Exibe a notificação de sucesso
 				showToast('info', 'Evento criado com sucesso!');
-				router.push(`/evento/${response.data.id}`);
+	
+				// Define a URL de redirecionamento com base na modalidade capturada
+				let modalidadePath = 'arquivos'; // Rota padrão
+				switch (modalidade) {
+					case 'Presencial':
+						modalidadePath = 'Presencial';
+						break;
+					case 'Hibrido':
+						modalidadePath = 'Hibrido';
+						break;
+					case 'Remoto':
+					case 'Online': // Suporte para "Online" ou "Remoto"
+						modalidadePath = 'Online';
+						break;
+					default:
+						modalidadePath = 'arquivos';
+						break;
+				}
+	
+				// Redireciona para a página correspondente
+				router.push(`/criar-evento/${eventId}/data?evento=${nomeEvento}&modalidade=${modalidadePath}`);
+
 			} else {
-				showToast('error', 'Erro ao criar evento.');
+				showToast('error', 'Erro inesperado ao criar o evento.');
 			}
 		} catch (error: any) {
-			// Tratamento de erros
 			if (error.response) {
 				console.error('Erro ao cadastrar evento:', error.response.data);
-				showToast('error', `Erro ao criar evento: ${error.response.data.message}`);
+				const errorMessage =
+					error.response.data.message || 'Erro ao criar evento.';
+				showToast('error', `Erro ao criar evento: ${errorMessage}`);
 			} else {
 				console.error('Erro na comunicação com a API:', error);
 				showToast('error', 'Erro na comunicação com a API.');
 			}
 		}
 	};
+	
 	
 	  
 

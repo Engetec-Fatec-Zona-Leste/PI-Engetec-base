@@ -62,7 +62,7 @@ export default function EventoMenu({
 									onClick={() => router.push('/dashboard/editar/editar-evento')}
 								>
 									<AiOutlineStar color="#4B00E0" className="h-10 w-10" />
-									<div className="flex flex-col gap-0.5">
+									<div className="flex flex-col gap-0.5"> 
 										<p
 											className="text-base font-semibold"
 											style={{ color: '#4B00E0' }}

@@ -252,7 +252,7 @@ export default function SubmeterArquivoPage({
 										label="Enviar"
 										backgroundColorHex="#4B00E0"
 										onClick={() =>
-											router.push('/areal-dashboard/meus-arquivos')
+											router.push('/dashboard/meus-arquivos')
 										}
 									/>
 								) : (
