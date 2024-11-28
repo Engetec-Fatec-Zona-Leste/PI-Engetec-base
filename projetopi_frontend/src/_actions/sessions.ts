@@ -115,3 +115,14 @@ export async function deleteSession() {
 export async function logout() {
     deleteSession();
 }
+
+
+export async function getCurrentSession() {
+    const session = cookies().get('session')?.value;
+    if (session) {
+        const payload = await decrypt(session);
+        return payload;
+    }
+    return null;
+
+}

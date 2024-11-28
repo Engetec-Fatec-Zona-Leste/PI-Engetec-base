@@ -19,10 +19,8 @@ import Cookies from 'js-cookie';
 
 
 
-export default function CriarEventoPage({
-	params,
-}: {
-	params: { idEvento: string };
+export default function CriarEventoPage({params}: {
+	params: { idEvento: string }
 }) {
 	// const pathname = usePathname();
 	// const searchParams = useSearchParams();
@@ -35,8 +33,6 @@ export default function CriarEventoPage({
 		[]
 	);
 
-
-	  
 	const handleCheckboxChangeVisibilidade = (idP: string) => {
 		setSelectedVisibilidade((prevSelected) =>
 			prevSelected.includes(idP)
@@ -58,44 +54,43 @@ export default function CriarEventoPage({
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 	
-		const formData = new FormData(e.currentTarget); // Criação do FormData a partir do formulário
-	
-		// Obtenção e validação dos campos do formulário
+		const formData   = new FormData(e.currentTarget);
 		const nomeEvento = formData.get('eventName') as string;
+
 		if (!nomeEvento) {
 			return showToast('error', 'Por favor, insira um nome válido para o evento.');
 		}
 	
-		// Gerar URL amigável
-		const url = slugify(nomeEvento);
-	
-		// Obter o arquivo de logo
-		const logoTeste = formData.get('logo') as File | null;
-		if (!logoTeste) {
+		const endpoint 		  = slugify(nomeEvento);
+		const logo 	   		  = formData.get('logo') as File | null;
+		const file 	   		  = document.querySelector('input[type="file"]')
+		const corpoEditorial  = [...document.querySelectorAll('input[name^="corpo-editorial"]')].map(input => input.value);
+		const apoiadores  	  = [...document.querySelectorAll('input[name^="apoiador"]')].map(input => input.value);
+
+		if (!logo) {
 			return showToast('error', 'Por favor, insira um logo para o evento.');
 		}
 	
-		// Adicionar os campos personalizados ao FormData
-		formData.append('nomeURL', url);
-		formData.append('idAdmin', '11'); // Exemplo de ID estático
-	
-		// Garantir que booleanos sejam enviados corretamente como strings (se necessário)
-		formData.set('certificados', String(false));
-		formData.set('proceedings', String(false));
-		formData.set('publico', String(false));
-	
-		// Log para depuração
-		console.log([...formData.entries()]); // <-- Aqui você pode ver exatamente o que está sendo enviado
-	
+		const requestBody = new FormData();
+
+		requestBody.append("nome", 			    nomeEvento);
+		requestBody.append("descricao", 		formData.get('descricao'));
+		requestBody.append("assuntoPrincipal",  formData.get('assunto'));
+		requestBody.append("emailEvento", 		formData.get('emailEvent'));
+		requestBody.append("publico", 			formData.get('public') == 'Público' ? true : false);
+		requestBody.append("proceedings", 		formData.get('gerar-Proceedings') ? true : false);
+		requestBody.append("certificados", 		formData.get('gerar-Certificados') ? true : false);
+		requestBody.append("formato", 			formData.get('modalidade'));
+		requestBody.append("logo", 				file.files[0], "[PROXY]");
+		requestBody.append("apoiadores", 		apoiadores);
+		requestBody.append("corpoEditorial", 	corpoEditorial);
+		
 		try {
-			const token =
-				'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjY3ODYwMSwiZXhwIjoxNzMyNjk2NjAxfQ.Ef6AJE4_T4i8CFrC30OJ-dJdqZFePKF0qaSqtAR7AKo';
-	
-			// Enviar os dados como FormData
-			const response = await baseURL.post(`/evento/${url}`, formData, {
+			const token    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjc2MTQ3NSwiZXhwIjoxNzMyNzc5NDc1fQ.V_Z2DyyHXnjJmPlIeYmW_PfWLSQM4_eOhvHFJDQcwGQ'
+			const response = await baseURL.post(`/evento/${endpoint}`, requestBody, {
 				headers: {
 					Authorization: `Bearer ${token}`,
-					'Content-Type': 'multipart/form-data', // É opcional, pois o Axios define automaticamente
+					'Content-Type': 'multipart/form-data',
 				},
 			});
 	
@@ -271,7 +266,7 @@ export default function CriarEventoPage({
 											<CheckInput
 												key={index}
 												label={name}
-												name={`evento-${name}`}
+												name="public"
 												value={name}
 												checked={selectedVisibilidade.includes(name)}
 												onChange={() => handleCheckboxChangeVisibilidade(name)}
@@ -330,8 +325,9 @@ export default function CriarEventoPage({
 							</div>
 							<input
 								type="file"
-								id="fileInput"
+								id="logo"
 								name="logo"
+								accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.tiff,.svg,.heic,.avif"
 							/>
 						</div>
 						<div className="flex items-center justify-center">

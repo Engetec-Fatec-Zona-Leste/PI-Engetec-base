@@ -79,7 +79,7 @@ const IncrementInput: React.FC<CustomIncrementInputProps> = ({
 								<input
 									className="w-full rounded-md border-0 bg-white text-sm outline-none"
 									type="text"
-									name={`${inputProps.name}[]`}
+									name={`${inputProps.name}[${index}]`}
 									value={area}
 									onChange={(e) => handleInputChange(index, e.target.value)}
 									required
