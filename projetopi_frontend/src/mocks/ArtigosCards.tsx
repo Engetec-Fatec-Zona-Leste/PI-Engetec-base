@@ -24,6 +24,7 @@ export type CardsDataType = {
 export const cardsData1: CardsDataType[] = [
 	{
 		id: 1,
+		eventName: 'Blockchain: Uma Revolução na Segurança de Dados e Transações',
 		title:
 			'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
 		type: 'Artigo',
@@ -40,6 +41,7 @@ export const cardsData1: CardsDataType[] = [
 	},
 	{
 		id: 2,
+		eventName: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
 		title: 'Blockchain: Uma Revolução na Segurança de Dados e Transações',
 		type: 'Artigo',
 		status: 'Reprovado',
@@ -75,6 +77,7 @@ export const cardsData1: CardsDataType[] = [
 export const cardsData2: CardsDataType[] = [
 	{
 		id: 3,
+		eventName: 'Blockchain: Uma Revolução na Segurança de Dados e Transações',
 		title:
 			'Transformação Digital: Uma Análise das Estratégias para o Sucesso Empresarial na Era Digital',
 		type: 'Artigo',
@@ -91,6 +94,7 @@ export const cardsData2: CardsDataType[] = [
 
 	{
 		id: 4,
+		eventName: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
 		title:
 			'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
 		type: 'Artigo',
@@ -109,7 +113,7 @@ export const cardsData2: CardsDataType[] = [
 export const cardsData3: CardsDataType[] = [
 	{
 		id: 5,
-		eventName: 'AAAAAAA',
+		eventName: 'Blockchain: Uma Revolução na Segurança de Dados e Transações',
 		title:
 			'Transformação Digital: Uma Análise das Estratégias para o Sucesso Empresarial na Era Digital',
 		type: 'Artigo',
@@ -126,7 +130,7 @@ export const cardsData3: CardsDataType[] = [
 
 	{
 		id: 6,
-		eventName: 'BBBBB',
+		eventName: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
 		title:
 			'Era da Internet das Coisas: Transformando a Sociedade e os Negócios',
 		type: 'Artigo',

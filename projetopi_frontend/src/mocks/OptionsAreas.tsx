@@ -1,8 +1,8 @@
 const mockedOptionAreas = [
-	{ value: '1', label: 'Area 1' },
-	{ value: '2', label: 'Area 2' },
-	{ value: '3', label: 'Area 3' },
-	{ value: '4', label: 'Area 4' },
+	{ value: '1', label: 'Dados' },
+	{ value: '2', label: 'Redes' },
+	{ value: '3', label: 'Matemática' },
+	{ value: '4', label: 'Fisica' },
 ];
 
 export default mockedOptionAreas;

@@ -6,48 +6,53 @@ export type InstituitionType = {
 
 export const instituitions: InstituitionType[] = [
 	{
-		nome: 'Fatec 1',
-		cnpj: '00000000',
-		status: 'pending',
-	},
-	{
-		name: 'Fatec 2',
-		cnpj: '0000000',
+		name: 'Fatec Zona Leste',
+		cnpj: '000000',
 		situation: 'pending',
 	},
 	{
-		name: 'Fatec 3',
-		cnpj: '0000000',
+		name: 'Fatec Itaqua',
+		cnpj: '8904385098',
 		situation: 'pending',
 	},
 	{
-		name: 'Fatec 4',
-		cnpj: '0000000',
+		name: 'Fatec Sao Paulo',
+		cnpj: '111111',
+		situation: 'pending',
+	},
+	{
+		name: 'Etec Itaqua',
+		cnpj: '90584609',
 		situation: 'accept',
 	},
 	{
-		name: 'Fatec 5',
-		cnpj: '0000000',
+		name: 'Fatec Zona Leste',
+		cnpj: '000000',
 		situation: 'accept',
 	},
 	{
-		name: 'Fatec 6',
-		cnpj: '0000000',
+		name: 'Etec Sao Paulo',
+		cnpj: '984985792',
 		situation: 'accept',
 	},
 	{
-		name: 'Fatec 7',
-		cnpj: '0000000',
-		situation: 'declined',
+		name: 'Fatec Sao Paulo',
+		cnpj: '111111',
+		situation: 'accept',
 	},
 	{
-		name: 'Fatec 8',
-		cnpj: '0000000',
-		situation: 'declined',
+		name: 'Fatec Sao Bernardo',
+		cnpj: '546809589',
+		situation: 'accept',
 	},
 	{
-		name: 'Fatec 9',
-		cnpj: '0000000',
+		name: 'Fatec Zona Leste',
+		cnpj: '546809589',
+		situation: 'accept',
+	},
+	{
+		name: 'Fatec Itaquera',
+		cnpj: '9982739847',
 		situation: 'declined',
 	},
 ];

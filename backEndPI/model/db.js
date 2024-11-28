@@ -660,7 +660,13 @@ Eventos.belongsTo(Admin, {
   targetKey: 'id' // Chave primária no modelo Admin
 });
 
-sequelize.sync();
+sequelize.sync({ force: false }) // Ou use { alter: true } dependendo do seu caso
+  .then(() => {
+    console.log('Tabelas sincronizadas com sucesso!');
+  })
+  .catch((err) => {
+    console.error('Erro ao sincronizar as tabelas:', err);
+  });
 
 // Não esqueçam
 module.exports = {Admin, CertificadosAvaliadores,UserEvento,EventoUserCargo, TokenEventos,  EventoAvaliadores, RespostasAvaliacoes, ArquivoEspecialidades, AutorArquivos, ArquivoSubmetidos, Avaliacoes, UserProfile, Cargo, Token, UserCargo, Instituicoes, EditorChefes, Eventos, Ouvintes, Areas, SubAreas, GrandeAreas, AvaliadorSubAreas, Especialidades, CorpoEditoriais, CorpoEditorialEventos, Apoiadores, EventApoiadores, Onlines, Presenciais, CategoriaArquivos, Arquivos, Convidados, Autores, Organizadores, Chairs , Avaliadores, sequelize };

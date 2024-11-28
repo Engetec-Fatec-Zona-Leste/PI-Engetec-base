@@ -18,7 +18,7 @@ export const proceedingsMock: Proceedings[] = [
 
 	{
 		EventName: 'Digital Transformation Symposium',
-		authors: ['Ana Konda', 'Déssio Pinto'],
+		authors: ['Ana Konda', 'Déssio Magalhães'],
 		date: '7º EngeTec(2024)',
 	}
 ];
