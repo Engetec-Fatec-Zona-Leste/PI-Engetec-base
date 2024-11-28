@@ -59,10 +59,12 @@ export async function decrypt(session: string | undefined = '') {
 }
 
 export async function createSession(userId: string, role: string) {
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // Define a validade do token (7 dias)
+    
+    // Criptografa o conteúdo da sessão
     const session = await encrypt({ userId, expiresAt, role });
 
+    // Armazena o token no cookie
     cookies().set('session', session, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
@@ -71,8 +73,12 @@ export async function createSession(userId: string, role: string) {
         path: '/',
     });
 
-    console.log('Session cookie set:', session);
+    // Armazena o token no localStorage
+    localStorage.setItem('session', session); // Salvando no localStorage
+
+    console.log("Token salvo no localStorage:", localStorage.getItem('session'));
 }
+
 
 export async function updateSession() {
     const session = cookies().get('session')?.value;
@@ -118,7 +124,7 @@ export async function logout() {
 
 
 export async function getCurrentSession() {
-    const session = cookies().get('session')?.value;
+    const session = localStorage.getItem('session');
     if (session) {
         const payload = await decrypt(session);
         return payload;
@@ -126,3 +132,4 @@ export async function getCurrentSession() {
     return null;
 
 }
+

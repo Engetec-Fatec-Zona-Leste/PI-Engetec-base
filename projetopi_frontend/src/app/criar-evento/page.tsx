@@ -70,6 +70,8 @@ export default function CriarEventoPage({params}: {
 		if (!logo) {
 			return showToast('error', 'Por favor, insira um logo para o evento.');
 		}
+
+		console.log(a)
 	
 		const requestBody = new FormData();
 

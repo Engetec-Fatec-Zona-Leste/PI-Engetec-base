@@ -10,7 +10,7 @@ import CheckInput from '@/components/CheckInput';
 import DefaultButton from '@/components/DefaultButton';
 import { showToast } from '@/contexts/ToastProvider';
 
-const Online = ({ handleNextClick }: DataLocalProps) => {
+const Online = ({ handleNextClick, handleSubmit }: DataLocalProps) => {
 	const [selectedPeriods, setSelectedPeriods] = useState<string[]>([]);
 	const handleCheckboxChangePeriod = (periodId: string) => {
 		setSelectedPeriods((prevSelected) =>
@@ -22,17 +22,6 @@ const Online = ({ handleNextClick }: DataLocalProps) => {
 	const router = useRouter();
 
 	const checkboxPeriodo = ['Matutino', 'Vespertino', 'Noturno'];
-
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		// action(formData)
-		showToast(
-			'info',
-			'Informarion: use this to display a card message on the top left of the screen'
-		);
-		handleNextClick('arquivos');
-	};
 
 	return (
 		<div className="container mb-6 mt-52 flex justify-center">

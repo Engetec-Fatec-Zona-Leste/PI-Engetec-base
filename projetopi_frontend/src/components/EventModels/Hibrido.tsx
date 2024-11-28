@@ -8,7 +8,7 @@ import DefaultButton from '@/components/DefaultButton';
 import { showToast } from '@/contexts/ToastProvider';
 import { checkboxPeriodo } from '@/mocks/checkboxes';
 
-const Hibrido = ({ handleNextClick }: DataLocalProps) => {
+const Hibrido = ({ handleNextClick, handleSubmit }: DataLocalProps) => {
 	const [selectedPeriods, setSelectedPeriods] = useState<string[]>([]);
 	const handleCheckboxChangePeriod = (periodId: string) => {
 		setSelectedPeriods((prevSelected) =>
@@ -19,16 +19,6 @@ const Hibrido = ({ handleNextClick }: DataLocalProps) => {
 	};
 	const router = useRouter();
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.currentTarget);
-		// action(formData)
-		showToast(
-			'info',
-			'Informarion: use this to display a card message on the top left of the screen'
-		);
-		handleNextClick('arquivos');
-	};
 
 	return (
 		<div className="container mb-6 mt-52 flex justify-center">

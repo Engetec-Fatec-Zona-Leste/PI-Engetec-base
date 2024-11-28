@@ -18,4 +18,5 @@ export const login = async (formData: FormData) => {
     } catch (error) {
         return { success: false, message: 'Erro ao fazer o login!' }; // Corrigido "error: false" para "success: false"
     }
+    
 };

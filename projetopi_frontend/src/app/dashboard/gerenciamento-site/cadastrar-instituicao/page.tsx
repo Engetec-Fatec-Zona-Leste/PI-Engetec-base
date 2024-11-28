@@ -14,17 +14,28 @@ export default function CadastrarInstituicao() {
 	const [statusFilter, setStatusFilter] = useState<'pending' | 'accepted' | 'declined'>('pending'); // Filtro de status
 	const [institutions, setInstitutions] = useState<any[]>([]); // Lista de instituições
 	const [loading, setLoading] = useState(false);
-
+	const session = document.cookie.split('; ').find(row => row.startsWith('session='))?.split('=')[1];
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		const formData = new FormData(event.currentTarget);
-
 		const institutionData = {
 			nome: formData.get('nome'),
 			cnpj: formData.get('cnpj'),
 		};
 
-		
+		try {
+			const response = await baseURL.post('/instituicao/cadastrar', institutionData);
+			if (response.data.success) {
+				showToast('success', 'Institui o cadastrada com sucesso.');
+				fetchInstituicoes(); // Atualiza a lista de institui es
+			} else {
+				showToast('error', response.data.message);
+			}
+		} catch (error) {
+			console.error('Erro ao cadastrar institui o:', error);
+			showToast('error', 'Erro ao cadastrar institui o. Tente novamente mais tarde.');
+
+		}
 	};
 
 	// Carregar instituições com base no filtro de status
@@ -43,42 +54,52 @@ export default function CadastrarInstituicao() {
 	};
 
 	const handleStatusChange = async (id: string, action: 'aprovar' | 'recusar') => {
+		// Obtém o token do localStorage
+		const token = localStorage.getItem('session'); // Modificado para pegar a chave 'session', conforme a função createSession
+	
+		console.log("Token encontrado no localStorage:", token); 
+	
 		try {
-		  // Obtém o token armazenado (exemplo com cookies)
-
-	  
-		  // Faz a requisição ao servidor com o token no cabeçalho
-		  await baseURL.post(
-			`/controle/${action}/instituicao`, // Rota dinâmica
-			{ id }, // Corpo da requisição com o ID
-			{
-			  headers: {
-				Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImNhcmdvIjpbIkFkbWluIl0sImlhdCI6MTczMjY3ODYwMSwiZXhwIjoxNzMyNjk2NjAxfQ.Ef6AJE4_T4i8CFrC30OJ-dJdqZFePKF0qaSqtAR7AKo", // Token de autenticação
-			  },
+			// Verifica se o token existe
+			if (!token) {
+				throw new Error('Token não encontrado. Faça login novamente.');
 			}
-		  );
-	  
-		  // Notifica sucesso e atualiza a lista
-		  showToast(
-			'success',
-			`Instituição ${action === 'aprovar' ? 'aprovada' : 'recusada'} com sucesso.`
-		  );
-		  fetchInstituicoes(); // Atualiza a lista de instituições
-		} catch (error: any) {
-		  // Verifica se o erro possui uma resposta do servidor
-		  if (error.response) {
-			console.error(`Erro ${action} instituição:`, error.response.data);
-			showToast(
-			  'error',
-			  `Erro ao ${action} instituição: ${error.response.data.message || 'Verifique os dados enviados.'}`
+	
+			// Faz a requisição ao servidor com o token no cabeçalho
+			await baseURL.post(
+				`/controle/${action}/instituicao`, // Rota dinâmica
+				{ id }, // Corpo da requisição com o ID
+				{
+					headers: {
+						Authorization: `Bearer ${token}`, // Substitua pelo token correto
+					},
+				}
 			);
-		  } else {
-			console.error(`Erro ao ${action} instituição:`, error);
-			showToast('error', `Erro ao ${action} instituição. Tente novamente mais tarde.`);
-		  }
+	
+			console.log('Token usado na requisição:', token);
+	
+			// Notifica sucesso e atualiza a lista
+			showToast(
+				'success',
+				`Instituição ${action === 'aprovar' ? 'aprovada' : 'recusada'} com sucesso.`
+			);
+			fetchInstituicoes(); // Atualiza a lista de instituições
+		} catch (error: any) {
+			if (error.response) {
+				console.error(`Erro ao ${action} instituição:`, error.response.data);
+				showToast(
+					'error',
+					`Erro ao ${action} instituição: ${
+						error.response.data.message || 'Verifique os dados enviados.'
+					}`
+				);
+			} else {
+				console.error(`Erro ao ${action} instituição:`, error);
+				showToast('error', `Erro ao ${action} instituição. Tente novamente mais tarde.`);
+			}
 		}
-	  };
-	  
+	};
+	
 	
 
 	useEffect(() => {
