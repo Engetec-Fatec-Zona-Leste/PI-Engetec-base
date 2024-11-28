@@ -72,11 +72,6 @@ export async function createSession(userId: string, role: string) {
         sameSite: 'lax',
         path: '/',
     });
-
-    // Armazena o token no localStorage
-    localStorage.setItem('session', session); // Salvando no localStorage
-
-    console.log("Token salvo no localStorage:", localStorage.getItem('session'));
 }
 
 
@@ -120,16 +115,5 @@ export async function deleteSession() {
 
 export async function logout() {
     deleteSession();
-}
-
-
-export async function getCurrentSession() {
-    const session = localStorage.getItem('session');
-    if (session) {
-        const payload = await decrypt(session);
-        return payload;
-    }
-    return null;
-
 }
 
