@@ -7,8 +7,8 @@ import { IoBookOutline, IoBookSharp } from 'react-icons/io5';
 import { SlScreenDesktop } from 'react-icons/sl';
 import { TfiEmail } from 'react-icons/tfi';
 
-import CultureFest from '@/assets/CultureFest.png';
 import ArticleModel from '@/assets/Modelo de apresentação.png';
+import CultureFest from '@/assets/engetec.png';
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 
@@ -28,16 +28,16 @@ export default function PageMenuSubmissao({
 							<div>
 								<Image
 									src={CultureFest}
-									width={275}
-									height={275}
+									width={345}
+									height={345}
 									alt="Picture of the author"
 								/>
 							</div>
 							<div>
-								<h1 className="text-2xl font-medium">CultureFest</h1>
+								<h1 className="text-2xl font-medium">Engetec</h1>
 								<div className="mt-2 flex items-center gap-2">
 									<TfiEmail className="h-4 w-4" />
-									<p className="text-base font-medium">cultureFest@gmail.com</p>
+									<p className="text-base font-medium">engetec@gmail.com</p>
 								</div>
 								<div className="mt-4 flex flex-col gap-4">
 									<button

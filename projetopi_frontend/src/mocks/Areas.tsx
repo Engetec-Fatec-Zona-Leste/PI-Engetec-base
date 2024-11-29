@@ -264,11 +264,11 @@ export const grandeAreas: GrandeArea[] = [
 
 export const grandesAreas: OptionsType[] = [
 	{
-		label: 'Ciências Exatas e da Terra',
+		label: 'Ciências exatas e da terra',
 		value: 0,
 	},
 	{
-		label: 'Ciências Humanas',
+		label: 'Ciências biológicas',
 		value: 1,
 	},
 ];
@@ -284,17 +284,17 @@ export const areas: AreaType[] = [
 		idGrandeArea: 0,
 	},
 	{
-		label: 'Física',
+		label: 'Ciência da computação',
 		value: 1,
 		idGrandeArea: 0,
 	},
 	{
-		label: 'História',
+		label: 'Física',
 		value: 2,
 		idGrandeArea: 1,
 	},
 	{
-		label: 'Filosofia',
+		label: 'Quimica',
 		value: 3,
 		idGrandeArea: 1,
 	},
@@ -306,75 +306,65 @@ type SubAreaType = {
 };
 export const subAreas: SubAreaType[] = [
 	{
-		label: 'Álgebra',
+		label: 'MATEMÁTICA',
 		value: 0,
 		idArea: 0,
 	},
 	{
-		label: 'Geometria',
+		label: 'PROBABILIDADE E ESTATÍSTICA',
 		value: 1,
 		idArea: 0,
 	},
 	{
-		label: 'Cálculo',
+		label: 'CIÊNCIA DA COMPUTAÇÃO',
 		value: 2,
 		idArea: 0,
 	},
 	{
-		label: 'História Antiga',
+		label: 'ASTRONOMIA',
 		value: 3,
 		idArea: 2,
 	},
 	{
-		label: 'História Moderna',
+		label: 'FÍSICA',
 		value: 4,
 		idArea: 2,
 	},
 	{
-		label: 'Filosofia Antiga',
+		label: 'QUÍMICA',
 		value: 5,
-		idArea: 3,
-	},
-	{
-		label: 'Filosofia Contemporânea',
-		value: 6,
 		idArea: 3,
 	},
 ];
 export const especialidades: SubAreaType[] = [
 	{
-		label: 'Álgebra',
+		label: 'ALGEBRA',
 		value: 0,
 		idArea: 0,
 	},
 	{
-		label: 'Geometria',
+		label: 'FUNDAMENTOS DA ESTATÍSTICA',
 		value: 1,
 		idArea: 0,
 	},
 	{
-		label: 'Cálculo',
+		label: 'BANCO DE DADOS',
 		value: 2,
 		idArea: 0,
 	},
 	{
-		label: 'História Antiga',
+		label: 'ASTRONOMIA DINÂMICA',
 		value: 3,
 		idArea: 2,
 	},
 	{
-		label: 'História Moderna',
+		label: 'FÍSICA GERAL',
 		value: 4,
 		idArea: 2,
 	},
 	{
-		label: 'Filosofia Antiga',
+		label: 'SÍNTESE ORGÂNICA',
 		value: 5,
-		idArea: 3,
-	},
-	{
-		label: 'Filosofia Contemporânea',
-		value: 6,
 		idArea: 3,
 	},
 ];

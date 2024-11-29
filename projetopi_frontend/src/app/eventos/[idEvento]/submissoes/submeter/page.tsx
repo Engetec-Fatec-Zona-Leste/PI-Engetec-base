@@ -79,7 +79,7 @@ export default function SubmeterArquivoPage({
 					<Title
 						colorHex="#4B00E0"
 						title="Submeter Arquivos"
-						subtitle="Submeta o arquivo para participar do evento CultureFest"
+						subtitle="Submeta o arquivo para participar do evento Engetec"
 					/>
 					<form className="mt-8 w-full" onSubmit={handleSubmitForm}>
 						<div className="mb-8 flex flex-wrap justify-center gap-5">
@@ -251,9 +251,7 @@ export default function SubmeterArquivoPage({
 									<DefaultButton
 										label="Enviar"
 										backgroundColorHex="#4B00E0"
-										onClick={() =>
-											router.push('/dashboard/meus-arquivos')
-										}
+										onClick={() => router.push('/dashboard/meus-arquivos')}
 									/>
 								) : (
 									<DefaultButton

@@ -12,8 +12,8 @@ import { LuCalendarClock } from 'react-icons/lu';
 import { LuPencilLine } from 'react-icons/lu';
 import { TfiEmail } from 'react-icons/tfi';
 
-import ImgCultureFest from '@/assets/CultureFest.png';
 import ImgArt from '@/assets/art.png';
+import ImgCultureFest from '@/assets/engetec.png';
 import ImgFood from '@/assets/food.png';
 import ImgMusic from '@/assets/music.png';
 import ImgTech from '@/assets/tecnologia.png';
@@ -32,7 +32,7 @@ export default function VerEvento({
 	params: { idEvento: string };
 }) {
 	const router = useRouter();
-	const [subscribed, setSubscribed] = useState(false);
+	const [subscribed, setSubscribed] = useState(true);
 
 	const createSubscription = () => {
 		// .... more task from backend
@@ -65,7 +65,7 @@ export default function VerEvento({
 								Ver todas as edições <FaRegEye />
 							</button>
 							<p className="flex items-center gap-2 text-base text-black">
-								<TfiEmail /> cultureFest@gmail.com
+								<TfiEmail /> engetec@email.com
 							</p>
 							<Image
 								src={ImgCultureFest}
@@ -81,21 +81,21 @@ export default function VerEvento({
 							/>
 						</div>
 						<div>
-							<h1 className="my-4 mt-0 text-4xl font-bold">CultureFest</h1>
+							<h1 className="my-4 mt-0 text-4xl font-bold">Engetec</h1>
 							<h2 className="mb-2 flex items-center gap-2 text-lg font-semibold">
 								<LuPencilLine className="text-[#4B00E0]" /> Descrição
 							</h2>
 							<p className="mb-6 text-base text-gray-700">
-								Prepare-se para uma experiência musical única e emocionante!
-								Estamos entusiasmados em anunciar o incrível Festival Melodias
-								Vibrantes, um evento que celebrará a diversidade musical e
-								encantará os amantes de todos os gêneros. <br />
-								<br /> Além das performances épicas, o CultureFest também
-								contará com uma série de atividades emocionantes para enriquecer
-								a experiência dos participantes. Teremos oficinas interativas
-								com músicos experientes, onde você poderá aprender técnicas,
-								explorar seu próprio talento musical e descobrir os segredos dos
-								bastidores da indústria.
+								O Encontro de Gestão e Tecnologia (ENGETEC), com ISSN 2675-4479,
+								é um evento científico organizado pela Faculdade de Tecnologia
+								da Zona Leste (FATEC ZONA LESTE), voltado à comunidade
+								acadêmica, empresários, consultores e demais interessados nas
+								áreas de gestão, tecnologia e indústria. O evento serve como um
+								espaço para divulgação e debate sobre a aplicação de técnicas de
+								Gestão e Tecnologia, com ênfase na região metropolitana leste de
+								São Paulo, promovendo integração entre academia, organizações
+								sociais, setores de serviços, comércio, TI e o mercado de
+								trabalho.
 							</p>
 
 							<div className="mt-8 grid w-full max-w-4xl grid-cols-2 gap-5">
@@ -211,7 +211,7 @@ export default function VerEvento({
 									Ver todas as edições <FaRegEye />
 								</button>
 								<p className="mt-4 flex items-center gap-2 text-base text-black">
-									<TfiEmail /> cultureFest@gmail.com
+									<TfiEmail /> engetec@email.com
 								</p>
 								<Image
 									src={ImgCultureFest}
@@ -227,21 +227,21 @@ export default function VerEvento({
 								/>
 							</div>
 							<div>
-								<h1 className="my-4 text-4xl font-bold">CultureFest</h1>
+								<h1 className="my-4 text-4xl font-bold">Engetec</h1>
 								<h2 className="mb-2 flex items-center gap-2 text-lg font-semibold">
 									<LuPencilLine className="text-[#4B00E0]" /> Descrição
 								</h2>
 								<p className="mb-6 text-base text-gray-700">
-									Prepare-se para uma experiência musical única e emocionante!
-									Estamos entusiasmados em anunciar o incrível Festival Melodias
-									Vibrantes, um evento que celebrará a diversidade musical e
-									encantará os amantes de todos os gêneros. <br />
-									<br /> Além das performances épicas, o CultureFest também
-									contará com uma série de atividades emocionantes para
-									enriquecer a experiência dos participantes. Teremos oficinas
-									interativas com músicos experientes, onde você poderá aprender
-									técnicas, explorar seu próprio talento musical e descobrir os
-									segredos dos bastidores da indústria.
+									O Encontro de Gestão e Tecnologia (ENGETEC), com ISSN
+									2675-4479, é um evento científico organizado pela Faculdade de
+									Tecnologia da Zona Leste (FATEC ZONA LESTE), voltado à
+									comunidade acadêmica, empresários, consultores e demais
+									interessados nas áreas de gestão, tecnologia e indústria. O
+									evento serve como um espaço para divulgação e debate sobre a
+									aplicação de técnicas de Gestão e Tecnologia, com ênfase na
+									região metropolitana leste de São Paulo, promovendo integração
+									entre academia, organizações sociais, setores de serviços,
+									comércio, TI e o mercado de trabalho.
 								</p>
 
 								<div className="mt-8 grid w-full max-w-4xl grid-cols-1 gap-4 md:grid-cols-2">

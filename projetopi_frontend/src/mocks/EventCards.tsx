@@ -3,6 +3,7 @@ import { StaticImageData } from 'next/image';
 import amorPerfeito from '@/assets/Amor Perfeito.png';
 import Caroline from '@/assets/Caroline.png';
 import CultFest from '@/assets/CultureFest.png';
+import engetec from '@/assets/engetec.png';
 
 export type EventType = {
 	id: number;
@@ -28,6 +29,20 @@ export type EventType = {
 export const cardsData: EventType[] = [
 	{
 		id: 1,
+		title: 'Engetec',
+		description:
+			'O Encontro de Gestão e Tecnologia (ENGETEC), com ISSN 2675-4479, é um evento científico organizado pela Faculdade de Tecnologia da Zona Leste (FATEC ZONA LESTE), voltado à comunidade acadêmica, empresários, consultores e demais interessados nas áreas de gestão, tecnologia e indústria. O evento serve como um espaço para divulgação e debate sobre a aplicação de técnicas de Gestão e Tecnologia, com ênfase na região metropolitana leste de São Paulo, promovendo integração entre academia, organizações sociais, setores de serviços, comércio, TI e o mercado de trabalho.',
+		imageUrl: engetec,
+		startDate: '15/08/2023',
+		endDate: '20/08/2023',
+		schedule: {
+			morning: '8 as 13h',
+			afternoon: '14 as 17h',
+		},
+		duration: '100h',
+	},
+	{
+		id: 2,
 		title: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
 		description:
 			'Prepare-se para uma experiência musical única e emocionante! Estamos entusiasmados em anunciar o incrível Festival Melodias Vibrantes, um evento que celebrará a diversidade musical e encantará os amantes de todos os gêneros. Além das performances épicas, o CultureFest também contará com uma série de atividades emocionantes para enriquecer a experiência dos participantes. Teremos oficinas interativas com músicos experientes, onde você poderá aprender técnicas, explorar seu próprio talento musical e descobrir os segredos dos bastidores da indústria.',
@@ -40,33 +55,33 @@ export const cardsData: EventType[] = [
 		},
 		duration: '250h',
 	},
-	{
-		id: 2,
-		title: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
-		description:
-			'O amor Perfeito  tem como objetivo proporcionar um momento de reflexão, crescimento pessoal e inspiração, onde cada participante será convidado a explorar e fortalecer sua relação consigo mesmo. Estaremos juntos nessa jornada de autodescoberta, com atividades enriquecedoras, palestras inspiradoras e momentos de conexão com outras pessoas que também valorizam o amor-próprio.',
-		imageUrl: Caroline,
-		startDate: '15/08/2023',
-		endDate: '20/08/2023',
-		schedule: {
-			morning: '8 as 13h',
-			afternoon: '14 as 17h',
-		},
-		duration: '100h',
-	},
+	// {
+	// 	id: 2,
+	// 	title: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
+	// 	description:
+	// 		'O amor Perfeito  tem como objetivo proporcionar um momento de reflexão, crescimento pessoal e inspiração, onde cada participante será convidado a explorar e fortalecer sua relação consigo mesmo. Estaremos juntos nessa jornada de autodescoberta, com atividades enriquecedoras, palestras inspiradoras e momentos de conexão com outras pessoas que também valorizam o amor-próprio.',
+	// 	imageUrl: Caroline,
+	// 	startDate: '15/08/2023',
+	// 	endDate: '20/08/2023',
+	// 	schedule: {
+	// 		morning: '8 as 13h',
+	// 		afternoon: '14 as 17h',
+	// 	},
+	// 	duration: '100h',
+	// },
 
-	{
-		id: 3,
-		title: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
-		description:
-			'O amor Perfeito  tem como objetivo proporcionar um momento de reflexão, crescimento pessoal e inspiração, onde cada participante será convidado a explorar e fortalecer sua relação consigo mesmo. Estaremos juntos nessa jornada de autodescoberta, com atividades enriquecedoras, palestras inspiradoras e momentos de conexão com outras pessoas que também valorizam o amor-próprio.',
-		imageUrl: CultFest,
-		startDate: '15/08/2023',
-		endDate: '20/08/2023',
-		schedule: {
-			morning: '8 as 13h',
-			afternoon: '14 as 17h',
-		},
-		duration: '100h',
-	},
+	// {
+	// 	id: 3,
+	// 	title: 'Tech Talks: Descobrindo as Fronteiras da Tecnologia',
+	// 	description:
+	// 		'O amor Perfeito  tem como objetivo proporcionar um momento de reflexão, crescimento pessoal e inspiração, onde cada participante será convidado a explorar e fortalecer sua relação consigo mesmo. Estaremos juntos nessa jornada de autodescoberta, com atividades enriquecedoras, palestras inspiradoras e momentos de conexão com outras pessoas que também valorizam o amor-próprio.',
+	// 	imageUrl: CultFest,
+	// 	startDate: '15/08/2023',
+	// 	endDate: '20/08/2023',
+	// 	schedule: {
+	// 		morning: '8 as 13h',
+	// 		afternoon: '14 as 17h',
+	// 	},
+	// 	duration: '100h',
+	// },
 ];
