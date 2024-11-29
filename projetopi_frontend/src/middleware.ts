@@ -37,28 +37,28 @@ const avaliadorRoutes = [
 ]
 
 export default async function middleware(req: NextRequest) {
-    // const path = req.nextUrl.pathname;
+    const path = req.nextUrl.pathname;
 
-    // const isPublicRoute = publicRoutes.some(route => new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`).test(path));
-    // const isAdminRoute = adminRoutes.some(route => new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`).test(path));
-    // const isAvaliadorRoute = avaliadorRoutes.some(route => new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`).test(path));
+    const isPublicRoute = publicRoutes.some(route => new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`).test(path));
+    const isAdminRoute = adminRoutes.some(route => new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`).test(path));
+    const isAvaliadorRoute = avaliadorRoutes.some(route => new RegExp(`^${route.replace(/\[.*?\]/g, '[^/]+')}$`).test(path));
 
-    // const cookie = req.cookies.get('session')?.value;
-    // const session = cookie ? await decrypt(cookie) : null;
+    const cookie = req.cookies.get('session')?.value;
+    const session = cookie ? await decrypt(cookie) : null;
 
-    // if (!isPublicRoute && !session) {
-    //     return NextResponse.redirect(new URL('/login', req.nextUrl));
-    // }
+    if (!isPublicRoute && !session) {
+        return NextResponse.redirect(new URL('/login', req.nextUrl));
+    }
 
-    // if (session && isAdminRoute && !(session.role.includes('Admin'))) {
-    //     return NextResponse.redirect(new URL('/login', req.nextUrl));
-    // }
+    if (session && isAdminRoute && !(session.role.includes('Admin'))) {
+        return NextResponse.redirect(new URL('/login', req.nextUrl));
+    }
 
-    // if (session && isAvaliadorRoute && !(session.role.includes('Avaliador'))) {
-    //     return NextResponse.redirect(new URL('/login', req.nextUrl));
-    // }
+    if (session && isAvaliadorRoute && !(session.role.includes('Avaliador'))) {
+        return NextResponse.redirect(new URL('/login', req.nextUrl));
+    }
 
-    // return NextResponse.next();
+    return NextResponse.next();
 }
 
 export const config = {

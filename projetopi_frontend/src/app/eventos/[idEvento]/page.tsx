@@ -32,7 +32,7 @@ export default function VerEvento({
 	params: { idEvento: string };
 }) {
 	const router = useRouter();
-	const [subscribed, setSubscribed] = useState(true);
+	const [subscribed, setSubscribed] = useState(false);
 
 	const createSubscription = () => {
 		// .... more task from backend
